@@ -29,10 +29,11 @@
             --syn-key: #38bdf8;
             --syn-type: #c084fc;
             --syn-comment: #64748b;
+            --syn-string: #c3e88d;
         }
 
         body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
+            font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--bg-app); 
             color: var(--text-main); 
             transition: background-color 0.4s ease, color 0.4s ease;
@@ -52,42 +53,15 @@
             -webkit-backdrop-filter: blur(24px);
         }
 
-        .menu-link { 
-            transition: all 0.2s ease; 
-            border-left: 2px solid transparent;
-        }
-        .menu-link:hover { 
-            background-color: var(--hover-bg); 
-            color: var(--text-main);
-        }
-        .menu-link.active { 
-            background-color: var(--hover-bg); 
-            color: var(--text-main); 
-            border-left-color: var(--accent); 
-        }
+        .menu-link { transition: all 0.2s ease; border-left: 2px solid transparent; }
+        .menu-link:hover { background-color: var(--hover-bg); color: var(--text-main); }
+        .menu-link.active { background-color: var(--hover-bg); color: var(--text-main); border-left-color: var(--accent); }
         
-        input[type="search"] { 
-            background-color: var(--bg-card); 
-            color: var(--text-main); 
-            border-color: var(--border-color); 
-        }
+        input[type="search"] { background-color: var(--bg-card); color: var(--text-main); border-color: var(--border-color); }
 
-        .code-block { 
-            background: var(--code-bg); 
-            border: 1px solid var(--code-border); 
-            color: var(--code-text); 
-            transition: all 0.3s ease; 
-        }
-        .code-icon { 
-            background: var(--code-icon-bg); 
-            color: var(--text-muted); 
-            transition: all 0.2s ease; 
-        }
-        .code-icon:hover { 
-            background: var(--code-icon-hover); 
-            color: var(--text-main); 
-            transform: scale(1.05);
-        }
+        .code-block { background: var(--code-bg); color: var(--code-text); transition: all 0.3s ease; }
+        .code-icon { background: var(--code-icon-bg); color: var(--text-muted); transition: all 0.2s ease; }
+        .code-icon:hover { background: var(--code-icon-hover); color: var(--text-main); transform: scale(1.05); }
 
         .animate-fade-in { 
             opacity: 0;
@@ -100,6 +74,15 @@
         }
 
         .btn-press:active { transform: scale(0.97); }
+
+        .postman-btn {
+            background-color: #00ac9e;
+            box-shadow: 0 4px 14px 0 rgba(0, 172, 158, 0.39);
+        }
+        .postman-btn:hover {
+            box-shadow: 0 6px 20px rgba(0, 172, 158, 0.23);
+            transform: translateY(-1px);
+        }
     </style>
 </head>
 <body class="h-screen w-screen flex items-center justify-center p-4 relative">
@@ -119,11 +102,19 @@
                 </div>
             </div>
             
-            <div class="px-4 py-4 border-b border-[var(--border-color)] shrink-0">
+            <div class="px-4 py-4 border-b border-[var(--border-color)] shrink-0 flex flex-col gap-3">
                 <div class="relative">
                     <svg class="w-4 h-4 text-[var(--text-muted)] absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     <input type="search" id="search-input" placeholder="Buscar endpoints..." class="w-full bg-[var(--bg-card)] border border-[var(--border-color)] text-[13px] rounded-lg py-2 pl-9 pr-3 text-[var(--text-main)] focus:outline-none focus:border-[var(--accent)] transition-colors placeholder-[var(--text-muted)] shadow-inner">
                 </div>
+                
+                <button onclick="downloadPostmanCollection()" class="postman-btn text-white w-full py-2.5 rounded-lg text-[12px] font-bold tracking-wide flex items-center justify-center gap-2 transition-all">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21.571 10.973c-.015-.067-.034-.132-.058-.195a1.5 1.5 0 0 0-.256-.47l-6-7A1.5 1.5 0 0 0 14.116 3H5.5A2.5 2.5 0 0 0 3 5.5v13A2.5 2.5 0 0 0 5.5 21h13a2.5 2.5 0 0 0 2.5-2.5v-7.228c0-.102-.01-.202-.029-.3zM15 5.222 18.667 9H15V5.222zM18.5 19h-13a1 1 0 0 1-1-1v-13a1 1 0 0 1 1-1h9v6.5A1.5 1.5 0 0 0 16.5 10.5h4v7.5a1 1 0 0 1-1 1z"/>
+                        <path d="M12.5 13.5h-5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM12.5 16.5h-5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1z"/>
+                    </svg>
+                    Baixar Postman Collection
+                </button>
             </div>
 
             <nav class="flex-1 overflow-y-auto py-3 px-3 space-y-2" id="sidebar-nav"></nav>
@@ -139,17 +130,17 @@
             </div>
         </main>
 
-        <aside class="w-[460px] flex flex-col shrink-0 bg-black/10">
+        <aside class="w-[500px] flex flex-col shrink-0 bg-black/10">
             <div class="h-[76px] flex items-center justify-between px-8 border-b border-[var(--border-color)] bg-[var(--bg-panel)] backdrop-blur-md sticky top-0 z-10">
                 <h3 class="text-[12px] font-semibold text-[var(--text-main)] tracking-widest uppercase opacity-80">Exemplo de Requisição</h3>
                 <button id="btn-copy-all" class="btn-press text-[11px] font-semibold bg-[var(--bg-card)] hover:bg-[var(--hover-bg)] text-[var(--text-main)] px-4 py-2 rounded-lg transition-all border border-[var(--border-color)] flex items-center gap-2 shadow-sm">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                    <span>Copiar Tudo</span>
+                    <span>Copiar Snippet</span>
                 </button>
             </div>
 
-            <div class="flex-1 overflow-y-auto p-8 space-y-8" id="snippet-area">
-                <p class="text-[13px] text-[var(--text-muted)]">Nenhum endpoint selecionado.</p>
+            <div class="flex-1 overflow-y-auto p-6" id="snippet-area">
+                <p class="text-[13px] text-[var(--text-muted)] mt-2">Nenhum endpoint selecionado.</p>
             </div>
         </aside>
     </div>
@@ -157,9 +148,18 @@
     <input type="file" id="logo-upload" accept="image/*" class="hidden">
 
     <script>
+        // Variáveis de Controle para Abas Multi-Linguagem
+        window.currentLang = 'nodejs';
+        window.currentItem = null;
+        window.snippetCache = {};
+        window.currentRawSnippetText = "";
+
         window.addEventListener('DOMContentLoaded', () => {
             const savedLogo = localStorage.getItem('argusLogo');
             if (savedLogo) document.getElementById('logo-img').src = savedLogo;
+            
+            // Auto carrega a página de "Primeiros Passos" ao iniciar
+            setTimeout(() => { goToEndpoint('quick-start'); }, 100);
         });
 
         function uploadLogo() { document.getElementById('logo-upload').click(); }
@@ -175,9 +175,6 @@
                 reader.readAsDataURL(file);
             }
         });
-
-        window.snippetCache = {};
-        window.currentRawSnippetText = "";
 
         function copyFromCache(cacheId, btnElement) {
             const text = window.snippetCache[cacheId];
@@ -200,6 +197,11 @@
             });
         });
 
+        window.changeLang = function(lang) {
+            window.currentLang = lang;
+            if(window.currentItem) { renderSnippets(window.currentItem); }
+        };
+
         window.goToEndpoint = function(id) {
             const item = apiData.flatMap(c => c.items).find(i => i.id === id);
             if(item) {
@@ -220,6 +222,52 @@
         };
 
         const apiData = [
+            {
+                category: "Guia de Integração",
+                items: [
+                    { 
+                        id: "quick-start", title: "Primeiros Passos (Quick Start)", method: "", url: "", 
+                        desc: `
+                        <h3 class='text-[18px] font-bold text-[var(--text-main)] mb-4 mt-2'>Como a API Argus funciona?</h3>
+                        <p class='mb-6'>A integração com o nosso sistema foi desenhada para ser rápida, assíncrona e orientada a eventos. O fluxo de vida de uma operação bem sucedida segue 4 passos fundamentais:</p>
+                        
+                        <div class='grid grid-cols-1 md:grid-cols-2 gap-4 my-6'>
+                            <div class='bg-[var(--bg-card)] p-6 rounded-xl border border-[var(--border-color)] shadow-sm hover:border-[var(--accent)] transition-colors'>
+                                <div class='w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold mb-4 border border-blue-500/30'>1</div>
+                                <h4 class='font-bold text-[var(--text-main)] mb-2'>Autenticação</h4>
+                                <p class='text-[13px] text-[var(--text-muted)] leading-relaxed'>Obtenha sua chave de acesso no painel do Argus (Configurações > Desenvolvedor). Ela deve ser enviada no Header <code class='text-[11px] bg-black/30 px-1 py-0.5 rounded text-blue-300'>Token-Signature</code> em todas as requisições.</p>
+                            </div>
+                            
+                            <div class='bg-[var(--bg-card)] p-6 rounded-xl border border-[var(--border-color)] shadow-sm hover:border-[var(--accent)] transition-colors'>
+                                <div class='w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold mb-4 border border-emerald-500/30'>2</div>
+                                <h4 class='font-bold text-[var(--text-main)] mb-2'>Injeção de Dados</h4>
+                                <p class='text-[13px] text-[var(--text-muted)] leading-relaxed'>Alimente o Argus com contatos. Use o <a href='#' onclick='goToEndpoint("upload-mailing")' class='text-[var(--accent)] hover:underline font-medium'>Upload de CSV</a> para grandes volumes ou o <a href='#' onclick='goToEndpoint("novo-lead")' class='text-[var(--accent)] hover:underline font-medium'>Novo Lead Unitário</a> para integrar com CRMs em tempo real.</p>
+                            </div>
+                            
+                            <div class='bg-[var(--bg-card)] p-6 rounded-xl border border-[var(--border-color)] shadow-sm hover:border-[var(--accent)] transition-colors'>
+                                <div class='w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold mb-4 border border-purple-500/30'>3</div>
+                                <h4 class='font-bold text-[var(--text-main)] mb-2'>Controle Operacional</h4>
+                                <p class='text-[13px] text-[var(--text-muted)] leading-relaxed'>Gerencie operadores e ligações remotamente: <a href='#' onclick='goToEndpoint("logar-op")' class='text-[var(--accent)] hover:underline font-medium'>Logar</a>, <a href='#' onclick='goToEndpoint("pausar")' class='text-[var(--accent)] hover:underline font-medium'>Pausar</a>, fazer disparo de rediscagem via <a href='#' onclick='goToEndpoint("click2call")' class='text-[var(--accent)] hover:underline font-medium'>Click2Call</a> ou forçar <a href='#' onclick='goToEndpoint("tabular-lead")' class='text-[var(--accent)] hover:underline font-medium'>Tabulações de Lead</a>.</p>
+                            </div>
+                            
+                            <div class='bg-[var(--bg-card)] p-6 rounded-xl border border-[var(--border-color)] shadow-sm hover:border-[var(--accent)] transition-colors'>
+                                <div class='w-8 h-8 rounded-full bg-orange-500/20 text-orange-400 flex items-center justify-center font-bold mb-4 border border-orange-500/30'>4</div>
+                                <h4 class='font-bold text-[var(--text-main)] mb-2'>Retorno (Webhooks)</h4>
+                                <p class='text-[13px] text-[var(--text-muted)] leading-relaxed'>Cadastre seus <a href='#' onclick='goToEndpoint("wh-tabulacao")' class='text-[var(--accent)] hover:underline font-medium'>Webhooks</a> no sistema. O Argus avisará seu servidor instantaneamente (via POST) sempre que um atendimento for iniciado ou tabulado pelo operador.</p>
+                            </div>
+                        </div>
+                        
+                        <div class='mt-8 p-5 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl flex items-center justify-between'>
+                            <div>
+                                <h4 class='font-bold text-[14px] text-[var(--text-main)]'>Quer testar rápido?</h4>
+                                <p class='text-[13px] text-[var(--text-muted)] mt-1'>Faça o download da nossa Postman Collection no menu lateral esquerdo e importe no seu Postman/Insomnia. Todas as rotas já estão pré-configuradas!</p>
+                            </div>
+                        </div>
+                        `, 
+                        hasBody: false 
+                    }
+                ]
+            },
             {
                 category: "Autenticação",
                 items: [
@@ -496,8 +544,7 @@
                         params: [{ name: "ramal", req: "Obrigatório", desc: "Código de integração do operador (Ramal)." }] 
                     }
                 ]
-            },
-            {
+            },{
                 category: "Relatórios",
                 items: [
                     { 
@@ -511,7 +558,8 @@
                             { name: "periodoInicial", req: "Obrigatório*", desc: "Data inicial do filtro de chamadas." },
                             { name: "periodoFinal", req: "Obrigatório*", desc: "Data limite final do filtro de chamadas." },
                             { name: "ultimosMinutos", req: "Obrigatório*", desc: "Busca alternativa pelos minutos retrospectivos informados." },
-                            { name: "ultimoId", req: "Opcional", desc: "ID para paginação." }
+                            { name: "ultimoId", req: "Opcional", desc: "ID para paginação." },
+                            { name: "idStatusLigacao", req: "Opcional", desc: "ID do Status da Ligação." }
                         ]
                     },
                     { 
@@ -589,7 +637,13 @@
                         id: "wh-virtual-atend", title: "Webhook - Agente Virtual: Atendimento", method: "POST", url: "https://sua-url-de-callback.com.br", 
                         desc: "Gatilho acionado quando a interação do bot evolui para uma solicitação explícita de Derivação Humana/Atendimento.", 
                         hasBody: true, isWebhook: true, 
-                        rawPayload: `{\n  "idTipoWebhook": 4,\n  "idDominio": int,\n  "idCampanha": int,\n  "idGrupoUsuario": int,\n  "idSkill": int,\n  "idLote": int,\n  "nrLead": int,\n  "codCliente": string,\n  "nomeCliente": string,\n  "cpfCnpj": string,\n  "idLigacao": int,\n  "telefone": string,\n  "dataInicioOperVirtual": date,\n  "acionouRecusa": boolean,\n  "acionouDerivacao": boolean,\n  "dataInicioFila": date,\n  "posicaoFila": int,\n  "tempoSegundosFila": int,\n  "idConclusaoDerivacao": int,\n  "conclusaoDerivacaoDesc": string,\n  "codUsuarioIntegracao": string,\n  "nomeUsuario": string\n}`
+                        rawPayload: `{\n  "idTipoWebhook": 4,\n  "idDominio": int,\n  "idCampanha": int,\n  "idGrupoUsuario": int,\n  "idSkill": int,\n  "idLote": int,\n  "nrLead": int,\n  "codCliente": string,\n  "nomeCliente": string,\n  "cpfCnpj": string,\n  "idLigacao": int,\n  "telefone": string,\n  "dataInicioOperVirtual": date,\n  "acionouRecusa": boolean,\n  "acionouDerivacao": boolean,\n  "dataInicioFila": date,\n  "posicaoFila": int,\n  "tempoSegundosFila": int,\n  "idConclusaoDerivacao": int,\n  "conclusaoDerivacaoDesc": string,\n  "codUsuarioIntegracao": string,\n  "nomeUsuario": string\n}`,
+                        responseParams: [
+                            { name: "idConclusaoDerivacao = 1", desc: "DERIVOU" },
+                            { name: "idConclusaoDerivacao = 2", desc: "ABANDONOU FILA" },
+                            { name: "idConclusaoDerivacao = 4", desc: "SEM AGENTE" },
+                            { name: "idConclusaoDerivacao = 5", desc: "TIME-OUT FILA" }
+                        ]
                     },
                     { 
                         id: "wh-virtual-recusa", title: "Webhook - Agente Virtual: Recusa", method: "POST", url: "https://sua-url-de-callback.com.br", 
@@ -601,7 +655,13 @@
                         id: "wh-ura", title: "Webhook - Receptivo: Encerramento URA", method: "POST", url: "https://sua-url-de-callback.com.br", 
                         desc: "Disparado no desligamento ou transbordo da URA receptiva estruturada. Registro fundamental para monitorar taxas de abandono pré-atendimento.", 
                         hasBody: true, isWebhook: true, 
-                        rawPayload: `{\n  "idTipoWebhook": 5,\n  "idDominio": int,\n  "idCampanha": int,\n  "dataInicioUra": date,\n  "idServico": int,\n  "servicoDesc": string,\n  "servicoNumero": string,\n  "tempoUraSegundos": int,\n  "telefone": string,\n  "foraHorario": boolean,\n  "idConclusaoDerivacao": int,\n  "conclusaoDerivacaoDesc": string,\n  "posicaoFila": int,\n  "tempoFilaSegundos": int,\n  "codUsuarioIntegracao": string,\n  "nomeUsuario": string\n}`
+                        rawPayload: `{\n  "idTipoWebhook": 5,\n  "idDominio": int,\n  "idCampanha": int,\n  "dataInicioUra": date,\n  "idServico": int,\n  "servicoDesc": string,\n  "servicoNumero": string,\n  "tempoUraSegundos": int,\n  "telefone": string,\n  "foraHorario": boolean,\n  "idConclusaoDerivacao": int,\n  "conclusaoDerivacaoDesc": string,\n  "posicaoFila": int,\n  "tempoFilaSegundos": int,\n  "codUsuarioIntegracao": string,\n  "nomeUsuario": string\n}`,
+                        responseParams: [
+                            { name: "idConclusaoDerivacao = 1", desc: "DERIVOU" },
+                            { name: "idConclusaoDerivacao = 2", desc: "ABANDONOU FILA" },
+                            { name: "idConclusaoDerivacao = 3", desc: "SEM AGENTE" },
+                            { name: "idConclusaoDerivacao = 4", desc: "TIME-OUT FILA" }
+                        ]
                     },
                     { 
                         id: "wh-lead", title: "Webhook - Recebimento de Lead", method: "POST", url: "https://sua-url-de-callback.com.br", 
@@ -623,11 +683,67 @@
             }
         ];
 
+        window.downloadPostmanCollection = function() {
+            const collection = {
+                info: {
+                    name: "API Argus v3",
+                    description: "Coleção completa e atualizada automaticamente a partir da documentação de integração do sistema Argus.",
+                    schema: "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+                },
+                item: []
+            };
+
+            apiData.forEach(category => {
+                if (category.category === "Observações Gerais" || category.category === "Guia de Integração" || category.category === "Webhooks") return;
+                
+                const folder = { name: category.category, item: [] };
+                category.items.forEach(endpoint => {
+                    if (!endpoint.url || endpoint.url === "") return;
+                    
+                    const postmanItem = {
+                        name: endpoint.title,
+                        request: {
+                            method: endpoint.method,
+                            header: [
+                                { key: "Token-Signature", value: "{{your_token}}", type: "text" },
+                                { key: "Content-Type", value: "application/json", type: "text" }
+                            ],
+                            url: {
+                                raw: endpoint.url,
+                                host: endpoint.url.split('//')[1].split('/')[0].split('.'),
+                                path: endpoint.url.split('//')[1].split('/').slice(1)
+                            }
+                        }
+                    };
+
+                    if (endpoint.hasBody && endpoint.rawPayload) {
+                        try {
+                            const cleanPayload = buildCleanJSON(endpoint.rawPayload);
+                            postmanItem.request.body = {
+                                mode: "raw",
+                                raw: cleanPayload,
+                                options: { raw: { language: "json" } }
+                            };
+                        } catch(e) {}
+                    }
+                    folder.item.push(postmanItem);
+                });
+                
+                if (folder.item.length > 0) collection.item.push(folder);
+            });
+
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(collection, null, 2));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "Argus_API_Collection.json");
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        };
+
         const navContainer = document.getElementById('sidebar-nav');
-        
         function renderMenu(filterText = "") {
             navContainer.innerHTML = '';
-            
             apiData.forEach((group, index) => {
                 const groupItems = group.items.filter(i => i.title.toLowerCase().includes(filterText.toLowerCase()));
                 if (groupItems.length === 0) return; 
@@ -661,7 +777,6 @@
                 };
 
                 groupEl.appendChild(header);
-                
                 groupItems.forEach(item => {
                     const link = document.createElement('a');
                     link.href = "#";
@@ -681,7 +796,11 @@
                     } else if (item.method === 'GET') {
                         methodBadges = `<div class="w-[60px] shrink-0 flex items-center justify-center rounded bg-emerald-500/10 border border-emerald-500/20 py-1 text-[9px] font-bold text-emerald-500 shadow-sm">GET</div>`;
                     } else {
-                        methodBadges = `<div class="w-[60px] shrink-0"></div>`; 
+                        methodBadges = `<div class="w-[60px] shrink-0"></div>`;
+                    }
+                    
+                    if (item.id === 'quick-start') {
+                        methodBadges = `<div class="w-[60px] shrink-0 flex justify-center text-orange-400"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div>`;
                     }
                     
                     link.className = "menu-link flex items-center gap-3 px-2 py-2 text-[var(--text-muted)] rounded-lg text-[13px] font-medium cursor-pointer";
@@ -689,9 +808,8 @@
                         ${methodBadges}
                         <span class="truncate flex-1 tracking-wide">${item.title}</span>
                     `;
-                    
                     link.onclick = (e) => { 
-                        e.preventDefault(); 
+                        e.preventDefault();
                         document.querySelectorAll('.menu-link').forEach(el => el.classList.remove('active'));
                         link.classList.add('active');
                         loadDocumentation(item); 
@@ -705,7 +823,6 @@
         }
 
         renderMenu();
-
         document.getElementById('search-input').addEventListener('input', (e) => {
             renderMenu(e.target.value);
         });
@@ -724,7 +841,150 @@
             }).join('\n');
         }
 
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    "'": '&#39;',
+                    '"': '&quot;'
+                }[tag] || tag)
+            );
+        }
+
+        // Função responsável por gerar um JSON perfeitamente válido para os Snippets e Postman
+        function buildCleanJSON(raw) {
+            if (!raw) return "";
+            let lines = raw.split('\n');
+            let clean = lines.map(line => {
+                let idx = line.indexOf(':');
+                if (idx === -1) return line;
+                
+                let key = line.substring(0, idx);
+                let rest = line.substring(idx + 1);
+                
+                let comma = rest.includes(',') ? ',' : '';
+                
+                if (rest.includes('int') || rest.includes('double')) return key + ': 0' + comma;
+                if (rest.includes('boolean') || rest.includes('bool')) return key + ': true' + comma;
+                if (rest.includes('[string]')) return key + ': ["string_1", "string_2"]' + comma;
+                if (rest.includes('string') || rest.includes('date') || rest.includes('datetime')) return key + ': "string"' + comma;
+                
+                return line;
+            }).join('\n');
+            return clean;
+        }
+
+        function renderSnippets(item) {
+            let snippetHTML = "";
+            window.currentRawSnippetText = "";
+            
+            // Área de Response (sempre visível)
+            let responseHTML = "";
+            if (item.rawResponse) {
+                const cIdResp = 'snip_resp_' + item.id;
+                window.snippetCache[cIdResp] = item.rawResponse;
+                responseHTML = `
+                    <div class="space-y-2.5 animate-fade-in mt-6 flex flex-col">
+                        <div class="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-[0.1em] flex flex-wrap items-center gap-2">
+                            RESPOSTA ESPERADA: 
+                            <span class="bg-emerald-500/20 text-emerald-500 px-1.5 py-0.5 rounded text-[9px] font-bold tracking-normal">200 Ok</span>
+                            <span class="bg-rose-500/20 text-rose-500 px-1.5 py-0.5 rounded text-[9px] font-bold tracking-normal">400 Bad Request</span>
+                            <span class="bg-amber-500/20 text-amber-500 px-1.5 py-0.5 rounded text-[9px] font-bold tracking-normal">403 Forbidden</span>
+                            <span class="bg-red-600/20 text-red-500 px-1.5 py-0.5 rounded text-[9px] font-bold tracking-normal">500 Server Error</span>
+                        </div>
+                        <div class="relative group code-block p-5 rounded-xl text-[12px] font-mono overflow-x-auto shadow-lg border border-[var(--border-color)]">
+                            <button class="absolute top-3 right-3 p-2 code-icon rounded opacity-0 group-hover:opacity-100" onclick="copyFromCache('${cIdResp}', this)" title="Copiar">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                            </button>
+                            <pre class="m-0 leading-loose">${highlightCustomJSON(item.rawResponse)}</pre>
+                        </div>
+                    </div>`;
+            }
+
+            // Tratamento para telas que não precisam de código multi-lang
+            if (item.isWebhook || item.id === 'quick-start' || item.id === 'obs-gerais' || (!item.method && !item.url)) {
+                if (item.hasBody && item.rawPayload) {
+                    const cIdBody = 'snip_' + Math.random().toString(36).substr(2, 9);
+                    window.snippetCache[cIdBody] = item.rawPayload;
+                    snippetHTML += `
+                        <div class="space-y-2.5 animate-fade-in flex flex-col" style="animation-delay: 0.1s;">
+                            <div class="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-[0.1em]">BODY JSON (RECEBIDO NO SEU SERVIDOR)</div>
+                            <div class="relative group code-block p-5 rounded-xl text-[12px] font-mono overflow-x-auto shadow-lg border border-[var(--border-color)]">
+                                <button class="absolute top-3 right-3 p-2 code-icon rounded opacity-0 group-hover:opacity-100" onclick="copyFromCache('${cIdBody}', this)" title="Copiar">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                </button>
+                                <pre class="m-0 leading-loose">${highlightCustomJSON(item.rawPayload)}</pre>
+                            </div>
+                        </div>`;
+                } else if (!responseHTML) {
+                    snippetHTML = `<p class="text-[13px] text-[var(--text-muted)] italic mt-4">Nenhum bloco de código computacional para exibir nesta seção.</p>`;
+                }
+                document.getElementById('snippet-area').innerHTML = snippetHTML + responseHTML;
+                return;
+            }
+
+            // Geração Multi-Lang com Ícones Vetorizados
+            const langs = [
+                { id: 'nodejs', name: 'Node.js', icon: '<svg class="w-3.5 h-3.5" viewBox="0 0 128 128"><path fill="currentColor" d="M64 12L14 39v49l50 28 49-28V39zm40 73L64 109 23 85V44l41-24 40 24z"/><path fill="currentColor" d="M85 80c-6 4-13 6-21 6-23 0-23-14-23-14h10s1 5 13 5c8 0 10-3 10-5 0-7-29-3-29-16 0-14 16-16 23-16 6 0 12 1 17 3v9c-4-2-10-4-16-4-8 0-11 3-11 5 0 6 29 2 29 15 0 8-8 12-18 12z"/></svg>' },
+                { id: 'python', name: 'Python', icon: '<svg class="w-3.5 h-3.5" viewBox="0 0 110 110"><path fill="currentColor" d="M54 9c-23 0-22 10-22 10l.1 11h23v3h-32s-10-1-10 16c0 17 9 17 9 17h6v-8s0-11 11-11h16s11 0 11-11v-12s1-15-22-15zm-7 6a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm40 25s-9 0-9 17h-6v8s0 11-11 11H50s-11 0-11 11v13s-1 10 22 10c23 0 24-10 24-10l-.1-11h-24v-3h33s10 1 10-16c0-17-9-17-9-17zm-14 36a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"/></svg>' },
+                { id: 'php', name: 'PHP', icon: '<svg class="w-4 h-3.5" viewBox="0 0 128 128"><path fill="currentColor" d="M125 54c-2-8-9-14-19-14H85L79 70c-1 3-3 5-7 5H64l5-21H48l-5 21H34l6-25H21c-14 0-22 9-22 19 0 3 1 7 2 10 2 8 9 14 19 14h21l-5 16h17l4-16h8c14 0 22-9 22-19l-4 16h17l5-21h10l-6 25h17l5-21c1 0 1-1 1-1v-4c0-3-1-6-2-9zM24 70c-3 0-5-2-5-5s2-5 5-5h10l-2 10H24zm69 0c-3 0-5-2-5-5s2-5 5-5h10l-2 10H93z"/></svg>' },
+                { id: 'curl', name: 'cURL', icon: '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M4 17h16a2 2 0 002-2V9a2 2 0 00-2-2H4a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>' }
+            ];
+            let tabsHTML = `<div class="flex gap-1 bg-black/40 p-2 rounded-t-xl border-b border-[var(--border-color)]">`;
+            langs.forEach(l => {
+                const active = window.currentLang === l.id ? "bg-[var(--hover-bg)] text-white shadow-sm border border-white/5" : "text-[var(--text-muted)] hover:text-white hover:bg-[var(--hover-bg)] border border-transparent";
+                tabsHTML += `<button onclick="changeLang('${l.id}')" class="px-4 py-1.5 text-[12px] font-semibold rounded-lg transition-colors flex items-center gap-1.5 ${active}">${l.icon} ${l.name}</button>`;
+            });
+            tabsHTML += `</div>`;
+
+            let code = "";
+            let cleanPayload = buildCleanJSON(item.rawPayload);
+            if (window.currentLang === 'curl') {
+                code = `curl --request ${item.method} \\\n  --url ${item.url} \\\n  --header 'Content-Type: application/json' \\\n  --header 'Token-Signature: YOUR_TOKEN'`;
+                if (item.hasBody && cleanPayload) code += ` \\\n  --data '${cleanPayload.replace(/\n/g, '')}'`;
+            } else if (window.currentLang === 'nodejs') {
+                code = `const url = '${item.url}';\nconst options = {\n  method: '${item.method}',\n  headers: {\n    'Token-Signature': 'YOUR_TOKEN',\n    'Content-Type': 'application/json'\n  }`;
+                if (item.hasBody && cleanPayload) code += `,\n  body: JSON.stringify(${cleanPayload})`;
+                code += `\n};\n\nfetch(url, options)\n  .then(res => res.json())\n  .then(json => console.log(json))\n  .catch(err => console.error('error:' + err));`;
+            } else if (window.currentLang === 'python') {
+                code = `import requests\n\nurl = "${item.url}"\n\nheaders = {\n    "Token-Signature": "YOUR_TOKEN",\n    "Content-Type": "application/json"\n}\n`;
+                if (item.hasBody && cleanPayload) code += `\npayload = ${cleanPayload}\n\nresponse = requests.${item.method.toLowerCase()}(url, json=payload, headers=headers)`;
+                else code += `\nresponse = requests.${item.method.toLowerCase()}(url, headers=headers)`;
+                code += `\n\nprint(response.json())`;
+            } else if (window.currentLang === 'php') {
+                code = `<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => "${item.url}",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_CUSTOMREQUEST => "${item.method}",\n`;
+                if (item.hasBody && cleanPayload) code += `  CURLOPT_POSTFIELDS => '${cleanPayload.replace(/\n/g, ' ')}',\n`;
+                code += `  CURLOPT_HTTPHEADER => [\n    "Token-Signature: YOUR_TOKEN",\n    "Content-Type: application/json"\n  ],\n]);\n\n$response = curl_exec($curl);\ncurl_close($curl);\n\necho $response;`;
+            }
+
+            window.currentRawSnippetText = code;
+            const cIdCode = 'snip_code_' + item.id;
+            window.snippetCache[cIdCode] = code;
+
+            // Formatação sintática
+            let formattedCode = escapeHTML(code);
+            formattedCode = formattedCode.replace(/('.*?'|".*?")/g, '<span style="color: var(--syn-string);">$1</span>');
+
+            let codeAreaHTML = `
+                <div class="space-y-2.5 animate-fade-in" style="animation-delay: 0.05s;">
+                    <div class="relative group code-block rounded-xl text-[12px] font-mono shadow-lg flex flex-col border border-[var(--border-color)]">
+                        ${tabsHTML}
+                        <div class="p-5 overflow-x-auto relative min-h-[150px]">
+                            <button class="absolute top-3 right-3 p-2 code-icon rounded opacity-0 group-hover:opacity-100" onclick="copyFromCache('${cIdCode}', this)" title="Copiar">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                            </button>
+                            <pre class="m-0 leading-loose">${formattedCode}</pre>
+                        </div>
+                    </div>
+                </div>`;
+            snippetHTML = codeAreaHTML + responseHTML;
+            document.getElementById('snippet-area').innerHTML = snippetHTML;
+        }
+
         function loadDocumentation(item) {
+            window.currentItem = item;
             let paramsTable = "";
             if (item.params && item.params.length > 0) {
                 let rows = item.params.map(p => `
@@ -733,7 +993,6 @@
                         <td class="py-4 px-5 text-[12px] align-top w-1/4 ${p.req.includes('Obrigatório') ? 'text-rose-500 font-semibold' : 'text-[var(--text-muted)]'}">${p.req}</td>
                         <td class="py-4 px-5 text-[13px] text-[var(--text-muted)] align-top leading-relaxed w-2/4">${p.desc}</td>
                     </tr>`).join("");
-                
                 paramsTable = `
                     <div class="mt-10 animate-fade-in" style="animation-delay: 0.1s;">
                         <h4 class="text-[11px] font-bold text-[var(--text-main)] mb-3 uppercase tracking-[0.15em]">Parâmetros de Entrada</h4>
@@ -759,7 +1018,6 @@
                         <td class="py-4 px-5 font-mono text-[var(--text-main)] text-[12px] font-semibold align-top w-1/3">${r.name}</td>
                         <td class="py-4 px-5 text-[13px] text-[var(--text-muted)] align-top leading-relaxed w-2/3">${r.desc}</td>
                     </tr>`).join("");
-
                 responseTable = `
                     <div class="mt-8 animate-fade-in" style="animation-delay: 0.15s;">
                         <h4 class="text-[11px] font-bold text-[var(--text-main)] mb-3 uppercase tracking-[0.15em]">Dicionário de Status</h4>
@@ -778,9 +1036,6 @@
             }
 
             let endpointBox = "";
-            let snippetHTML = "";
-            window.currentRawSnippetText = "";
-
             if (item.url && item.method) {
                 endpointBox = `<div class="flex flex-col gap-3 mb-8">`;
                 endpointBox += `
@@ -797,100 +1052,6 @@
                         </div>`;
                 }
                 endpointBox += `</div>`;
-
-                window.currentRawSnippetText = `POST ${item.url}\n`;
-                const cIdPost = 'snip_' + Math.random().toString(36).substr(2, 9);
-                window.snippetCache[cIdPost] = `POST ${item.url}`;
-
-                snippetHTML = `
-                    <div class="space-y-2.5 animate-fade-in" style="animation-delay: 0.05s;">
-                        <div class="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-[0.1em]">URL DO ENDPOINT</div>
-                        <div class="relative group code-block p-5 rounded-xl text-[12px] font-mono break-all shadow-lg">
-                            <button class="absolute top-3 right-3 p-2 code-icon rounded opacity-0 group-hover:opacity-100" onclick="copyFromCache('${cIdPost}', this)" title="Copiar">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                            </button>
-                            <span class="text-blue-500 font-bold mr-2">${item.method}</span>${item.url}
-                        </div>
-                    </div>`;
-
-                if (item.getUrl) {
-                    window.currentRawSnippetText += `GET ${item.getUrl}\n`;
-                    const cIdGet = 'snip_' + Math.random().toString(36).substr(2, 9);
-                    window.snippetCache[cIdGet] = `GET ${item.getUrl}`;
-                    
-                    snippetHTML += `
-                        <div class="space-y-2.5 animate-fade-in mt-6" style="animation-delay: 0.1s;">
-                            <div class="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-[0.1em]">URL DO ENDPOINT (GET)</div>
-                            <div class="relative group code-block p-5 rounded-xl text-[12px] font-mono break-all shadow-lg">
-                                <button class="absolute top-3 right-3 p-2 code-icon rounded opacity-0 group-hover:opacity-100" onclick="copyFromCache('${cIdGet}', this)" title="Copiar">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                                </button>
-                                <span class="text-emerald-500 font-bold mr-2">GET</span>${item.getUrl}
-                            </div>
-                        </div>`;
-                }
-
-                if (!item.isWebhook && !item.isValidator) {
-                    const hCode = `Token-Signature: YOUR_TOKEN\nContent-Type: application/json`;
-                    window.currentRawSnippetText += `\nHeaders:\n${hCode}\n`;
-                    const cIdHead = 'snip_' + Math.random().toString(36).substr(2, 9);
-                    window.snippetCache[cIdHead] = hCode;
-
-                    snippetHTML += `
-                        <div class="space-y-2.5 animate-fade-in mt-6" style="animation-delay: 0.15s;">
-                            <div class="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-[0.1em]">HEADERS</div>
-                            <div class="relative group code-block p-5 rounded-xl text-[12px] font-mono shadow-lg leading-loose">
-                                <button class="absolute top-3 right-3 p-2 code-icon rounded opacity-0 group-hover:opacity-100" onclick="copyFromCache('${cIdHead}', this)" title="Copiar">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                                </button>
-                                <span class="text-[var(--text-muted)]">Token-Signature:</span> YOUR_TOKEN<br>
-                                <span class="text-[var(--text-muted)]">Content-Type:</span> application/json
-                            </div>
-                        </div>`;
-                }
-
-                if (item.hasBody && item.rawPayload) {
-                    window.currentRawSnippetText += `\nBody JSon:\n${item.rawPayload}\n`;
-                    const cIdBody = 'snip_' + Math.random().toString(36).substr(2, 9);
-                    window.snippetCache[cIdBody] = item.rawPayload;
-                    
-                    const bodyTitle = item.isWebhook ? "BODY JSON (RECEBIDO)" : "BODY JSON";
-                    snippetHTML += `
-                        <div class="space-y-2.5 animate-fade-in mt-6 flex flex-col" style="animation-delay: 0.2s;">
-                            <div class="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-[0.1em]">${bodyTitle}</div>
-                            <div class="relative group code-block p-5 rounded-xl text-[12px] font-mono overflow-x-auto shadow-lg">
-                                <button class="absolute top-3 right-3 p-2 code-icon rounded opacity-0 group-hover:opacity-100" onclick="copyFromCache('${cIdBody}', this)" title="Copiar">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                                </button>
-                                <pre class="m-0 leading-loose">${highlightCustomJSON(item.rawPayload)}</pre>
-                            </div>
-                        </div>`;
-                }
-
-                if (item.rawResponse) {
-                    window.currentRawSnippetText += `\nRespostas:\n${item.rawResponse}`;
-                    const cIdResp = 'snip_' + Math.random().toString(36).substr(2, 9);
-                    window.snippetCache[cIdResp] = item.rawResponse;
-
-                    snippetHTML += `
-                        <div class="space-y-2.5 animate-fade-in mt-6 flex flex-col" style="animation-delay: 0.25s;">
-                            <div class="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-[0.1em] flex flex-wrap items-center gap-2">
-                                RESPOSTA ESPERADA: 
-                                <span class="bg-emerald-500/20 text-emerald-500 px-1.5 py-0.5 rounded text-[9px] font-bold tracking-normal">200 Ok</span>
-                                <span class="bg-rose-500/20 text-rose-500 px-1.5 py-0.5 rounded text-[9px] font-bold tracking-normal">400 Bad Request</span>
-                                <span class="bg-amber-500/20 text-amber-500 px-1.5 py-0.5 rounded text-[9px] font-bold tracking-normal">403 Forbidden</span>
-                            </div>
-                            <div class="relative group code-block p-5 rounded-xl text-[12px] font-mono overflow-x-auto shadow-lg">
-                                <button class="absolute top-3 right-3 p-2 code-icon rounded opacity-0 group-hover:opacity-100" onclick="copyFromCache('${cIdResp}', this)" title="Copiar">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                                </button>
-                                <pre class="m-0 leading-loose">${highlightCustomJSON(item.rawResponse)}</pre>
-                            </div>
-                        </div>`;
-                }
-
-            } else {
-                snippetHTML = `<p class="text-[13px] text-[var(--text-muted)] italic">Nenhum bloco de código computacional para exibir nesta seção.</p>`;
             }
 
             document.getElementById('doc-content').innerHTML = `
@@ -902,8 +1063,7 @@
                 ${paramsTable}
                 ${responseTable}
             `;
-
-            document.getElementById('snippet-area').innerHTML = snippetHTML;
+            renderSnippets(item);
         }
     </script>
 </body>
