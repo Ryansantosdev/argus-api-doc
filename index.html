@@ -37,7 +37,6 @@
             background-color: var(--bg-app); 
             color: var(--text-main); 
             transition: background-color 0.4s ease, color 0.4s ease;
-            overflow: hidden;
         }
         
         .font-mono { font-family: 'JetBrains Mono', monospace; }
@@ -85,7 +84,7 @@
         }
     </style>
 </head>
-<body class="h-screen w-screen flex items-center justify-center p-4 relative">
+<body class="h-screen w-screen flex items-center justify-center p-0 lg:p-4 relative overflow-hidden">
 
     <div class="ambient-glow fixed inset-0 z-0 pointer-events-none overflow-hidden">
         <div class="absolute top-[-20%] left-[-10%] w-[50vw] h-[50vw] bg-[#233b76] rounded-full mix-blend-screen filter blur-[140px] opacity-20 animate-pulse" style="animation-duration: 8s;"></div>
@@ -93,9 +92,9 @@
         <div class="absolute top-[30%] left-[40%] w-[40vw] h-[40vw] bg-[#09142c] rounded-full mix-blend-screen filter blur-[120px] opacity-40"></div>
     </div>
 
-    <div class="w-full max-w-[1600px] h-[95vh] border border-[var(--border-color)] rounded-2xl overflow-hidden flex shadow-2xl relative z-10 glass-panel">
+    <div class="w-full max-w-[1600px] h-full lg:h-[95vh] lg:border border-[var(--border-color)] lg:rounded-2xl overflow-y-auto lg:overflow-hidden flex flex-col lg:flex-row shadow-2xl relative z-10 glass-panel">
         
-        <aside class="w-[320px] border-r border-[var(--border-color)] flex flex-col shrink-0">
+        <aside class="w-full lg:w-[320px] lg:border-r border-b lg:border-b-0 border-[var(--border-color)] flex flex-col shrink-0 lg:h-full h-auto">
             <div class="h-[76px] flex items-center px-6 border-b border-[var(--border-color)] shrink-0">
                 <div id="logo-container" class="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity" onclick="uploadLogo()">
                     <img id="logo-img" src="Logo-tema-escuro.png" alt="API Argus" class="h-8 max-w-[160px] object-contain rounded" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIGZpbGw9InRyYW5zcGFyZW50IiByeD0iOCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNHB4IiBmaWxsPSIjOThhMmIzIiBkeT0iLjNlbSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+QVJHVVM8L3RleHQ+PC9zdmc+';">
@@ -117,29 +116,29 @@
                 </button>
             </div>
 
-            <nav class="flex-1 overflow-y-auto py-3 px-3 space-y-2" id="sidebar-nav"></nav>
+            <nav class="flex-1 lg:overflow-y-auto py-3 px-3 space-y-2" id="sidebar-nav"></nav>
         </aside>
 
-        <main class="flex-1 flex flex-col relative overflow-y-auto border-r border-[var(--border-color)]">
-            <header class="h-[76px] border-b border-[var(--border-color)] flex items-center px-10 sticky top-0 bg-[var(--bg-panel)] backdrop-blur-md z-10">
+        <main class="flex-1 flex flex-col relative lg:overflow-y-auto lg:border-r border-[var(--border-color)] min-h-[500px]">
+            <header class="h-[76px] border-b border-[var(--border-color)] flex items-center px-6 lg:px-10 sticky top-0 bg-[var(--bg-panel)] backdrop-blur-md z-10 shrink-0">
                 <h2 class="text-[16px] font-semibold text-[var(--text-main)] tracking-wide">Documentação Técnica</h2>
             </header>
 
-            <div class="p-10 max-w-4xl" id="doc-content">
+            <div class="p-6 lg:p-10 max-w-4xl" id="doc-content">
                 <p class="text-[var(--text-muted)] leading-relaxed text-[14px]">Selecione uma integração no menu lateral para visualizar os detalhes estruturais, parâmetros, observações e retornos documentados da API Argus.</p>
             </div>
         </main>
 
-        <aside class="w-[500px] flex flex-col shrink-0 bg-black/10">
-            <div class="h-[76px] flex items-center justify-between px-8 border-b border-[var(--border-color)] bg-[var(--bg-panel)] backdrop-blur-md sticky top-0 z-10">
-                <h3 class="text-[12px] font-semibold text-[var(--text-main)] tracking-widest uppercase opacity-80">Exemplo de Requisição</h3>
+        <aside class="w-full lg:w-[500px] flex flex-col shrink-0 bg-black/10 border-t lg:border-t-0 border-[var(--border-color)] min-h-[400px]">
+            <div class="h-[76px] flex items-center justify-between px-6 lg:px-8 border-b border-[var(--border-color)] bg-[var(--bg-panel)] backdrop-blur-md sticky top-0 z-10 shrink-0">
+                <h3 class="text-[12px] font-semibold text-[var(--text-main)] tracking-widest uppercase opacity-80">Exemplo</h3>
                 <button id="btn-copy-all" class="btn-press text-[11px] font-semibold bg-[var(--bg-card)] hover:bg-[var(--hover-bg)] text-[var(--text-main)] px-4 py-2 rounded-lg transition-all border border-[var(--border-color)] flex items-center gap-2 shadow-sm">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                    <span>Copiar Snippet</span>
+                    <span class="hidden md:inline">Copiar Snippet</span>
                 </button>
             </div>
 
-            <div class="flex-1 overflow-y-auto p-6" id="snippet-area">
+            <div class="flex-1 lg:overflow-y-auto p-6" id="snippet-area">
                 <p class="text-[13px] text-[var(--text-muted)] mt-2">Nenhum endpoint selecionado.</p>
             </div>
         </aside>
@@ -148,7 +147,6 @@
     <input type="file" id="logo-upload" accept="image/*" class="hidden">
 
     <script>
-        // Variáveis de Controle para Abas Multi-Linguagem
         window.currentLang = 'nodejs';
         window.currentItem = null;
         window.snippetCache = {};
@@ -157,8 +155,6 @@
         window.addEventListener('DOMContentLoaded', () => {
             const savedLogo = localStorage.getItem('argusLogo');
             if (savedLogo) document.getElementById('logo-img').src = savedLogo;
-            
-            // Auto carrega a página de "Primeiros Passos" ao iniciar
             setTimeout(() => { goToEndpoint('quick-start'); }, 100);
         });
 
@@ -190,7 +186,7 @@
             if (!window.currentRawSnippetText) return;
             navigator.clipboard.writeText(window.currentRawSnippetText).then(() => {
                 const originalContent = this.innerHTML;
-                this.innerHTML = `<svg class="w-3.5 h-3.5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="text-emerald-500">Copiado</span>`;
+                this.innerHTML = `<svg class="w-3.5 h-3.5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span class="text-emerald-500 hidden md:inline">Copiado</span>`;
                 setTimeout(() => {
                     this.innerHTML = originalContent;
                 }, 2000);
@@ -209,12 +205,15 @@
                 const linkEl = document.querySelector(`[data-id="${id}"]`);
                 if(linkEl) linkEl.classList.add('active');
                 
-                // Expande a sanfona caso o link chamado por outra tela esteja fechado
                 const parentContainer = linkEl.closest('.links-container');
                 if(parentContainer && parentContainer.classList.contains('hidden')) {
                     parentContainer.classList.remove('hidden');
                     const header = parentContainer.previousElementSibling;
                     if(header) header.querySelector('.arrow-icon').classList.remove('-rotate-90');
+                }
+                
+                if (window.innerWidth < 1024) {
+                    document.getElementById('doc-content').scrollIntoView({ behavior: 'smooth' });
                 }
                 
                 loadDocumentation(item);
@@ -257,7 +256,7 @@
                             </div>
                         </div>
                         
-                        <div class='mt-8 p-5 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl flex items-center justify-between'>
+                        <div class='mt-8 p-5 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl flex flex-col md:flex-row items-center justify-between'>
                             <div>
                                 <h4 class='font-bold text-[14px] text-[var(--text-main)]'>Quer testar rápido?</h4>
                                 <p class='text-[13px] text-[var(--text-muted)] mt-1'>Faça o download da nossa Postman Collection no menu lateral esquerdo e importe no seu Postman/Insomnia. Todas as rotas já estão pré-configuradas!</p>
@@ -272,8 +271,8 @@
                 category: "Autenticação",
                 items: [
                     { 
-                        id: "auth", title: "Autenticação", method: "GET", url: "https://argus.app.br/", 
-                        desc: "Todas as solicitações para a API são autenticadas fornecendo sua chave de API. A chave de API deve ser fornecida como um cabeçalho HTTP denominado: Token-Signature<br><br><span class='font-mono bg-[var(--bg-card)] border border-[var(--border-color)] px-2 py-1 rounded text-[13px] shadow-sm'>curl -H \"Token-Signature: YOUR_TOKEN\" https://argus.app.br/</span><br><br>Sua chave de API pode ser encontrada no menu: Configurações - Desenvolvedor - Acesso API", 
+                        id: "auth", title: "Autenticação", method: "INFO", url: "", 
+                        desc: "Todas as solicitações para a API são autenticadas fornecendo sua chave de API. A chave de API deve ser fornecida como um cabeçalho HTTP denominado: Token-Signature<br><br><span class='font-mono bg-[var(--bg-card)] border border-[var(--border-color)] p-3 block md:inline-block rounded text-[13px] shadow-sm break-all'>curl -H \"Token-Signature: SEU_TOKEN_AQUI\" https://argus.app.br/</span><br><br>Sua chave de API pode ser encontrada no painel do sistema acessando o menu: <strong>Configurações - Desenvolvedor - Acesso API</strong>", 
                         hasBody: false 
                     }
                 ]
@@ -282,11 +281,10 @@
                 category: "Controle de Mailing",
                 items: [
                     { 
-                        id: "listar-skills", title: "Listar Skills", method: "POST", acceptsGet: true, url: "https://argus.app.br/apiargus/cmd/skills", getUrl: "https://argus.app.br/apiargus/cmd/skills?idCampanha=&idSistemaIntegracao=",
+                        id: "listar-skills", title: "Listar Skills", method: "GET", url: "https://argus.app.br/apiargus/cmd/skills?idCampanha=&idSistemaIntegracao=",
                         desc: "Retorna a lista de Skills com os {hashSkill} para utilização nos endpoints para importação de mailings.<br>Skills são separações de mailings que podem estar vinculados à uma equipe ou unidade de trabalho. Pode também ser divisões de tipos de mailings com habilidades de trabalhos diferentes.<br>Para importar um mailing, é obrigatório que o usuário escolha qual o destino do Skill que o mailing será importado.", 
-                        hasBody: true, 
-                        rawPayload: `{\n  "idCampanha": int,\n  "idSistemaIntegracao": int\n}`,
-                        rawResponse: `{\n  "codStatus": int,             1: Sucesso; < 1 Falha\n  "descStatus": string,         descrição do sucesso/falha\n  "retornoGetSkillsItens": [\n    {\n      "idCampanha": int,            Código da Campanha\n      "idSkill": int,               Código do Skill\n      "descricaoCampanha": string,  Descrição da campanha\n      "descricaoSkill": string,     Descrição do Skill\n      "descricaoCompleta": string,  Descrição da Campanha + Skill\n      "idSistemaIntegracao": int,   Código do sistema de integração\n      "descricaoSistemaIntegracao": string, Descrição do sistema de integração\n      "hashEndpointSkill": string   Referência {hashSkill}\n    }\n  ]\n}`,
+                        hasBody: false, 
+                        rawResponse: `{\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Sucesso", // descrição do sucesso/falha\n  "retornoGetSkillsItens": [\n    {\n      "idCampanha": 12, // Código da Campanha\n      "idSkill": 105, // Código do Skill\n      "descricaoCampanha": "Campanha Principal", // Descrição da campanha\n      "descricaoSkill": "Skill de Vendas", // Descrição do Skill\n      "descricaoCompleta": "Campanha Principal - Skill de Vendas", // Descrição da Campanha + Skill\n      "idSistemaIntegracao": 1, // Código do sistema de integração\n      "descricaoSistemaIntegracao": "Sistema Padrão", // Descrição do sistema de integração\n      "hashEndpointSkill": "A1B2C3D4E5" // Referência {hashSkill}\n    }\n  ]\n}`,
                         params: [
                             { name: "idCampanha", req: "Opcional", desc: "Retorna apenas os Skills da campanha. Caso não passe este parâmetro, retornará os skills de todas as campanhas." }, 
                             { name: "idSistemaIntegracao", req: "Opcional", desc: "Retorna apenas os Skills vinculados com o sistema de integração escolhido." }
@@ -308,19 +306,19 @@
                             </div>
                             <table class='w-full text-left border-collapse text-[12px]'>
                                <thead><tr class='text-[10px] text-[var(--text-muted)] uppercase tracking-widest border-b border-[var(--border-color)]'><th class='py-2 px-3 font-medium border-r border-[var(--border-color)]'>KEY</th><th class='py-2 px-3 font-medium'>VALUE</th></tr></thead>
-                               <tbody><tr><td class='py-3 px-3 border-r border-[var(--border-color)]'></td><td class='py-3 px-3 text-[var(--text-main)] font-mono bg-[var(--hover-bg)] rounded'>Exportacao_conteudo_mailing_1708345.csv</td></tr></tbody>
+                               <tbody><tr><td class='py-3 px-3 border-r border-[var(--border-color)]'></td><td class='py-3 px-3 text-[var(--text-main)] font-mono bg-[var(--hover-bg)] rounded'>Exportacao_conteudo_mailing_generico.csv</td></tr></tbody>
                             </table>
                         </div>
                         2. Upload no body: "binary": o arquivo é enviado diretamente no corpo da requisição em formato binário bruto.`, 
                         hasBody: false,
-                        rawResponse: `{\n  "idArquivo": int,   código do arquivo importado.\n  "codStatus": int,   1: Sucesso; < 1 Falha\n  "descStatus": string  descrição do sucesso/falha\n}`
+                        rawResponse: `{\n  "idArquivo": 9999, // código do arquivo importado.\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Importação iniciada com sucesso" // descrição do sucesso/falha\n}`
                     },
                     { 
                         id: "excluir-mailing", title: "Descontinuar/Excluir mailing Importado por Arquivo CSV", method: "POST", url: "https://argus.app.br/apiargus/{hashSkill}/excluirmailing", 
                         desc: "Exclui todo o mailing importado no Argus. Neste endpoint é possível excluir um mailing utilizando o filtro em JSon de acordo com as especificações abaixo.<br><br>* Enviar: idArquivo ou excluirTodosMailings;", 
                         hasBody: true, 
-                        rawPayload: `{\n  "idArquivo": int,\n  "excluirTodosMailings": string\n}`, 
-                        rawResponse: `{\n  "codStatus": int,    1: Sucesso < 1 Falha\n  "descStatus": string descrição do sucesso/falha\n}`,
+                        rawPayload: `{\n  "idArquivo": 9999,\n  "excluirTodosMailings": "N"\n}`, 
+                        rawResponse: `{\n  "codStatus": 1, // 1: Sucesso < 1 Falha\n  "descStatus": "Exclusão realizada com sucesso" // descrição do sucesso/falha\n}`,
                         params: [
                             { name: "idArquivo", req: "Opcional*", desc: "Excluir pelo código do arquivo." }, 
                             { name: "excluirTodosMailings", req: "Opcional*\nPadrão: \"N\"", desc: "\"S\" ou \"N\": excluir todos os mailings vinculados neste endpoint." }
@@ -330,8 +328,8 @@
                         id: "novo-lead", title: "Incluir Novo Lead - Unitário", method: "POST", url: "https://argus.app.br/apiargus/{hashSkill}/novo", 
                         desc: "Inclui novos leads dentro do Argus. Neste endpoint é possível incluir um lead dentro de um determinado Lote/Skill, ou deixar o sistema gerenciar automaticamente conforme os parâmetros no cadastro do endpoint.<br>Este recurso é utilizado para incluir leads de forma unitária em Landing Pages por exemplo.<br>Para incluir novos mailings, utilize o endpoint <a onclick=\"goToEndpoint('upload-mailing')\" class=\"doc-link\">\"Upload de Mailing por Arquivo CSV\"</a>.<br><br>*obs: todos os campos são opcionais e poderão ser enviados conforme a necessidade. O único campo obrigatório é o \"telefone1\".", 
                         hasBody: true, 
-                        rawPayload: `{\n  "idLote": int,              Não enviar para gerenciamento automático do lote.\n  "idSkill": int,             Não enviar para gerenciamento automático do skill.\n  "codCliente": string,\n  "nome": string,\n  "telefone1": string,        Obrigatório\n  "telefone2": string,\n  "telefone3": string,\n  "telefone4": string,\n  "telefone5": string,\n  "email": string,\n  "cpfCnpj": string,\n  "dataNascimento": date,\n  "detalhes": string,\n  "url": string,\n  "utm_source": string,\n  "utm_medium": string,\n  "utm_campaign": string,\n  "codLeadOrigem": string,\n  "origem": string,\n  "codLeadFornecedor": string,\n  "fornecedor": string,\n  "info0": string,\n  "info1": string,\n  "info2": string,\n  "info3": string,\n  "info4": string,\n  "info5": string,\n  "valor0": double,\n  "valor1": double,\n  "valor2": double,\n  "valor3": double,\n  "valor4": double,\n  "data": date,\n  "data1": date,\n  "data2": date,\n  "data3": date,\n  "data4": date,\n  "cep": string,\n  "logradouro": string,\n  "numero": string,\n  "complemento": string,\n  "uf": string,\n  "cidade": string,\n  "bairro": string,\n  "minRegraDescanso": int\n}`, 
-                        rawResponse: `{\n  "nrLead": int,       número do lead gerado.\n  "idLote": int,       idLote de inclusão do lead.\n  "codStatus": int,    1: Sucesso < 1 Falha\n  "descStatus": string descrição do sucesso/falha\n}`,
+                        rawPayload: `{\n  "idLote": 10, // Não enviar para gerenciamento automático do lote.\n  "idSkill": 105, // Não enviar para gerenciamento automático do skill.\n  "codCliente": "C-9999",\n  "nome": "João da Silva",\n  "telefone1": "11999999999", // Obrigatório\n  "telefone2": "",\n  "email": "cliente.generico@email.com",\n  "cpfCnpj": "00000000000",\n  "dataNascimento": "1990-01-01",\n  "detalhes": "Lead capturado via Landing Page",\n  "url": "https://site.com.br",\n  "utm_source": "google",\n  "utm_medium": "cpc",\n  "utm_campaign": "black_friday",\n  "origem": "Site",\n  "valor0": 150.00,\n  "cep": "00000-000",\n  "logradouro": "Rua Exemplo",\n  "numero": "123",\n  "bairro": "Centro",\n  "cidade": "São Paulo",\n  "uf": "SP",\n  "minRegraDescanso": 30\n}`, 
+                        rawResponse: `{\n  "nrLead": 1234567, // número do lead gerado.\n  "idLote": 10, // idLote de inclusão do lead.\n  "codStatus": 1, // 1: Sucesso < 1 Falha\n  "descStatus": "Lead incluído com sucesso" // descrição do sucesso/falha\n}`,
                         params: [
                             { name: "idLote", req: "Opcional", desc: "idLote para alocar o lead. Caso não envie o idLote o sistema irá alocar os leads automaticamente dentro do Lote padrão criado automaticamente todo mês." },
                             { name: "idSkill", req: "Opcional", desc: "O sistema irá alocar o lead dentro do lote pertencente a este skill. Campo válido somente para quando não enviar o idLote. Caso não envie o idSkill o sistema irá utilizar o Skill cadastrado no EndPoint." },
@@ -352,8 +350,8 @@
                         id: "excluir-lead", title: "Descontinuar/Excluir Lead - Unitário", method: "POST", url: "https://argus.app.br/apiargus/{hashSkill}/excluir", 
                         desc: "Exclui leads individuais inseridos no Argus. Neste endpoint é possível excluir um lead utilizando o filtro em JSON de acordo com as especificações abaixo.<br><br>* Enviar: nrLead ou codCliente ou telefone;", 
                         hasBody: true, 
-                        rawPayload: `{\n  "nrLead": int,\n  "codCliente": string,\n  "telefone": string,\n  "idSkill": int,\n  "excluirAGI": string\n}`, 
-                        rawResponse: `{\n  "items": [\n    {\n      "nrLead": int,       número do lead excluído.\n      "idLote": int,       idLote do lead excluído.\n      "codStatus": int,    1: Sucesso; < 1 Falha\n      "descStatus": string descrição do sucesso/falha\n    }\n  ],\n  "count": 1           //Qtde de leads excluídos\n}`,
+                        rawPayload: `{\n  "nrLead": 1234567,\n  "codCliente": "C-9999",\n  "telefone": "11999999999",\n  "idSkill": 105,\n  "excluirAGI": "S"\n}`, 
+                        rawResponse: `{\n  "items": [\n    {\n      "nrLead": 1234567, // número do lead excluído.\n      "idLote": 10, // idLote do lead excluído.\n      "codStatus": 1, // 1: Sucesso; < 1 Falha\n      "descStatus": "Sucesso" // descrição do sucesso/falha\n    }\n  ],\n  "count": 1 // Qtde de leads excluídos\n}`,
                         params: [
                             { name: "nrLead", req: "Opcional*", desc: "Excluir pelo número do lead." }, 
                             { name: "codCliente", req: "Opcional*", desc: "Excluir pelo código do cliente informado na inclusão do lead." }, 
@@ -363,28 +361,30 @@
                         ]
                     },
                     { 
-                        id: "listar-tabs", title: "Listar Tabulações do Lead", method: "POST", acceptsGet: true, url: "https://argus.app.br/apiargus/{hashSkill}/listartabulacoes", getUrl: "https://argus.app.br/apiargus/{hashSkill}/listartabulacoes",
+                        id: "listar-tabs", title: "Listar Tabulações do Lead", method: "GET", url: "https://argus.app.br/apiargus/{hashSkill}/listartabulacoes", 
                         desc: "Retorna a lista de tabulações existentes para o Lead. Este recurso pode ser usado para listar as tabulações existentes para o operador antes de executar o comando \"/tabular\".<br><br>Ao enviar o comando /tabular, estes valores poderão ser alterados caso você queira.", 
                         hasBody: false,
-                        rawResponse: `{\n  "codStatus": int,             1: Sucesso; < 1 Falha\n  "descStatus": string,         descrição do sucesso/falha\n  "retornoTabulacoesItens": [\n    {\n      "codIntegTabulacao": int, Código da integração da tabulação\n      "idTabulacao": int,       Código da tabulação\n      "tabulacaoDesc": string,  Descrição da tabulação\n      "categoriaDesc": string,  Descrição da categoria da tabulação\n      "idTipoCategoria": int,   Código do tipo da categoria (vide tabela abaixo)\n      "tipoCategoriaDesc": string, Descrição do tipo da categoria\n      "finalizador": bool,      True: Finalizado, False: Agendamento\n      "agendamento": bool,      True: Agendamento, False: Finalizado\n      "idTipoAgendaFixo": int,  Código do tipo de agenda fixo\n      "idTipoAgendaFixoDesc": string, Descrição do tipo de agenda fixo*\n      "agendamentoFixo": datetime Data e hora do agendamento fixo*\n    }\n  ]\n}`,
+                        rawResponse: `{\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Sucesso", // descrição do sucesso/falha\n  "retornoTabulacoesItens": [\n    {\n      "codIntegTabulacao": 505, // Código da integração da tabulação\n      "idTabulacao": 22, // Código da tabulação\n      "tabulacaoDesc": "Venda Realizada", // Descrição da tabulação\n      "categoriaDesc": "Sucesso", // Descrição da categoria da tabulação\n      "idTipoCategoria": 11, // Código do tipo da categoria (vide tabela abaixo)\n      "tipoCategoriaDesc": "FINALIZADO SUCESSO", // Descrição do tipo da categoria\n      "finalizador": true, // True: Finalizado, False: Agendamento\n      "agendamento": false, // True: Agendamento, False: Finalizado\n      "idTipoAgendaFixo": 0, // Código do tipo de agenda fixo\n      "idTipoAgendaFixoDesc": "", // Descrição do tipo de agenda fixo*\n      "agendamentoFixo": "0001-01-01T00:00:00" // Data e hora do agendamento fixo*\n    }\n  ]\n}`,
                         responseParams: [
                             { name: "idTipoCategoria = 1", desc: "AGENDAMENTO" },
                             { name: "idTipoCategoria = 10", desc: "FINALIZADO OUTROS" },
                             { name: "idTipoCategoria = 11", desc: "FINALIZADO SUCESSO" },
                             { name: "idTipoCategoria = 12", desc: "FINALIZADO RECUSA" },
                             { name: "idTipoCategoria = 13", desc: "FINALIZADO OFFTARGET" },
-                            { name: "idTipoCategoria = 14", desc: "FINALIZADO SUCESSO CANCELADO" },
+                            { name: "idTipoCategoria = 14", desc: "FINALIZADO SUCESSO CANCELADO" }
+                        ],
+                        agendaParams: [
                             { name: "idTipoAgendaFixo = 3", desc: "AGENDA GRUPO" },
                             { name: "idTipoAgendaFixo = 4", desc: "AGENDA INDIVIDUAL" },
-                            { name: "Nota*", desc: "Quando estes valores \"fixo\" estão preenchidos, é porque foi travado no cadastro para que o operador não altere o Tipo de Agenda/Agendamento." }
+                            { name: "Nota*", desc: "Quando estes valores \"fixo\" de Agenda estão preenchidos, é porque foi travado no cadastro para que o operador não altere o Tipo de Agenda/Agendamento." }
                         ]
                     },
                     { 
                         id: "tabular-lead", title: "Tabular Lead", method: "POST", url: "https://argus.app.br/apiargus/{hashSkill}/tabular", 
                         desc: "Efetua a tabulação de um determinado lead já importado dentro do Argus. Caso o lead tabulado esteja aberto na tela do operador, ela será travada com a tabulação enviada via API para que o operador não consiga alterar.<br><br>* Enviar: nrLead, codCliente ou listaCodCliente;<br>* idTipoAgenda ou dataAgendamento: pode ser enviado em agendamentos. Caso seja agendamento e não for enviado, o sistema irá acatar os parâmetros previamente cadastrados na tabulação.", 
                         hasBody: true, 
-                        rawPayload: `{\n  "nrLead": int,\n  "codCliente": string,\n  "listaCodCliente": [string],\n  "ramal": string,\n  "codIntegTabulacao": string,\n  "idTipoAgenda": int,\n  "dataAgendamento": date\n}`, 
-                        rawResponse: `{\n  "codStatus": int,    1: Sucesso; < 1 Falha\n  "descStatus": string, descrição do sucesso/falha\n  "qtdeLeads": int     qtde de leads tabulados\n}`,
+                        rawPayload: `{\n  "nrLead": 1234567,\n  "codCliente": "C-9999",\n  "listaCodCliente": ["C-9999", "C-8888"],\n  "ramal": "1001",\n  "codIntegTabulacao": "505",\n  "idTipoAgenda": 4,\n  "dataAgendamento": "2026-08-01T14:30:00-03:00"\n}`, 
+                        rawResponse: `{\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Tabulação efetuada com sucesso", // descrição do sucesso/falha\n  "qtdeLeads": 1 // qtde de leads tabulados\n}`,
                         params: [
                             { name: "nrLead", req: "Opcional*", desc: "Tabular pelo número do lead. (Não enviar caso opte por tabular através do Código do Cliente)." },
                             { name: "codCliente", req: "Opcional*", desc: "Tabular pelo código do cliente informado na importação do lead." },
@@ -396,11 +396,10 @@
                         ]
                     },
                     { 
-                        id: "listar-gravacoes", title: "Listar Gravações", method: "POST", url: "https://argus.app.br/apiargus/{hashSkill}/listargravacoes", 
-                        desc: "Lista as gravações utilizando o filtro em JSON de acordo com as especificações abaixo. Será retornado um array de ligações contendo o campo \"idLigacao\" que poderá ser utilizado para realizar o download da gravação posteriormente.", 
-                        hasBody: true, 
-                        rawPayload: `{\n  "nrLead": int,\n  "idSkill": int,\n  "codCliente": string,\n  "cpfCnpj": string,\n  "telefone": string\n}`, 
-                        rawResponse: `{\n  "nrLead": int,\n  "codStatus": int,\n  "descStatus": string,\n  "retornoLigacoesItens": [\n    {\n      "idCampanha": int,\n      "idSkill": int,\n      "skillDesc": string,\n      "idLote": int,\n      "loteDesc": string,\n      "idLigacao": int,\n      "dataHoraLigacao": date,\n      "nrLead": int,\n      "nomeCliente": string,\n      "tipoLigacao": string,\n      "resultadoLigacao": string,\n      "tempoSegundos": int,\n      "telefone": string,\n      "tipoAgenda": string,\n      "tabulado": string,\n      "usuarioOperador": string,\n      "grupoOrigem": string\n    }\n  ]\n}`,
+                        id: "listar-gravacoes", title: "Listar Gravações", method: "GET", url: "https://argus.app.br/apiargus/{hashSkill}/listargravacoes?nrLead=&idSkill=&codCliente=&cpfCnpj=&telefone=", 
+                        desc: "Lista as gravações utilizando o filtro de parâmetros (Query Strings) de acordo com as especificações abaixo. Será retornado um array de ligações contendo o campo \"idLigacao\" que poderá ser utilizado para realizar o download da gravação posteriormente.", 
+                        hasBody: false, 
+                        rawResponse: `{\n  "nrLead": 1234567,\n  "codStatus": 1,\n  "descStatus": "Sucesso",\n  "retornoLigacoesItens": [\n    {\n      "idCampanha": 12,\n      "idSkill": 105,\n      "skillDesc": "Skill de Vendas",\n      "idLote": 10,\n      "loteDesc": "Lote Agosto",\n      "idLigacao": 8888,\n      "dataHoraLigacao": "2026-08-01T14:30:00-03:00",\n      "nrLead": 1234567,\n      "nomeCliente": "Cliente Genérico",\n      "tipoLigacao": "Ativo",\n      "resultadoLigacao": "Atendido",\n      "tempoSegundos": 120,\n      "telefone": "11999999999",\n      "tipoAgenda": "N/A",\n      "tabulado": "Sim",\n      "usuarioOperador": "Operador Genérico",\n      "grupoOrigem": "Grupo A"\n    }\n  ]\n}`,
                         params: [
                             { name: "nrLead", req: "Opcional*", desc: "Buscar pelo número do lead." },
                             { name: "idSkill", req: "Opcional", desc: "Buscar o lead somente do skill informado." },
@@ -418,8 +417,8 @@
                         id: "baixa-titulo", title: "Baixa de Título de Cobrança", method: "POST", url: "https://argus.app.br/apiargus/cmd/baixartitulo", 
                         desc: "Efetua a baixa de título de cobrança removendo o cliente do mailing para evitar cobrança indevida.", 
                         hasBody: true, 
-                        rawPayload: `{\n  "cnpjBeneficiario": string,\n  "cpfCnpjSacado": string,\n  "numeroTitulo": string,\n  "parcela": int,\n  "valorPago": double,\n  "identificadorPagamento": string\n}`, 
-                        rawResponse: `{\n  "codStatus": int,    1: Sucesso; < 1 Falha\n  "descStatus": string descrição do sucesso/falha\n}`,
+                        rawPayload: `{\n  "cnpjBeneficiario": "00000000000000",\n  "cpfCnpjSacado": "11111111111",\n  "numeroTitulo": "TIT-9999",\n  "parcela": 1,\n  "valorPago": 150.00,\n  "identificadorPagamento": "PIX-ABCD123"\n}`, 
+                        rawResponse: `{\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Baixa efetuada com sucesso" // descrição do sucesso/falha\n}`,
                         params: [
                             { name: "cnpjBeneficiario", req: "Obrigatório", desc: "Identificação do credor da cobrança." }, 
                             { name: "cpfCnpjSacado", req: "Obrigatório", desc: "Identificação da parte pagadora." }, 
@@ -438,8 +437,8 @@
                         id: "download-gravacao", title: "Download da Gravação", method: "POST", url: "https://argus.app.br/apiargus/cmd/downloadgravacao", 
                         desc: "Efetua do download de uma gravação. Se o parâmetro 'base64' for enviado como 'N', a API retornará o binário do áudio bruto direto no stream (Download Tradicional). Se enviado como 'S', retornará a estrutura JSON com a string base64.", 
                         hasBody: true, 
-                        rawPayload: `{\n  "idCampanha": int,\n  "idLigacao": int,\n  "preAtendimento": string,\n  "formato": string,\n  "opcaoCanais": int,\n  "base64": string\n}`, 
-                        rawResponse: `{\n  "idCampanha": int,\n  "idLigacao": int,\n  "nomeArquivo": string,\n  "formato": string,\n  "arquivoBase64": string\n}`,
+                        rawPayload: `{\n  "idCampanha": 12,\n  "idLigacao": 8888,\n  "preAtendimento": "N", // "S" ou "N"\n  "formato": "WAV", // "WAV" ou "MP3"\n  "opcaoCanais": 1,\n  "base64": "S" // "S" ou "N"\n}`, 
+                        rawResponse: `{\n  "idCampanha": 12,\n  "idLigacao": 8888,\n  "nomeArquivo": "gravacao_8888.wav",\n  "formato": "WAV",\n  "arquivoBase64": "UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA="\n}`,
                         params: [
                             { name: "idCampanha", req: "Obrigatório", desc: "ID da Campanha que contém a gravação." },
                             { name: "idLigacao", req: "Obrigatório", desc: "ID da ligação gerada pelo discador (este ID pode ser obtido no Webhook de ligações do discador ou através do endpoint '/listargravacoes')." },
@@ -458,8 +457,8 @@
                         id: "logar-op", title: "Logar Operador", method: "POST", url: "https://argus.app.br/apiargus/cmd/logaroperador", 
                         desc: "Conecta o operador no sistema de telefonia Argus deixando-o apto a realizar/receber novas ligações. É necessário que o operador esteja com o sistema já aberto e autenticado.", 
                         hasBody: true, 
-                        rawPayload: `{\n  "ramal": string,\n  "codIntegGrupo": string,\n  "idTipoDiscagem": int\n}`, 
-                        rawResponse: `{\n  "codStatus": int,    1: Sucesso; < 1 Falha\n  "descStatus": string descrição do sucesso/falha\n}`,
+                        rawPayload: `{\n  "ramal": "1001",\n  "codIntegGrupo": "GRP-01",\n  "idTipoDiscagem": 2 // 1: MANUAL, 2: PREDITIVO\n}`, 
+                        rawResponse: `{\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Operador logado com sucesso" // descrição do sucesso/falha\n}`,
                         params: [
                             { name: "ramal", req: "Obrigatório", desc: "Código de integração do operador (Ramal) que será conectado." },
                             { name: "codIntegGrupo", req: "Opcional", desc: "Identificador do grupo que o operador irá realizar o login." },
@@ -470,40 +469,39 @@
                         id: "deslogar-op", title: "Deslogar Operador", method: "POST", url: "https://argus.app.br/apiargus/cmd/deslogaroperador", 
                         desc: "Desconecta o operador no sistema de telefonia Argus deixando-o inapto a realizar/receber novas ligações.", 
                         hasBody: true, 
-                        rawPayload: `{\n  "ramal": string\n}`, 
-                        rawResponse: `{\n  "codStatus": int,    1: Sucesso; < 1 Falha\n  "descStatus": string descrição do sucesso/falha\n}`,
+                        rawPayload: `{\n  "ramal": "1001"\n}`, 
+                        rawResponse: `{\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Operador deslogado com sucesso" // descrição do sucesso/falha\n}`,
                         params: [{ name: "ramal", req: "Obrigatório", desc: "Código de integração do operador (Ramal) que será desconectado." }] 
                     },
                     { 
-                        id: "listar-pausas", title: "Listar Pausas", method: "POST", acceptsGet: true, url: "https://argus.app.br/apiargus/cmd/listarpausas", getUrl: "https://argus.app.br/apiargus/cmd/listarpausas?ramal=",
+                        id: "listar-pausas", title: "Listar Pausas", method: "GET", url: "https://argus.app.br/apiargus/cmd/listarpausas?ramal=", 
                         desc: "Lista todas as pausas do operador cadastradas dentro do Argus.", 
-                        hasBody: true, 
-                        rawPayload: `{\n  "ramal": string\n}`, 
-                        rawResponse: `{\n  "codStatus": int,    1: Sucesso; < 1 Falha\n  "descStatus": string descrição do sucesso/falha\n  "retornoPausasItens": [\n    {\n      "idPausa": int,\n      "pausaDesc": string\n    }\n  ]\n}`,
-                        params: [{ name: "ramal", req: "Obrigatório", desc: "Código de integração do operador (Ramal) a ser consultado." }] 
+                        hasBody: false, 
+                        rawResponse: `{\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Sucesso", // descrição do sucesso/falha\n  "retornoPausasItens": [\n    {\n      "idPausa": 10,\n      "pausaDesc": "Pausa Lanche"\n    }\n  ]\n}`,
+                        params: [{ name: "ramal", req: "Obrigatório", desc: "Código de integração do operador (Ramal) a ser consultado na Query String." }] 
                     },
                     { 
                         id: "pausar", title: "Pausar", method: "POST", url: "https://argus.app.br/apiargus/cmd/pausar", 
                         desc: "Coloca o operador em pausa. Caso ele não esteja no status \"Livre\", a pausa será inserida assim que ele retornar para Livre.", 
                         hasBody: true, 
-                        rawPayload: `{\n  "ramal": string,\n  "idPausa": string\n}`, 
-                        rawResponse: `{\n  "codStatus": int,    1: Sucesso; < 1 Falha\n  "descStatus": string descrição do sucesso/falha\n}`,
+                        rawPayload: `{\n  "ramal": "1001",\n  "idPausa": "10"\n}`, 
+                        rawResponse: `{\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Pausa solicitada com sucesso" // descrição do sucesso/falha\n}`,
                         params: [{ name: "ramal", req: "Obrigatório", desc: "Código do Ramal do operador." }, { name: "idPausa", req: "Obrigatório", desc: "Código numérico/identificador da pausa." }] 
                     },
                     { 
                         id: "sair-pausa", title: "Sair da Pausa", method: "POST", url: "https://argus.app.br/apiargus/cmd/sairpausa", 
                         desc: "Retira o operador de pausa.", 
                         hasBody: true, 
-                        rawPayload: `{\n  "ramal": string\n}`, 
-                        rawResponse: `{\n  "codStatus": int,    1: Sucesso; < 1 Falha\n  "descStatus": string Descrição do sucesso/falha\n}`,
+                        rawPayload: `{\n  "ramal": "1001"\n}`, 
+                        rawResponse: `{\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Operador retirado da pausa com sucesso" // Descrição do sucesso/falha\n}`,
                         params: [{ name: "ramal", req: "Obrigatório", desc: "Código de integração do operador (Ramal)." }] 
                     },
                     { 
                         id: "click2call", title: "Click2Call", method: "POST", url: "https://argus.app.br/apiargus/cmd/click2call", 
                         desc: "Envia uma ligação para um ramal logado no Argus.", 
                         hasBody: true, 
-                        rawPayload: `{\n  "ramal": string,\n  "codCliente": string,\n  "nome": string,\n  "telefone": string\n}`, 
-                        rawResponse: `{\n  "codStatus": int,    1: Sucesso; < 1 Falha\n  "descStatus": string descrição do sucesso/falha\n  "idLigacao": string  Código da ligação\n}`,
+                        rawPayload: `{\n  "ramal": "1001",\n  "codCliente": "C-9999",\n  "nome": "Cliente Genérico",\n  "telefone": "11999999999"\n}`, 
+                        rawResponse: `{\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Discagem iniciada com sucesso", // descrição do sucesso/falha\n  "idLigacao": "8888" // Código da ligação\n}`,
                         params: [
                             { name: "ramal", req: "Obrigatório", desc: "Ramal do operador que receberá a rediscagem." }, 
                             { name: "codCliente", req: "Opcional", desc: "Código do cliente para vínculo de histórico." },
@@ -515,32 +513,31 @@
                         id: "desligar-chamada", title: "Desligar Ligação", method: "POST", url: "https://argus.app.br/apiargus/cmd/desligarligacao", 
                         desc: "Desliga a ligação atual ativa do operador.", 
                         hasBody: true, 
-                        rawPayload: `{\n  "ramal": string\n}`, 
-                        rawResponse: `{\n  "codStatus": int,    1: Sucesso < 1 Falha\n  "descStatus": string Descrição do sucesso/falha\n}`,
+                        rawPayload: `{\n  "ramal": "1001"\n}`, 
+                        rawResponse: `{\n  "codStatus": 1, // 1: Sucesso < 1 Falha\n  "descStatus": "Chamada encerrada com sucesso" // Descrição do sucesso/falha\n}`,
                         params: [{ name: "ramal", req: "Obrigatório", desc: "Código de integração do operador (Ramal)." }] 
                     },
                     { 
                         id: "ficar-livre", title: "Alterar Status do Operador para Disponível/Livre", method: "POST", url: "https://argus.app.br/apiargus/cmd/ficardisponivel", 
                         desc: "Força o operador a ficar disponível para receber a próxima ligação, mesmo que tenha um Lead aberto ou pesquisa aberta.", 
                         hasBody: true, 
-                        rawPayload: `{\n  "ramal": string\n}`, 
-                        rawResponse: `{\n  "codStatus": int,    1: Sucesso; < 1 Falha\n  "descStatus": string Descrição do sucesso/falha\n}`,
+                        rawPayload: `{\n  "ramal": "1001"\n}`, 
+                        rawResponse: `{\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Status alterado para livre" // Descrição do sucesso/falha\n}`,
                         params: [{ name: "ramal", req: "Obrigatório", desc: "Código de integração do operador (Ramal)." }] 
                     },
                     { 
-                        id: "status-op", title: "Status do Operador", method: "POST", acceptsGet: true, url: "https://argus.app.br/apiargus/cmd/statusoperador", getUrl: "https://argus.app.br/apiargus/cmd/statusoperador?ramal=",
+                        id: "status-op", title: "Status do Operador", method: "GET", url: "https://argus.app.br/apiargus/cmd/statusoperador?ramal=", 
                         desc: "Retorna o status detalhado em tempo real de um determinado operador e as especificações do seu último Lead aberto.", 
-                        hasBody: true, 
-                        rawPayload: `{\n  "ramal": string\n}`, 
-                        rawResponse: `{\n  "codStatus": int,             1: Sucesso; < 1 Falha\n  "descStatus": string,\n  "statusOperador": {\n    "idCampanha": int,\n    "campanha": string,\n    "idGrupo": int,\n    "grupo": string,\n    "nome": string,\n    "ramal": string,\n    "descricaoStatus": string,\n    "descricaoPausa": string,\n    "tempoStatus": int,\n    "origemDerivacao": string,\n    "versaoClient": string\n  },\n  "ultimoLead": {\n    "dataHoraAberturaLead": date,\n    "idCampanha": int,\n    "idSkill": int,\n    "idLote": int,\n    "nrLead": int,\n    "nomeCliente": string,\n    "cpfCnpj": string,\n    "codCliente": string,\n    "telefone": string,\n    "idLigacao": int\n  }\n}`,
-                        params: [{ name: "ramal", req: "Obrigatório", desc: "Código do Ramal do operador analítico." }] 
+                        hasBody: false, 
+                        rawResponse: `{\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Sucesso",\n  "statusOperador": {\n    "idCampanha": 12,\n    "campanha": "Campanha Principal",\n    "idGrupo": 5,\n    "grupo": "Vendas A",\n    "nome": "Operador Genérico",\n    "ramal": "1001",\n    "descricaoStatus": "Em Atendimento",\n    "descricaoPausa": "",\n    "tempoStatus": 45,\n    "origemDerivacao": "Preditivo",\n    "versaoClient": "3.0.1"\n  },\n  "ultimoLead": {\n    "dataHoraAberturaLead": "2026-08-01T14:30:00-03:00",\n    "idCampanha": 12,\n    "idSkill": 105,\n    "idLote": 10,\n    "nrLead": 1234567,\n    "nomeCliente": "Cliente Genérico",\n    "cpfCnpj": "00000000000",\n    "codCliente": "C-9999",\n    "telefone": "11999999999",\n    "idLigacao": 8888\n  }\n}`,
+                        params: [{ name: "ramal", req: "Obrigatório", desc: "Código do Ramal do operador analítico passado na Query String." }] 
                     },
                     { 
                         id: "popup-transf", title: "Pop-up Transferência", method: "POST", url: "https://argus.app.br/apiargus/cmd/popuptransferencia", 
                         desc: "Abre o pop-up do Argus na tela do operador para transferência da ligação em curso. Requer que o operador esteja em atendimento ativo para que seja exibida a tela de transferência.", 
                         hasBody: true, 
-                        rawPayload: `{\n  "ramal": string\n}`, 
-                        rawResponse: `{\n  "codStatus": int,    1: Sucesso; < 1 Falha\n  "descStatus": string descrição do sucesso/falha\n}`,
+                        rawPayload: `{\n  "ramal": "1001"\n}`, 
+                        rawResponse: `{\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Comando enviado com sucesso" // descrição do sucesso/falha\n}`,
                         params: [{ name: "ramal", req: "Obrigatório", desc: "Código de integração do operador (Ramal)." }] 
                     }
                 ]
@@ -551,8 +548,8 @@
                         id: "rel-ligacoes", title: "Relatório - Ligações Detalhadas", method: "POST", acceptsGet: true, url: "https://argus.app.br/apiargus/report/ligacoesdetalhadas", getUrl: "https://argus.app.br/apiargus/report/ligacoesdetalhadas?idCampanha=&idLigacao=&idGrupoUsuario=&idLote=&nrLead=&dddTelefone=&idUsuario=&idStatusLigacao=&somenteInsucesso=&idTabulacao=&periodoInicial=&periodoFinal=&ultimosMinutos=",
                         desc: "Retorna em JSON o relatório de ligações detalhadas.<br><br>Observações:<br>• Intervalo máximo de consulta de 7 dias;<br>• Máximo de 15.000 registros por requisição;<br>• Para paginação consecutiva, utilize o valor de \"idProxPagina\" no campo \"ultimoId\";<br>• Fim dos registros sinalizado por \"endOfTable\": True ou \"idProxPagina\": 0.", 
                         hasBody: true, 
-                        rawPayload: `{\n  "idCampanha": int,\n  "idLigacao": int,\n  "idGrupoUsuario": int,\n  "idLote": int,\n  "nrLead": int,\n  "dddTelefone": string,\n  "idUsuario": int,\n  "idStatusLigacao": int,\n  "somenteInsucesso": boolean,\n  "idTabulacao": int,\n  "periodoInicial": datetime,\n  "periodoFinal": datetime,\n  "ultimosMinutos": int,\n  "ultimoId": int\n}`, 
-                        rawResponse: `{\n  "codStatus": int,\n  "descStatus": string,\n  "endOfTable": boolean,\n  "qtdeRegistros": int,\n  "idProxPagina": int,\n  "idCampanha": int,\n  "ligacoesDetalhadas": [{...}]\n}`,
+                        rawPayload: `{\n  "idCampanha": 12,\n  "periodoInicial": "2026-08-01T00:00:00-03:00",\n  "periodoFinal": "2026-08-01T23:59:59-03:00",\n  "ultimosMinutos": 0\n}`, 
+                        rawResponse: `{\n  "codStatus": 1,\n  "descStatus": "Sucesso",\n  "endOfTable": true,\n  "qtdeRegistros": 1,\n  "idProxPagina": 0,\n  "idCampanha": 12,\n  "ligacoesDetalhadas": [{\n    "idLigacao": 8888,\n    "telefone": "11999999999",\n    "nomeCliente": "Cliente Genérico"\n  }]\n}`,
                         params: [
                             { name: "idCampanha", req: "Obrigatório", desc: "ID identificador único da campanha." },
                             { name: "periodoInicial", req: "Obrigatório*", desc: "Data inicial do filtro de chamadas." },
@@ -566,8 +563,8 @@
                         id: "rel-receptivo", title: "Relatório - Ligações Receptivas", method: "POST", acceptsGet: true, url: "https://argus.app.br/apiargus/report/receptivo", getUrl: "https://argus.app.br/apiargus/report/receptivo?idCampanha=&idServico=&periodoInicial=&periodoFinal=&ultimosMinutos=",
                         desc: "Retorna em JSON o relatório de chamadas de entrada no receptivo. Intervalo máximo de 31 dias, limite de 15.000 linhas por bloco.<br><br>Fim dos registros sinalizado por \"endOfTable\": True ou \"idProxPagina\": 0.", 
                         hasBody: true, 
-                        rawPayload: `{\n  "idCampanha": int,\n  "idServico": int,\n  "periodoInicial": datetime,\n  "periodoFinal": datetime,\n  "ultimosMinutos": int,\n  "ultimoId": int\n}`,
-                        rawResponse: `{\n  "codStatus": int,\n  "descStatus": string,\n  "endOfTable": boolean,\n  "qtdeRegistros": int,\n  "idProxPagina": int,\n  "idCampanha": int,\n  "receptivos": [{...}]\n}`,
+                        rawPayload: `{\n  "idCampanha": 12,\n  "periodoInicial": "2026-08-01T00:00:00-03:00",\n  "periodoFinal": "2026-08-01T23:59:59-03:00",\n  "ultimosMinutos": 0\n}`,
+                        rawResponse: `{\n  "codStatus": 1,\n  "descStatus": "Sucesso",\n  "endOfTable": true,\n  "qtdeRegistros": 1,\n  "idProxPagina": 0,\n  "idCampanha": 12,\n  "receptivos": [{\n    "telefone": "11999999999",\n    "duracao": 45\n  }]\n}`,
                         params: [
                             { name: "idCampanha", req: "Obrigatório", desc: "ID identificador da campanha." },
                             { name: "idServico", req: "Opcional", desc: "ID do serviço atrelado ao número de recepção." }
@@ -577,8 +574,8 @@
                         id: "rel-tabulacoes", title: "Relatório - Tabulações Detalhadas", method: "POST", acceptsGet: true, url: "https://argus.app.br/apiargus/report/tabulacoesdetalhadas", getUrl: "https://argus.app.br/apiargus/report/tabulacoesdetalhadas?idCampanha=&idTabulacao=&idGrupoUsuario=&idUsuario=&idLote=&periodoInicial=&periodoFinal=&ultimosMinutos=",
                         desc: "Retorna histórico detalhado das ações do operador. Se 'exibirUltTabulacao' for true, trará unicamente a última interação histórica de cada lead.<br><br>Fim dos registros sinalizado por \"endOfTable\": True ou \"idProxPagina\": 0.", 
                         hasBody: true, 
-                        rawPayload: `{\n  "idCampanha": int,\n  "idTabulacao": int,\n  "idGrupoUsuario": int,\n  "idUsuario": int,\n  "idLote": int,\n  "exibirUltTabulacao": boolean,\n  "periodoInicial": datetime,\n  "periodoFinal": datetime,\n  "ultimosMinutos": int,\n  "ultimoId": int\n}`,
-                        rawResponse: `{\n  "codStatus": int,\n  "descStatus": string,\n  "endOfTable": boolean,\n  "qtdeRegistros": int,\n  "idProxPagina": int,\n  "idCampanha": int,\n  "tabulacoes": [{...}]\n}`,
+                        rawPayload: `{\n  "idCampanha": 12,\n  "exibirUltTabulacao": true,\n  "periodoInicial": "2026-08-01T00:00:00-03:00",\n  "periodoFinal": "2026-08-01T23:59:59-03:00"\n}`,
+                        rawResponse: `{\n  "codStatus": 1,\n  "descStatus": "Sucesso",\n  "endOfTable": true,\n  "qtdeRegistros": 1,\n  "idProxPagina": 0,\n  "idCampanha": 12,\n  "tabulacoes": [{\n    "idTabulacao": 22,\n    "tabulacaoDesc": "Venda Realizada"\n  }]\n}`,
                         params: [
                             { name: "idCampanha", req: "Obrigatório", desc: "ID identificador de campanha." },
                             { name: "exibirUltTabulacao", req: "Obrigatório*", desc: "True: Apenas o estado final. False: Histórico granular completo." }
@@ -588,32 +585,32 @@
                         id: "rel-pausas", title: "Relatório - Pausas Detalhadas dos Operadores", method: "POST", acceptsGet: true, url: "https://argus.app.br/apiargus/report/pausasdetalhadas", getUrl: "https://argus.app.br/apiargus/report/pausasdetalhadas?idCampanha=&periodoInicial=&periodoFinal=&ultimosMinutos=",
                         desc: "Retorna o espelho de pausas aplicadas e tempos produtivos/improdutivos da equipe. Intervalo limite máximo de 90 dias.", 
                         hasBody: true, 
-                        rawPayload: `{\n  "idCampanha": int,\n  "periodoInicial": datetime,\n  "periodoFinal": datetime,\n  "ultimosMinutos": int\n}`,
-                        rawResponse: `{\n  "codStatus": int,\n  "descStatus": string,\n  "endOfTable": boolean,\n  "qtdeRegistros": int,\n  "pausasDetalhadas": [{...}]\n}`,
+                        rawPayload: `{\n  "idCampanha": 12,\n  "periodoInicial": "2026-08-01T00:00:00-03:00",\n  "periodoFinal": "2026-08-01T23:59:59-03:00",\n  "ultimosMinutos": 0\n}`,
+                        rawResponse: `{\n  "codStatus": 1,\n  "descStatus": "Sucesso",\n  "endOfTable": true,\n  "qtdeRegistros": 1,\n  "pausasDetalhadas": [{\n    "nomeOperador": "Operador Genérico",\n    "pausaDesc": "Pausa Lanche"\n  }]\n}`,
                         params: [{ name: "idCampanha", req: "Opcional", desc: "Se omitido, consolida auditoria de todas as campanhas." }]
                     },
                     { 
                         id: "rel-entradasaida", title: "Relatório - Entrada / Saída dos Operadores", method: "POST", acceptsGet: true, url: "https://argus.app.br/apiargus/report/entradasaida", getUrl: "https://argus.app.br/apiargus/report/entradasaida?idCampanha=&periodoInicial=&periodoFinal=&ultimosMinutos=",
                         desc: "Retorna dados de login, logoff e controle de ponto de conexões de telefonia da operação. Máximo de 30 dias de histórico.", 
                         hasBody: true, 
-                        rawPayload: `{\n  "idCampanha": int,\n  "periodoInicial": datetime,\n  "periodoFinal": datetime,\n  "ultimosMinutos": int\n}`,
-                        rawResponse: `{\n  "codStatus": int,\n  "descStatus": string,\n  "endOfTable": boolean,\n  "qtdeRegistros": int,\n  "entradasSaidas": [{...}]\n}`,
+                        rawPayload: `{\n  "idCampanha": 12,\n  "periodoInicial": "2026-08-01T00:00:00-03:00",\n  "periodoFinal": "2026-08-01T23:59:59-03:00"\n}`,
+                        rawResponse: `{\n  "codStatus": 1,\n  "descStatus": "Sucesso",\n  "endOfTable": true,\n  "qtdeRegistros": 1,\n  "entradasSaidas": [{\n    "nomeOperador": "Operador Genérico",\n    "evento": "LOGIN"\n  }]\n}`,
                         params: [{ name: "idCampanha", req: "Opcional", desc: "Filtra por campanha ou traz unificado corporativo." }]
                     },
                     { 
                         id: "rel-desempenho", title: "Relatório - Desempenho Resumido dos Operadores", method: "POST", acceptsGet: true, url: "https://argus.app.br/apiargus/report/desempenhoresumido", getUrl: "https://argus.app.br/apiargus/report/desempenhoresumido?idCampanha=&periodoInicial=&periodoFinal=&ultimosMinutos=",
                         desc: "Consolidado de KPIs operacionais (Quantidade de ligações, taxas de sucesso, TMA, TME) por grupo ou operador.", 
                         hasBody: true, 
-                        rawPayload: `{\n  "idCampanha": int,\n  "idGrupoUsuario": int,\n  "periodoInicial": datetime,\n  "periodoFinal": datetime,\n  "ultimosMinutos": int\n}`,
-                        rawResponse: `{\n  "codStatus": int,\n  "descStatus": string,\n  "endOfTable": boolean,\n  "qtdeRegistros": int,\n  "desempenhosResumidos": [{...}]\n}`,
+                        rawPayload: `{\n  "idCampanha": 12,\n  "periodoInicial": "2026-08-01T00:00:00-03:00",\n  "periodoFinal": "2026-08-01T23:59:59-03:00"\n}`,
+                        rawResponse: `{\n  "codStatus": 1,\n  "descStatus": "Sucesso",\n  "endOfTable": true,\n  "qtdeRegistros": 1,\n  "desempenhosResumidos": [{\n    "nomeOperador": "Operador Genérico",\n    "totalAtendidas": 150\n  }]\n}`,
                         params: [{ name: "idGrupoUsuario", req: "Opcional", desc: "Filtra a volumetria performada por uma célula operacional específica." }]
                     },
                     { 
                         id: "rel-mailings", title: "Relatório - Mailings Habilitados no Discador", method: "POST", url: "https://argus.app.br/apiargus/report/mailingsdiscador", 
                         desc: "Lista os mailings atualmente ativos e injetados na esteira do discador preditivo automatizado.", 
                         hasBody: true, 
-                        rawPayload: `{\n  "idCampanha": int,\n  "idGrupoUsuario": int,\n  "idSkill": int\n}`,
-                        rawResponse: `{\n  "codStatus": int,    1: Sucesso; < 1 Falha\n  "descStatus": string descrição do sucesso/falha\n}`,
+                        rawPayload: `{\n  "idCampanha": 12\n}`,
+                        rawResponse: `{\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Sucesso" // descrição do sucesso/falha\n}`,
                         params: [{ name: "idCampanha", req: "Obrigatório", desc: "Identificador da campanha ativa." }]
                     }
                 ]
@@ -625,19 +622,19 @@
                         id: "wh-inicio", title: "Webhook - Início do Atendimento", method: "POST", url: "https://sua-url-de-callback.com.br", 
                         desc: "Disparado instantaneamente para seu sistema legado configurado no momento em que um operador humano aceita ou conecta-se a uma chamada válida.", 
                         hasBody: true, isWebhook: true, 
-                        rawPayload: `{\n  "idTipoWebhook": 1,\n  "idDominio": int,\n  "idCampanha": int,\n  "idSkill": int,\n  "idLote": int,\n  "nrLead": int,\n  "codCliente": string,\n  "nomeCliente": string,\n  "cpfCnpj": string,\n  "codUsuarioIntegracao": string,\n  "nomeUsuario": string,\n  "idLigacao": int,\n  "dataInicioLigacao": date,\n  "telefone": string\n}`
+                        rawPayload: `{\n  "idDominio": 999, // Código do domínio\n  "idCampanha": 1, // ID da Campanha\n  "idSkill": 1, // ID do Skill\n  "idLote": 1, // ID do Lote\n  "nrPlan": 123456, // Número do plano/lead\n  "codCliente": "",\n  "nomeCliente": "",\n  "cpfCnpj": "",\n  "codUsuarioIntegracao": "000000",\n  "nomeUsuario": "OPERADOR GENERICO",\n  "idLigacao": 8888,\n  "dataInicioLigacao": "2026-08-01T14:30:00.000Z",\n  "telefone": "11999999999",\n  "telefoneE164": "5511999999999",\n  "idTipoWebhook": 1\n}`
                     },
                     { 
                         id: "wh-tabulacao", title: "Webhook - Tabulação do Operador", method: "POST", url: "https://sua-url-de-callback.com.br", 
                         desc: "Dispara as tabulações e históricos digitados ou gerados em tela em tempo real para controle de encerramento do CRM proprietário.", 
                         hasBody: true, isWebhook: true, 
-                        rawPayload: `{\n  "idTipoWebhook": 2,\n  "idDominio": int,\n  "idCampanha": int,\n  "idSkill": int,\n  "idLote": int,\n  "nrLead": int,\n  "codCliente": string,\n  "nomeCliente": string,\n  "cpfCnpj": string,\n  "codUsuarioIntegracao": string,\n  "nomeUsuario": string,\n  "idLigacao": int,\n  "dataInicioLigacao": date,\n  "dataFimLigacao": date,\n  "tempoLigacao": int,\n  "telefone": string,\n  "dataTabulacao": date,\n  "idTabulacao": string,\n  "codIntegTabulacao": string,\n  "tabulacaoDesc": string,\n  "idTipoAgenda": string,\n  "tipoAgendaDesc": string,\n  "dataAgendamento": date,\n  "historico": string\n}`
+                        rawPayload: `{\n  "idDominio": 999,\n  "idCampanha": 1,\n  "idSkill": 1,\n  "idLote": 1,\n  "nrPlan": 123456,\n  "codCliente": "",\n  "nomeCliente": "",\n  "cpfCnpj": "",\n  "codUsuarioIntegracao": "000000",\n  "nomeUsuario": "OPERADOR GENERICO",\n  "idLigacao": 8888,\n  "dataInicioLigacao": "2026-08-01T14:30:00.000Z",\n  "dataFimLigacao": "2026-08-01T14:35:00.000Z",\n  "tempoLigacao": 300,\n  "telefone": "11999999999",\n  "telefoneE164": "5511999999999",\n  "dataTabulacao": "2026-08-01T14:35:10.000Z",\n  "idTabulacao": 55,\n  "codIntegTabulacao": "",\n  "tabulacaoDesc": "VENDA REALIZADA COM SUCESSO",\n  "idTipoAgenda": 5,\n  "tipoAgendaDesc": "FINALIZADO",\n  "dataAgendamento": "",\n  "historico": "",\n  "idTipoWebhook": 2\n}`
                     },
                     { 
-                        id: "wh-virtual-atend", title: "Webhook - Agente Virtual: Atendimento", method: "POST", url: "https://sua-url-de-callback.com.br", 
-                        desc: "Gatilho acionado quando a interação do bot evolui para uma solicitação explícita de Derivação Humana/Atendimento.", 
+                        id: "wh-virtual-atend", title: "Webhook - Oper. Virtual: Solicitação de atendimento", method: "POST", url: "https://sua-url-de-callback.com.br", 
+                        desc: "Gatilho acionado quando a interação do bot evolui para uma solicitação genérica de Derivação Humana/Atendimento, aguardando status de fila.", 
                         hasBody: true, isWebhook: true, 
-                        rawPayload: `{\n  "idTipoWebhook": 4,\n  "idDominio": int,\n  "idCampanha": int,\n  "idGrupoUsuario": int,\n  "idSkill": int,\n  "idLote": int,\n  "nrLead": int,\n  "codCliente": string,\n  "nomeCliente": string,\n  "cpfCnpj": string,\n  "idLigacao": int,\n  "telefone": string,\n  "dataInicioOperVirtual": date,\n  "acionouRecusa": boolean,\n  "acionouDerivacao": boolean,\n  "dataInicioFila": date,\n  "posicaoFila": int,\n  "tempoSegundosFila": int,\n  "idConclusaoDerivacao": int,\n  "conclusaoDerivacaoDesc": string,\n  "codUsuarioIntegracao": string,\n  "nomeUsuario": string\n}`,
+                        rawPayload: `{\n  "idDominio": 999,\n  "idCampanha": 1,\n  "idGrupoUsuario": 10,\n  "idSkill": 1,\n  "idLote": 1,\n  "nrPlan": 123456,\n  "codCliente": "",\n  "nomeCliente": "",\n  "cpfCnpj": "",\n  "idLigacao": 8888,\n  "telefone": "11999999999",\n  "telefoneE164": "5511999999999",\n  "dataInicioOperVirtual": "2026-08-01T14:30:00.000-03:00",\n  "acionouRecusa": false,\n  "acionouDerivacao": true,\n  "dataInicioFila": "2026-08-01T14:30:15.000-03:00",\n  "posicaoFila": 1,\n  "tempoSegundosFila": 10,\n  "idConclusaoDerivacao": 0,\n  "conclusaoDerivacaoDesc": "",\n  "codUsuarioIntegracao": "",\n  "nomeUsuario": "",\n  "idTipoWebhook": 4\n}`,
                         responseParams: [
                             { name: "idConclusaoDerivacao = 1", desc: "DERIVOU" },
                             { name: "idConclusaoDerivacao = 2", desc: "ABANDONOU FILA" },
@@ -646,16 +643,28 @@
                         ]
                     },
                     { 
-                        id: "wh-virtual-recusa", title: "Webhook - Agente Virtual: Recusa", method: "POST", url: "https://sua-url-de-callback.com.br", 
-                        desc: "Dispara dados quando o lead desliga ou aciona a opção lógica de recusa direta dentro da árvore conversacional do agente inteligente.", 
+                        id: "wh-virtual-abandono", title: "Webhook - Oper. virtual: Solicitou atendimento (abandono)", method: "POST", url: "https://sua-url-de-callback.com.br", 
+                        desc: "Acionado quando o lead interage e solicita atendimento humano, porém abandona ou o sistema não encontra agentes (Sem Agente/Time-Out).", 
                         hasBody: true, isWebhook: true, 
-                        rawPayload: `{\n  "idTipoWebhook": 6,\n  "idDominio": int,\n  "idCampanha": int,\n  "idGrupoUsuario": int,\n  "idSkill": int,\n  "idLote": int,\n  "nrLead": int,\n  "codCliente": string,\n  "nomeCliente": string,\n  "cpfCnpj": string,\n  "idLigacao": int,\n  "telefone": string,\n  "dataInicioOperVirtual": date,\n  "acionouRecusa": true,\n  "acionouDerivacao": false\n}`
+                        rawPayload: `{\n  "idDominio": 999,\n  "idCampanha": 1,\n  "idGrupoUsuario": 10,\n  "idSkill": 1,\n  "idLote": 1,\n  "nrPlan": 123456,\n  "codCliente": "",\n  "nomeCliente": "",\n  "cpfCnpj": "",\n  "idLigacao": 8888,\n  "telefone": "11999999999",\n  "telefoneE164": "5511999999999",\n  "dataInicioOperVirtual": "2026-08-01T14:30:00.000-03:00",\n  "acionouRecusa": false,\n  "acionouDerivacao": true,\n  "dataInicioFila": "2026-08-01T14:30:15.000-03:00",\n  "posicaoFila": 0,\n  "tempoSegundosFila": 0,\n  "idConclusaoDerivacao": 4,\n  "conclusaoDerivacaoDesc": "SEM AGENTE",\n  "codUsuarioIntegracao": "",\n  "nomeUsuario": "",\n  "idTipoWebhook": 4\n}`
                     },
                     { 
-                        id: "wh-ura", title: "Webhook - Receptivo: Encerramento URA", method: "POST", url: "https://sua-url-de-callback.com.br", 
+                        id: "wh-virtual-derivou", title: "Webhook - Oper. Virtual solicitou atendimento (Derivou)", method: "POST", url: "https://sua-url-de-callback.com.br", 
+                        desc: "Acionado quando o lead solicita ser atendido e é efetivamente derivado/conectado a um atendente humano.", 
+                        hasBody: true, isWebhook: true, 
+                        rawPayload: `{\n  "idDominio": 999,\n  "idCampanha": 1,\n  "idGrupoUsuario": 10,\n  "idSkill": 1,\n  "idLote": 1,\n  "nrPlan": 123456,\n  "codCliente": "",\n  "nomeCliente": "",\n  "cpfCnpj": "",\n  "idLigacao": 8888,\n  "telefone": "11999999999",\n  "telefoneE164": "5511999999999",\n  "dataInicioOperVirtual": "2026-08-01T14:30:00.000-03:00",\n  "acionouRecusa": false,\n  "acionouDerivacao": true,\n  "dataInicioFila": "2026-08-01T14:30:15.000-03:00",\n  "posicaoFila": 1,\n  "tempoSegundosFila": 5,\n  "idConclusaoDerivacao": 1,\n  "conclusaoDerivacaoDesc": "DERIVOU",\n  "codUsuarioIntegracao": "000000",\n  "nomeUsuario": "OPERADOR GENERICO",\n  "idTipoWebhook": 4\n}`
+                    },
+                    { 
+                        id: "wh-virtual-recusa", title: "Webhook - Oper. Virtual Solicitou Recusa", method: "POST", url: "https://sua-url-de-callback.com.br", 
+                        desc: "Dispara dados quando o lead desliga ou aciona a opção lógica de recusa direta dentro da árvore conversacional do agente inteligente.", 
+                        hasBody: true, isWebhook: true, 
+                        rawPayload: `{\n  "idDominio": 999,\n  "idCampanha": 1,\n  "idGrupoUsuario": 10,\n  "idSkill": 1,\n  "idLote": 1,\n  "nrPlan": 123456,\n  "codCliente": "",\n  "nomeCliente": "",\n  "cpfCnpj": "",\n  "idLigacao": 8888,\n  "telefone": "11999999999",\n  "telefoneE164": "5511999999999",\n  "dataInicioOperVirtual": "2026-08-01T14:30:00.000-03:00",\n  "acionouRecusa": true,\n  "acionouDerivacao": false,\n  "idTipoWebhook": 6\n}`
+                    },
+                    { 
+                        id: "wh-ura", title: "Webhook - Encerramento URA", method: "POST", url: "https://sua-url-de-callback.com.br", 
                         desc: "Disparado no desligamento ou transbordo da URA receptiva estruturada. Registro fundamental para monitorar taxas de abandono pré-atendimento.", 
                         hasBody: true, isWebhook: true, 
-                        rawPayload: `{\n  "idTipoWebhook": 5,\n  "idDominio": int,\n  "idCampanha": int,\n  "dataInicioUra": date,\n  "idServico": int,\n  "servicoDesc": string,\n  "servicoNumero": string,\n  "tempoUraSegundos": int,\n  "telefone": string,\n  "foraHorario": boolean,\n  "idConclusaoDerivacao": int,\n  "conclusaoDerivacaoDesc": string,\n  "posicaoFila": int,\n  "tempoFilaSegundos": int,\n  "codUsuarioIntegracao": string,\n  "nomeUsuario": string\n}`,
+                        rawPayload: `{\n  "idTipoWebhook": 5,\n  "idDominio": 999,\n  "idCampanha": 1,\n  "dataInicioUra": "2026-08-01T14:30:00.000Z",\n  "idServico": 10,\n  "servicoDesc": "Atendimento Receptivo",\n  "servicoNumero": "08000000000",\n  "tempoUraSegundos": 45,\n  "telefone": "11999999999",\n  "foraHorario": false,\n  "idConclusaoDerivacao": 1,\n  "conclusaoDerivacaoDesc": "DERIVOU",\n  "posicaoFila": 1,\n  "tempoFilaSegundos": 5,\n  "codUsuarioIntegracao": "000000",\n  "nomeUsuario": "OPERADOR GENERICO"\n}`,
                         responseParams: [
                             { name: "idConclusaoDerivacao = 1", desc: "DERIVOU" },
                             { name: "idConclusaoDerivacao = 2", desc: "ABANDONOU FILA" },
@@ -664,10 +673,16 @@
                         ]
                     },
                     { 
-                        id: "wh-lead", title: "Webhook - Recebimento de Lead", method: "POST", url: "https://sua-url-de-callback.com.br", 
+                        id: "wh-lead", title: "Webhook - Recebimento de Lead (Landing Page)", method: "POST", url: "https://sua-url-de-callback.com.br", 
                         desc: "Auditoria disparada de volta sempre que a API recebe um lead unitário externo via injeção da rota '/novo'.", 
                         hasBody: true, isWebhook: true, 
-                        rawPayload: `{\n  "idTipoWebhook": 7,\n  "idDominio": int,\n  "idCampanha": int,\n  "idSkill": int,\n  "idLote": int,\n  "nrLead": int,\n  "codCliente": string,\n  "nome": string,\n  "telefone1": string,\n  "telefone2": string,\n  "email": string,\n  "cpfCnpj": string,\n  "cep": string,\n  "logradouro": string\n}`
+                        rawPayload: `{\n  "idTipoWebhook": 7,\n  "idDominio": 999,\n  "idCampanha": 1,\n  "idSkill": 1,\n  "idLote": 1,\n  "nrLead": 1234567,\n  "codCliente": "C-9999",\n  "nome": "Cliente Genérico",\n  "telefone1": "11999999999",\n  "telefone2": "",\n  "email": "cliente@email.com",\n  "cpfCnpj": "00000000000",\n  "cep": "00000-000",\n  "logradouro": "Rua Exemplo"\n}`
+                    },
+                    { 
+                        id: "wh-disparo-manual", title: "Webhook - Disparo manual via Operador", method: "POST", url: "https://sua-url-de-callback.com.br", 
+                        desc: "Disparado quando a ligação é iniciada manualmente pelo Operador através da interface do sistema.", 
+                        hasBody: true, isWebhook: true, 
+                        rawPayload: `{\n  "idDominio": 999,\n  "idCampanha": 1,\n  "idSkill": 1,\n  "idLote": 1,\n  "nrPlan": 123456,\n  "codCliente": "",\n  "nomeCliente": "",\n  "cpfCnpj": "",\n  "codUsuarioIntegracao": "000000",\n  "nomeUsuario": "OPERADOR GENERICO",\n  "idLigacao": 0,\n  "dataInicioLigacao": "",\n  "telefone": "11999999999",\n  "telefoneE164": "5511999999999",\n  "idTipoWebhook": 11\n}`
                     }
                 ]
             },
@@ -694,7 +709,7 @@
             };
 
             apiData.forEach(category => {
-                if (category.category === "Observações Gerais" || category.category === "Guia de Integração" || category.category === "Webhooks") return;
+                if (category.category === "Observações Gerais" || category.category === "Guia de Integração" || category.category === "Webhooks" || category.category === "Autenticação") return;
                 
                 const folder = { name: category.category, item: [] };
                 category.items.forEach(endpoint => {
@@ -795,6 +810,8 @@
                         methodBadges = `<div class="w-[60px] shrink-0 flex items-center justify-center rounded bg-blue-500/10 border border-blue-500/20 py-1 text-[9px] font-bold text-blue-500 shadow-sm">POST</div>`;
                     } else if (item.method === 'GET') {
                         methodBadges = `<div class="w-[60px] shrink-0 flex items-center justify-center rounded bg-emerald-500/10 border border-emerald-500/20 py-1 text-[9px] font-bold text-emerald-500 shadow-sm">GET</div>`;
+                    } else if (item.method === 'INFO') {
+                        methodBadges = `<div class="w-[60px] shrink-0 flex items-center justify-center rounded bg-emerald-500/10 border border-emerald-500/20 py-1 text-[9px] font-bold text-emerald-500 shadow-sm"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div>`;
                     } else {
                         methodBadges = `<div class="w-[60px] shrink-0"></div>`;
                     }
@@ -810,9 +827,7 @@
                     `;
                     link.onclick = (e) => { 
                         e.preventDefault();
-                        document.querySelectorAll('.menu-link').forEach(el => el.classList.remove('active'));
-                        link.classList.add('active');
-                        loadDocumentation(item); 
+                        goToEndpoint(item.id);
                     };
                     linksContainer.appendChild(link);
                 });
@@ -834,6 +849,12 @@
                 line = line.replace(/("[^"]+"):/g, '<span style="color: var(--syn-key);">$1</span>:');
                 line = line.replace(/:\s*(int|string|double|date|boolean|bool|datetime|\[string\]|\[\])(,?)/g, ': <span style="color: var(--syn-type); font-weight: 500;">$1</span>$2');
                 line = line.replace(/(:\s*<span[^>]+>[^<]+<\/span>,?)\s+(.+)$/, '$1 <span style="color: var(--syn-comment); font-style: italic;">$2</span>');
+                
+                // Formatação para comentários com "//"
+                if (line.includes('//')) {
+                    line = line.replace(/(\/\/.*)$/, '<span style="color: var(--syn-comment); font-style: italic;">$1</span>');
+                }
+                
                 if(line.trim().startsWith('//')) {
                     line = `<span style="color: var(--syn-comment); font-style: italic;">${line}</span>`;
                 }
@@ -853,11 +874,17 @@
             );
         }
 
-        // Função responsável por gerar um JSON perfeitamente válido para os Snippets e Postman
         function buildCleanJSON(raw) {
             if (!raw) return "";
             let lines = raw.split('\n');
             let clean = lines.map(line => {
+                // Remove comentários do payload limpo gerado para o Postman e Snippets
+                let commentIdx = line.indexOf('//');
+                if (commentIdx !== -1) {
+                    let beforeComment = line.substring(0, commentIdx).trimEnd();
+                    line = beforeComment;
+                }
+                
                 let idx = line.indexOf(':');
                 if (idx === -1) return line;
                 
@@ -904,7 +931,7 @@
             }
 
             // Tratamento para telas que não precisam de código multi-lang
-            if (item.isWebhook || item.id === 'quick-start' || item.id === 'obs-gerais' || (!item.method && !item.url)) {
+            if (item.isWebhook || item.id === 'quick-start' || item.id === 'obs-gerais' || (!item.method && !item.url) || item.method === 'INFO') {
                 if (item.hasBody && item.rawPayload) {
                     const cIdBody = 'snip_' + Math.random().toString(36).substr(2, 9);
                     window.snippetCache[cIdBody] = item.rawPayload;
@@ -932,38 +959,37 @@
                 { id: 'php', name: 'PHP', icon: '<svg class="w-4 h-3.5" viewBox="0 0 128 128"><path fill="currentColor" d="M125 54c-2-8-9-14-19-14H85L79 70c-1 3-3 5-7 5H64l5-21H48l-5 21H34l6-25H21c-14 0-22 9-22 19 0 3 1 7 2 10 2 8 9 14 19 14h21l-5 16h17l4-16h8c14 0 22-9 22-19l-4 16h17l5-21h10l-6 25h17l5-21c1 0 1-1 1-1v-4c0-3-1-6-2-9zM24 70c-3 0-5-2-5-5s2-5 5-5h10l-2 10H24zm69 0c-3 0-5-2-5-5s2-5 5-5h10l-2 10H93z"/></svg>' },
                 { id: 'curl', name: 'cURL', icon: '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M4 17h16a2 2 0 002-2V9a2 2 0 00-2-2H4a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>' }
             ];
-            let tabsHTML = `<div class="flex gap-1 bg-black/40 p-2 rounded-t-xl border-b border-[var(--border-color)]">`;
+            let tabsHTML = `<div class="flex gap-1 bg-black/40 p-2 rounded-t-xl border-b border-[var(--border-color)] overflow-x-auto">`;
             langs.forEach(l => {
                 const active = window.currentLang === l.id ? "bg-[var(--hover-bg)] text-white shadow-sm border border-white/5" : "text-[var(--text-muted)] hover:text-white hover:bg-[var(--hover-bg)] border border-transparent";
-                tabsHTML += `<button onclick="changeLang('${l.id}')" class="px-4 py-1.5 text-[12px] font-semibold rounded-lg transition-colors flex items-center gap-1.5 ${active}">${l.icon} ${l.name}</button>`;
+                tabsHTML += `<button onclick="changeLang('${l.id}')" class="px-4 py-1.5 text-[12px] font-semibold rounded-lg transition-colors flex items-center gap-1.5 shrink-0 ${active}">${l.icon} ${l.name}</button>`;
             });
             tabsHTML += `</div>`;
 
             let code = "";
             let cleanPayload = buildCleanJSON(item.rawPayload);
             if (window.currentLang === 'curl') {
-                code = `curl --request ${item.method} \\\n  --url ${item.url} \\\n  --header 'Content-Type: application/json' \\\n  --header 'Token-Signature: YOUR_TOKEN'`;
+                code = `curl --request ${item.method} \\\n  --url ${item.url} \\\n  --header 'Content-Type: application/json' \\\n  --header 'Token-Signature: SEU_TOKEN_AQUI'`;
                 if (item.hasBody && cleanPayload) code += ` \\\n  --data '${cleanPayload.replace(/\n/g, '')}'`;
             } else if (window.currentLang === 'nodejs') {
-                code = `const url = '${item.url}';\nconst options = {\n  method: '${item.method}',\n  headers: {\n    'Token-Signature': 'YOUR_TOKEN',\n    'Content-Type': 'application/json'\n  }`;
+                code = `const url = '${item.url}';\nconst options = {\n  method: '${item.method}',\n  headers: {\n    'Token-Signature': 'SEU_TOKEN_AQUI',\n    'Content-Type': 'application/json'\n  }`;
                 if (item.hasBody && cleanPayload) code += `,\n  body: JSON.stringify(${cleanPayload})`;
                 code += `\n};\n\nfetch(url, options)\n  .then(res => res.json())\n  .then(json => console.log(json))\n  .catch(err => console.error('error:' + err));`;
             } else if (window.currentLang === 'python') {
-                code = `import requests\n\nurl = "${item.url}"\n\nheaders = {\n    "Token-Signature": "YOUR_TOKEN",\n    "Content-Type": "application/json"\n}\n`;
+                code = `import requests\n\nurl = "${item.url}"\n\nheaders = {\n    "Token-Signature": "SEU_TOKEN_AQUI",\n    "Content-Type": "application/json"\n}\n`;
                 if (item.hasBody && cleanPayload) code += `\npayload = ${cleanPayload}\n\nresponse = requests.${item.method.toLowerCase()}(url, json=payload, headers=headers)`;
                 else code += `\nresponse = requests.${item.method.toLowerCase()}(url, headers=headers)`;
                 code += `\n\nprint(response.json())`;
             } else if (window.currentLang === 'php') {
                 code = `<?php\n\n$curl = curl_init();\n\ncurl_setopt_array($curl, [\n  CURLOPT_URL => "${item.url}",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_CUSTOMREQUEST => "${item.method}",\n`;
                 if (item.hasBody && cleanPayload) code += `  CURLOPT_POSTFIELDS => '${cleanPayload.replace(/\n/g, ' ')}',\n`;
-                code += `  CURLOPT_HTTPHEADER => [\n    "Token-Signature: YOUR_TOKEN",\n    "Content-Type: application/json"\n  ],\n]);\n\n$response = curl_exec($curl);\ncurl_close($curl);\n\necho $response;`;
+                code += `  CURLOPT_HTTPHEADER => [\n    "Token-Signature: SEU_TOKEN_AQUI",\n    "Content-Type: application/json"\n  ],\n]);\n\n$response = curl_exec($curl);\ncurl_close($curl);\n\necho $response;`;
             }
 
             window.currentRawSnippetText = code;
             const cIdCode = 'snip_code_' + item.id;
             window.snippetCache[cIdCode] = code;
 
-            // Formatação sintática
             let formattedCode = escapeHTML(code);
             formattedCode = formattedCode.replace(/('.*?'|".*?")/g, '<span style="color: var(--syn-string);">$1</span>');
 
@@ -988,17 +1014,17 @@
             let paramsTable = "";
             if (item.params && item.params.length > 0) {
                 let rows = item.params.map(p => `
-                    <tr class="border-b border-[var(--border-color)] hover:bg-[var(--hover-bg)] transition-colors">
-                        <td class="py-4 px-5 font-mono text-[var(--text-main)] text-[12px] align-top w-1/4 break-words font-medium">${p.name}</td>
-                        <td class="py-4 px-5 text-[12px] align-top w-1/4 ${p.req.includes('Obrigatório') ? 'text-rose-500 font-semibold' : 'text-[var(--text-muted)]'}">${p.req}</td>
-                        <td class="py-4 px-5 text-[13px] text-[var(--text-muted)] align-top leading-relaxed w-2/4">${p.desc}</td>
+                    <tr class="border-b border-[var(--border-color)] hover:bg-[var(--hover-bg)] transition-colors flex flex-col md:table-row">
+                        <td class="py-2 md:py-4 px-5 font-mono text-[var(--text-main)] text-[12px] align-top md:w-1/4 break-words font-medium">${p.name}</td>
+                        <td class="py-1 md:py-4 px-5 text-[12px] align-top md:w-1/4 ${p.req.includes('Obrigatório') ? 'text-rose-500 font-semibold' : 'text-[var(--text-muted)]'}">${p.req}</td>
+                        <td class="py-2 md:py-4 px-5 text-[13px] text-[var(--text-muted)] align-top leading-relaxed md:w-2/4">${p.desc}</td>
                     </tr>`).join("");
                 paramsTable = `
-                    <div class="mt-10 animate-fade-in" style="animation-delay: 0.1s;">
+                    <div class="mt-10 animate-fade-in overflow-x-auto" style="animation-delay: 0.1s;">
                         <h4 class="text-[11px] font-bold text-[var(--text-main)] mb-3 uppercase tracking-[0.15em]">Parâmetros de Entrada</h4>
-                        <div class="border border-[var(--border-color)] rounded-xl overflow-hidden bg-[var(--bg-card)] shadow-md">
+                        <div class="border border-[var(--border-color)] rounded-xl overflow-hidden bg-[var(--bg-card)] shadow-md min-w-[300px]">
                             <table class="w-full text-left border-collapse">
-                                <thead class="bg-[var(--table-header)] border-b border-[var(--border-color)]">
+                                <thead class="bg-[var(--table-header)] border-b border-[var(--border-color)] hidden md:table-header-group">
                                     <tr class="text-[10px] text-[var(--text-muted)] uppercase tracking-widest">
                                         <th class="py-3 px-5 font-bold">Atributo</th>
                                         <th class="py-3 px-5 font-bold">Obrigatoriedade</th>
@@ -1014,16 +1040,16 @@
             let responseTable = "";
             if (item.responseParams && item.responseParams.length > 0) {
                 let rRows = item.responseParams.map(r => `
-                    <tr class="border-b border-[var(--border-color)] hover:bg-[var(--hover-bg)] transition-colors">
-                        <td class="py-4 px-5 font-mono text-[var(--text-main)] text-[12px] font-semibold align-top w-1/3">${r.name}</td>
-                        <td class="py-4 px-5 text-[13px] text-[var(--text-muted)] align-top leading-relaxed w-2/3">${r.desc}</td>
+                    <tr class="border-b border-[var(--border-color)] hover:bg-[var(--hover-bg)] transition-colors flex flex-col md:table-row">
+                        <td class="py-2 md:py-4 px-5 font-mono text-[var(--text-main)] text-[12px] font-semibold align-top md:w-1/3">${r.name}</td>
+                        <td class="py-2 md:py-4 px-5 text-[13px] text-[var(--text-muted)] align-top leading-relaxed md:w-2/3">${r.desc}</td>
                     </tr>`).join("");
-                responseTable = `
-                    <div class="mt-8 animate-fade-in" style="animation-delay: 0.15s;">
-                        <h4 class="text-[11px] font-bold text-[var(--text-main)] mb-3 uppercase tracking-[0.15em]">Dicionário de Status</h4>
-                        <div class="border border-[var(--border-color)] rounded-xl overflow-hidden bg-[var(--bg-card)] shadow-md">
+                responseTable += `
+                    <div class="mt-8 animate-fade-in overflow-x-auto" style="animation-delay: 0.15s;">
+                        <h4 class="text-[11px] font-bold text-[var(--text-main)] mb-3 uppercase tracking-[0.15em]">Dicionário de Status da Categoria</h4>
+                        <div class="border border-[var(--border-color)] rounded-xl overflow-hidden bg-[var(--bg-card)] shadow-md min-w-[300px]">
                             <table class="w-full text-left border-collapse">
-                                <thead class="bg-[var(--table-header)] border-b border-[var(--border-color)]">
+                                <thead class="bg-[var(--table-header)] border-b border-[var(--border-color)] hidden md:table-header-group">
                                     <tr class="text-[10px] text-[var(--text-muted)] uppercase tracking-widest">
                                         <th class="py-3 px-5 font-bold">Código / Chave</th>
                                         <th class="py-3 px-5 font-bold">Descrição Detalhada</th>
@@ -1035,29 +1061,53 @@
                     </div>`;
             }
 
+            if (item.agendaParams && item.agendaParams.length > 0) {
+                let aRows = item.agendaParams.map(a => `
+                    <tr class="border-b border-[var(--border-color)] hover:bg-[var(--hover-bg)] transition-colors flex flex-col md:table-row">
+                        <td class="py-2 md:py-4 px-5 font-mono text-[var(--text-main)] text-[12px] font-semibold align-top md:w-1/3 ${a.name.includes('Nota') ? 'text-orange-400' : ''}">${a.name}</td>
+                        <td class="py-2 md:py-4 px-5 text-[13px] text-[var(--text-muted)] align-top leading-relaxed md:w-2/3">${a.desc}</td>
+                    </tr>`).join("");
+                responseTable += `
+                    <div class="mt-8 animate-fade-in overflow-x-auto" style="animation-delay: 0.2s;">
+                        <h4 class="text-[11px] font-bold text-[var(--text-main)] mb-3 uppercase tracking-[0.15em]">Dicionário de Status de Agenda</h4>
+                        <div class="border border-[var(--border-color)] rounded-xl overflow-hidden bg-[var(--bg-card)] shadow-md min-w-[300px]">
+                            <table class="w-full text-left border-collapse">
+                                <thead class="bg-[var(--table-header)] border-b border-[var(--border-color)] hidden md:table-header-group">
+                                    <tr class="text-[10px] text-[var(--text-muted)] uppercase tracking-widest">
+                                        <th class="py-3 px-5 font-bold">Código / Chave</th>
+                                        <th class="py-3 px-5 font-bold">Descrição Detalhada</th>
+                                    </tr>
+                                </thead>
+                                <tbody>${aRows}</tbody>
+                            </table>
+                        </div>
+                    </div>`;
+            }
+
             let endpointBox = "";
-            if (item.url && item.method) {
-                endpointBox = `<div class="flex flex-col gap-3 mb-8">`;
+            if (item.url && item.method && item.method !== 'INFO') {
+                endpointBox = `<div class="flex flex-col gap-3 mb-8 overflow-x-auto pb-2">`;
+                const methodColor = item.method === 'GET' ? 'text-emerald-500' : 'text-blue-500';
                 endpointBox += `
                     <div class="flex items-center gap-4 bg-[var(--bg-card)] border border-[var(--border-color)] p-3.5 rounded-xl w-max shadow-md">
-                        <span class="font-bold text-[12px] text-blue-500 tracking-wider">POST</span>
-                        <span class="font-mono text-[13px] text-[var(--text-muted)]">${item.url}</span>
+                        <span class="font-bold text-[12px] ${methodColor} tracking-wider">${item.method}</span>
+                        <span class="font-mono text-[13px] text-[var(--text-muted)] whitespace-nowrap">${item.url}</span>
                     </div>`;
                 
                 if (item.getUrl) {
                     endpointBox += `
-                        <div class="flex items-center gap-4 bg-[var(--bg-card)] border border-[var(--border-color)] p-3.5 rounded-xl w-max shadow-md">
+                        <div class="flex items-center gap-4 bg-[var(--bg-card)] border border-[var(--border-color)] p-3.5 rounded-xl w-max shadow-md mt-2">
                             <span class="font-bold text-[12px] text-emerald-500 tracking-wider">GET</span>
-                            <span class="font-mono text-[13px] text-[var(--text-muted)]">${item.getUrl}</span>
+                            <span class="font-mono text-[13px] text-[var(--text-muted)] whitespace-nowrap">${item.getUrl}</span>
                         </div>`;
                 }
                 endpointBox += `</div>`;
             }
 
             document.getElementById('doc-content').innerHTML = `
-                <h3 class="text-[26px] font-bold text-[var(--text-main)] mb-5 tracking-tight">${item.title}</h3>
+                <h3 class="text-[22px] md:text-[26px] font-bold text-[var(--text-main)] mb-5 tracking-tight">${item.title}</h3>
                 ${endpointBox}
-                <div class="text-[15px] leading-relaxed text-[var(--text-muted)] animate-fade-in break-words">
+                <div class="text-[14px] md:text-[15px] leading-relaxed text-[var(--text-muted)] animate-fade-in break-words">
                     ${item.desc}
                 </div>
                 ${paramsTable}
