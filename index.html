@@ -84,7 +84,7 @@
         }
     </style>
 </head>
-<body class="h-screen w-screen flex items-center justify-center p-0 lg:p-4 relative overflow-hidden">
+<body class="h-auto min-h-screen w-screen flex items-start lg:items-center justify-center p-0 lg:p-4 relative overflow-y-auto lg:overflow-hidden">
 
     <div class="ambient-glow fixed inset-0 z-0 pointer-events-none overflow-hidden">
         <div class="absolute top-[-20%] left-[-10%] w-[50vw] h-[50vw] bg-[#233b76] rounded-full mix-blend-screen filter blur-[140px] opacity-20 animate-pulse" style="animation-duration: 8s;"></div>
@@ -92,15 +92,19 @@
         <div class="absolute top-[30%] left-[40%] w-[40vw] h-[40vw] bg-[#09142c] rounded-full mix-blend-screen filter blur-[120px] opacity-40"></div>
     </div>
 
-    <div class="w-full max-w-[1600px] h-full lg:h-[95vh] lg:border border-[var(--border-color)] lg:rounded-2xl overflow-y-auto lg:overflow-hidden flex flex-col lg:flex-row shadow-2xl relative z-10 glass-panel">
+    <div class="w-full max-w-[1600px] h-auto lg:h-[95vh] lg:border border-[var(--border-color)] lg:rounded-2xl flex flex-col lg:flex-row shadow-2xl relative z-10 glass-panel">
         
         <aside class="w-full lg:w-[320px] lg:border-r border-b lg:border-b-0 border-[var(--border-color)] flex flex-col shrink-0 lg:h-full h-auto">
-            <div class="h-[76px] flex items-center px-6 border-b border-[var(--border-color)] shrink-0">
-                <div id="logo-container" class="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity" onclick="uploadLogo()">
-                    <img id="logo-img" src="Logo-tema-escuro.png" alt="API Argus" class="h-8 max-w-[160px] object-contain rounded" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIGZpbGw9InRyYW5zcGFyZW50IiByeD0iOCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNHB4IiBmaWxsPSIjOThhMmIzIiBkeT0iLjNlbSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+QVJHVVM8L3RleHQ+PC9zdmc+';">
-                </div>
-            </div>
+            <div class="h-[76px] flex items-center justify-between px-6 border-b border-[var(--border-color)] shrink-0 bg-[var(--bg-app)] lg:bg-transparent sticky top-0 z-50">
+    <div id="logo-container" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+        <img id="logo-img" src="Logo-tema-escuro.png" alt="API Argus" class="h-8 max-w-[160px] object-contain rounded" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIGZpbGw9InRyYW5zcGFyZW50IiByeD0iOCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNHB4IiBmaWxsPSIjOThhMmIzIiBkeT0iLjNlbSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+QVJHVVM8L3RleHQ+PC9zdmc+';">
+    </div>
+    <button id="mobile-menu-btn" class="lg:hidden text-[var(--text-muted)] hover:text-[var(--text-main)] transition-colors p-2">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+    </button>
+</div>
             
+            <div id="sidebar-content" class="hidden lg:flex flex-col w-full h-[calc(100vh-76px)] lg:h-full fixed lg:relative top-[76px] lg:top-0 left-0 bg-[var(--bg-app)] lg:bg-transparent z-50 overflow-hidden">
             <div class="px-4 py-4 border-b border-[var(--border-color)] shrink-0 flex flex-col gap-3">
                 <div class="relative">
                     <svg class="w-4 h-4 text-[var(--text-muted)] absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
@@ -116,10 +120,11 @@
                 </button>
             </div>
 
-            <nav class="flex-1 lg:overflow-y-auto py-3 px-3 space-y-2" id="sidebar-nav"></nav>
+           <nav class="flex-1 overflow-y-auto py-3 px-3 space-y-2" id="sidebar-nav"></nav>
+</div>
         </aside>
 
-        <main class="flex-1 flex flex-col relative lg:overflow-y-auto lg:border-r border-[var(--border-color)] min-h-[500px]">
+        <main class="flex-1 min-w-0 flex flex-col relative lg:overflow-y-auto lg:border-r border-[var(--border-color)] min-h-zero lg:min-h-[500px]">
             <header class="h-[76px] border-b border-[var(--border-color)] flex items-center px-6 lg:px-10 sticky top-0 bg-[var(--bg-panel)] backdrop-blur-md z-10 shrink-0">
                 <h2 class="text-[16px] font-semibold text-[var(--text-main)] tracking-wide">Documentação Técnica</h2>
             </header>
@@ -129,7 +134,7 @@
             </div>
         </main>
 
-        <aside class="w-full lg:w-[500px] flex flex-col shrink-0 bg-black/10 border-t lg:border-t-0 border-[var(--border-color)] min-h-[400px]">
+        <aside id="right-sidebar" class="w-full lg:w-[500px] min-w-0 flex flex-col shrink-0 bg-black/10 border-t lg:border-t-0 border-[var(--border-color)] min-h-zero lg:min-h-[400px]">
             <div class="h-[76px] flex items-center justify-between px-6 lg:px-8 border-b border-[var(--border-color)] bg-[var(--bg-panel)] backdrop-blur-md sticky top-0 z-10 shrink-0">
                 <h3 class="text-[12px] font-semibold text-[var(--text-main)] tracking-widest uppercase opacity-80">Exemplo</h3>
                 <button id="btn-copy-all" class="btn-press text-[11px] font-semibold bg-[var(--bg-card)] hover:bg-[var(--hover-bg)] text-[var(--text-main)] px-4 py-2 rounded-lg transition-all border border-[var(--border-color)] flex items-center gap-2 shadow-sm">
@@ -144,7 +149,6 @@
         </aside>
     </div>
 
-    <input type="file" id="logo-upload" accept="image/*" class="hidden">
 
     <script>
         window.currentLang = 'nodejs';
@@ -153,24 +157,15 @@
         window.currentRawSnippetText = "";
 
         window.addEventListener('DOMContentLoaded', () => {
-            const savedLogo = localStorage.getItem('argusLogo');
-            if (savedLogo) document.getElementById('logo-img').src = savedLogo;
-            setTimeout(() => { goToEndpoint('quick-start'); }, 100);
-        });
+    document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
+        const content = document.getElementById('sidebar-content');
+        content.classList.toggle('hidden');
+        content.classList.toggle('flex');
+    });
+    
+    setTimeout(() => { goToEndpoint('quick-start'); }, 100);
+});
 
-        function uploadLogo() { document.getElementById('logo-upload').click(); }
-        document.getElementById('logo-upload').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const base64Str = event.target.result;
-                    localStorage.setItem('argusLogo', base64Str);
-                    document.getElementById('logo-img').src = base64Str;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
 
         function copyFromCache(cacheId, btnElement) {
             const text = window.snippetCache[cacheId];
@@ -212,9 +207,14 @@
                     if(header) header.querySelector('.arrow-icon').classList.remove('-rotate-90');
                 }
                 
-                if (window.innerWidth < 1024) {
-                    document.getElementById('doc-content').scrollIntoView({ behavior: 'smooth' });
-                }
+               if (window.innerWidth < 1024) {
+    document.getElementById('doc-content').scrollIntoView({ behavior: 'smooth' });
+    const content = document.getElementById('sidebar-content');
+    if (!content.classList.contains('hidden')) {
+        content.classList.add('hidden');
+        content.classList.remove('flex');
+    }
+}
                 
                 loadDocumentation(item);
             }
@@ -904,6 +904,12 @@
         }
 
         function renderSnippets(item) {
+            const rightSidebar = document.getElementById('right-sidebar');
+    if (!item.rawResponse && !item.rawPayload && (!item.url || item.method === 'INFO')) {
+        rightSidebar.style.display = 'none';
+    } else {
+        rightSidebar.style.display = 'flex';
+    }
             let snippetHTML = "";
             window.currentRawSnippetText = "";
             
@@ -1104,6 +1110,26 @@
                 endpointBox += `</div>`;
             }
 
+            // --- LÓGICA DE BOTÕES ANTERIOR E PRÓXIMO ---
+            const allItems = apiData.flatMap(c => c.items);
+            const currentIndex = allItems.findIndex(i => i.id === item.id);
+            const prevItem = currentIndex > 0 ? allItems[currentIndex - 1] : null;
+            const nextItem = currentIndex < allItems.length - 1 ? allItems[currentIndex + 1] : null;
+
+            let navButtons = `<div class="flex flex-col sm:flex-row justify-between gap-4 mt-12 pt-6 border-t border-[var(--border-color)]">`;
+            
+            if (prevItem) {
+                navButtons += `<button onclick="goToEndpoint('${prevItem.id}')" class="text-left px-5 py-4 rounded-xl bg-[var(--bg-card)] border border-[var(--border-color)] hover:border-[var(--accent)] transition-all hover:-translate-y-1 flex-1 shadow-sm"><span class="block text-[10px] text-[var(--text-muted)] uppercase mb-1 tracking-wider">Anterior</span><div class="font-semibold text-[13px] text-[var(--accent)] truncate">&larr; ${prevItem.title}</div></button>`;
+            } else {
+                navButtons += `<div class="flex-1 hidden sm:block"></div>`;
+            }
+            
+            if (nextItem) {
+                navButtons += `<button onclick="goToEndpoint('${nextItem.id}')" class="text-right px-5 py-4 rounded-xl bg-[var(--bg-card)] border border-[var(--border-color)] hover:border-[var(--accent)] transition-all hover:-translate-y-1 flex-1 shadow-sm"><span class="block text-[10px] text-[var(--text-muted)] uppercase mb-1 tracking-wider">Próximo</span><div class="font-semibold text-[13px] text-[var(--accent)] truncate">${nextItem.title} &rarr;</div></button>`;
+            } else {
+                navButtons += `<div class="flex-1 hidden sm:block"></div>`;
+            }
+            navButtons += `</div>`;
             document.getElementById('doc-content').innerHTML = `
                 <h3 class="text-[22px] md:text-[26px] font-bold text-[var(--text-main)] mb-5 tracking-tight">${item.title}</h3>
                 ${endpointBox}
@@ -1112,6 +1138,7 @@
                 </div>
                 ${paramsTable}
                 ${responseTable}
+                ${navButtons}
             `;
             renderSnippets(item);
         }
