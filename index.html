@@ -1110,24 +1110,24 @@
                 endpointBox += `</div>`;
             }
 
-            // --- LÓGICA DE BOTÕES ANTERIOR E PRÓXIMO ---
+            // --- LÓGICA DE NAVEGAÇÃO MINIMALISTA ---
             const allItems = apiData.flatMap(c => c.items);
             const currentIndex = allItems.findIndex(i => i.id === item.id);
             const prevItem = currentIndex > 0 ? allItems[currentIndex - 1] : null;
             const nextItem = currentIndex < allItems.length - 1 ? allItems[currentIndex + 1] : null;
 
-            let navButtons = `<div class="flex flex-col sm:flex-row justify-between gap-4 mt-12 pt-6 border-t border-[var(--border-color)]">`;
+            let navButtons = `<div class="flex justify-between items-center gap-4 mt-12 pt-6 border-t border-[var(--border-color)] w-full text-[13px] font-medium px-1">`;
             
             if (prevItem) {
-                navButtons += `<button onclick="goToEndpoint('${prevItem.id}')" class="text-left px-5 py-4 rounded-xl bg-[var(--bg-card)] border border-[var(--border-color)] hover:border-[var(--accent)] transition-all hover:-translate-y-1 flex-1 shadow-sm"><span class="block text-[10px] text-[var(--text-muted)] uppercase mb-1 tracking-wider">Anterior</span><div class="font-semibold text-[13px] text-[var(--accent)] truncate">&larr; ${prevItem.title}</div></button>`;
+                navButtons += `<button onclick="goToEndpoint('${prevItem.id}')" class="text-left text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors max-w-[45%] truncate flex items-center gap-1">&larr; ${prevItem.title}</button>`;
             } else {
-                navButtons += `<div class="flex-1 hidden sm:block"></div>`;
+                navButtons += `<div></div>`;
             }
             
             if (nextItem) {
-                navButtons += `<button onclick="goToEndpoint('${nextItem.id}')" class="text-right px-5 py-4 rounded-xl bg-[var(--bg-card)] border border-[var(--border-color)] hover:border-[var(--accent)] transition-all hover:-translate-y-1 flex-1 shadow-sm"><span class="block text-[10px] text-[var(--text-muted)] uppercase mb-1 tracking-wider">Próximo</span><div class="font-semibold text-[13px] text-[var(--accent)] truncate">${nextItem.title} &rarr;</div></button>`;
+                navButtons += `<button onclick="goToEndpoint('${nextItem.id}')" class="text-right text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors max-w-[45%] truncate flex items-center gap-1">${nextItem.title} &rarr;</button>`;
             } else {
-                navButtons += `<div class="flex-1 hidden sm:block"></div>`;
+                navButtons += `<div></div>`;
             }
             navButtons += `</div>`;
             document.getElementById('doc-content').innerHTML = `
@@ -1138,9 +1138,11 @@
                 </div>
                 ${paramsTable}
                 ${responseTable}
-                ${navButtons}
             `;
             renderSnippets(item);
+            // Injeta os botões envelopados em uma div que só aparece no mobile (lg:hidden)
+            const mobileWrapper = `<div class="lg:hidden w-full mt-4">${navButtons}</div>`;
+            document.getElementById('snippet-area').innerHTML += mobileWrapper;
         }
     </script>
 </body>
