@@ -545,73 +545,120 @@
                 category: "Relatórios",
                 items: [
                     { 
-                        id: "rel-ligacoes", title: "Relatório - Ligações Detalhadas", method: "POST", acceptsGet: true, url: "https://argus.app.br/apiargus/report/ligacoesdetalhadas", getUrl: "https://argus.app.br/apiargus/report/ligacoesdetalhadas?idCampanha=&idLigacao=&idGrupoUsuario=&idLote=&nrLead=&dddTelefone=&idUsuario=&idStatusLigacao=&somenteInsucesso=&idTabulacao=&periodoInicial=&periodoFinal=&ultimosMinutos=",
-                        desc: "Retorna em JSON o relatório de ligações detalhadas.<br><br>Observações:<br>• Intervalo máximo de consulta de 7 dias;<br>• Máximo de 15.000 registros por requisição;<br>• Para paginação consecutiva, utilize o valor de \"idProxPagina\" no campo \"ultimoId\";<br>• Fim dos registros sinalizado por \"endOfTable\": True ou \"idProxPagina\": 0.", 
+                        id: "rel-ligacoes", title: "Relatório - Ligações Detalhadas", method: "POST", acceptsGet: true, url: "https://argus.app.br/apiargus/report/ligacoesdetalhadas", getUrl: "https://argus.app.br/apiargus/report/ligacoesdetalhadas?idCampanha=&idLigacao=&idGrupoUsuario=&idLote=&nrLead=&dddTelefone=&idUsuario=&idStatusLigacao=&somenteInsucesso=&idTabulacao=&periodoInicial=&periodoFinal=&ultimosMinutos=&ultimoId=",
+                        desc: "Retorna em JSON o relatório de ligações detalhadas do discador.", 
                         hasBody: true, 
-                        rawPayload: `{\n  "idCampanha": 12,\n  "periodoInicial": "2026-08-01T00:00:00-03:00",\n  "periodoFinal": "2026-08-01T23:59:59-03:00",\n  "ultimosMinutos": 0\n}`, 
-                        rawResponse: `{\n  "codStatus": 1,\n  "descStatus": "Sucesso",\n  "endOfTable": true,\n  "qtdeRegistros": 1,\n  "idProxPagina": 0,\n  "idCampanha": 12,\n  "ligacoesDetalhadas": [{\n    "idLigacao": 8888,\n    "telefone": "11999999999",\n    "nomeCliente": "Cliente Genérico"\n  }]\n}`,
+                        notes: "• Enviar: <code>periodoInicial</code> e <code>periodoFinal</code>, ou <code>ultimosMinutos</code>;<br>• Intervalo máximo de 7 dias;<br>• Máximo de 15.000 registros por requisição;<br>• Para paginação, utilize o valor do campo <code>idProxPagina</code> da última consulta no campo <code>ultimoId</code> da nova consulta;<br>• Indicador de fim da paginação: <code>\"endOfTable\": true</code> ou <code>\"idProxPagina\": 0</code>.",
+                        rawPayload: `{\n  "idCampanha": 1,\n  "idLigacao": 0,\n  "idGrupoUsuario": 0,\n  "idLote": 0,\n  "nrLead": 0,\n  "dddTelefone": "",\n  "idUsuario": 0,\n  "idStatusLigacao": 0,\n  "somenteInsucesso": false,\n  "idTabulacao": 0,\n  "periodoInicial": "2026-06-01T00:00:00",\n  "periodoFinal": "2026-06-07T23:59:59",\n  "ultimosMinutos": 0,\n  "ultimoId": 0\n}`, 
+                        rawResponse: `{\n  "codStatus": "int", // 1: Sucesso; < 1 Falha\n  "descStatus": "string", // Descrição do sucesso/falha\n  "endOfTable": "boolean", // True: listou todos os registros solicitados\n  "qtdeRegistros": "int", // Quantidade de registros retornados\n  "idProxPagina": "int", // ID para realizar a paginação na próxima consulta\n  "idCampanha": "int", // ID da campanha das ligações\n  "ligacoesDetalhadas": [{...}]\n}`,
                         params: [
-                            { name: "idCampanha", req: "Obrigatório", desc: "ID identificador único da campanha." },
-                            { name: "periodoInicial", req: "Obrigatório*", desc: "Data inicial do filtro de chamadas." },
-                            { name: "periodoFinal", req: "Obrigatório*", desc: "Data limite final do filtro de chamadas." },
-                            { name: "ultimosMinutos", req: "Obrigatório*", desc: "Busca alternativa pelos minutos retrospectivos informados." },
-                            { name: "ultimoId", req: "Opcional", desc: "ID para paginação." },
-                            { name: "idStatusLigacao", req: "Opcional", desc: "ID do Status da Ligação." }
+                            { name: "idCampanha", req: "Obrigatório", desc: "ID da campanha." },
+                            { name: "idLigacao", req: "Opcional", desc: "ID da ligação gerada pelo discador." },
+                            { name: "idGrupoUsuario", req: "Opcional", desc: "ID do grupo operacional que originou a ligação." },
+                            { name: "idLote", req: "Opcional", desc: "ID do lote." },
+                            { name: "nrLead", req: "Opcional", desc: "Número do lead." },
+                            { name: "dddTelefone", req: "Opcional", desc: "DDD + Telefone." },
+                            { name: "idUsuario", req: "Opcional", desc: "ID do operador que recebeu a ligação." },
+                            { name: "idStatusLigacao", req: "Opcional", desc: "ID do Status da Ligação (Vide ANEXO I)." },
+                            { name: "somenteInsucesso", req: "Opcional", desc: "Retorna somente as ligações com resultado de não atendimento." },
+                            { name: "idTabulacao", req: "Opcional", desc: "ID da tabulação que foi efetuada pelo operador que recebeu a ligação." },
+                            { name: "periodoInicial", req: "Obrigatório*", desc: "Informar o período inicial das ligações." },
+                            { name: "periodoFinal", req: "Obrigatório*", desc: "Informar o período final das ligações." },
+                            { name: "ultimosMinutos", req: "Obrigatório*", desc: "Buscar pelos últimos minutos." },
+                            { name: "ultimoId", req: "Opcional", desc: "ID utilizado para realizar a paginação. Utilize o valor “idProxPagina” da última consulta para buscar a próxima página." }
                         ]
                     },
                     { 
-                        id: "rel-receptivo", title: "Relatório - Ligações Receptivas", method: "POST", acceptsGet: true, url: "https://argus.app.br/apiargus/report/receptivo", getUrl: "https://argus.app.br/apiargus/report/receptivo?idCampanha=&idServico=&periodoInicial=&periodoFinal=&ultimosMinutos=",
-                        desc: "Retorna em JSON o relatório de chamadas de entrada no receptivo. Intervalo máximo de 31 dias, limite de 15.000 linhas por bloco.<br><br>Fim dos registros sinalizado por \"endOfTable\": True ou \"idProxPagina\": 0.", 
+                        id: "rel-receptivo", title: "Relatório - Ligações Receptivas", method: "POST", acceptsGet: true, url: "https://argus.app.br/apiargus/report/receptivo", getUrl: "https://argus.app.br/apiargus/report/receptivo?idCampanha=&idServico=&periodoInicial=&periodoFinal=&ultimosMinutos=&ultimoId=",
+                        desc: "Retorna em JSON o relatório de ligações receptivas.", 
                         hasBody: true, 
-                        rawPayload: `{\n  "idCampanha": 12,\n  "periodoInicial": "2026-08-01T00:00:00-03:00",\n  "periodoFinal": "2026-08-01T23:59:59-03:00",\n  "ultimosMinutos": 0\n}`,
-                        rawResponse: `{\n  "codStatus": 1,\n  "descStatus": "Sucesso",\n  "endOfTable": true,\n  "qtdeRegistros": 1,\n  "idProxPagina": 0,\n  "idCampanha": 12,\n  "receptivos": [{\n    "telefone": "11999999999",\n    "duracao": 45\n  }]\n}`,
+                        notes: "• Enviar: <code>periodoInicial</code> e <code>periodoFinal</code>, ou <code>ultimosMinutos</code>;<br>• Intervalo máximo de 31 dias;<br>• Máximo de 15.000 registros por requisição;<br>• Para paginação, utilize o valor do campo <code>idProxPagina</code> da última consulta no campo <code>ultimoId</code> da nova consulta;<br>• Indicador de fim da paginação: <code>\"endOfTable\": true</code> ou <code>\"idProxPagina\": 0</code>.",
+                        rawPayload: `{\n  "idCampanha": 1,\n  "idServico": 0,\n  "periodoInicial": "2026-06-01T00:00:00",\n  "periodoFinal": "2026-06-17T23:59:59",\n  "ultimosMinutos": 0,\n  "ultimoId": 0\n}`,
+                        rawResponse: `{\n  "codStatus": "int", // 1: Sucesso; < 1 Falha\n  "descStatus": "string", // Descrição do sucesso/falha\n  "endOfTable": "boolean", // True: listou todos os registros solicitados\n  "qtdeRegistros": "int", // Quantidade de registros retornados\n  "idProxPagina": "int", // ID para realizar a paginação na próxima consulta\n  "idCampanha": "int", // ID da campanha das ligações\n  "receptivos": [{...}]\n}`,
                         params: [
-                            { name: "idCampanha", req: "Obrigatório", desc: "ID identificador da campanha." },
-                            { name: "idServico", req: "Opcional", desc: "ID do serviço atrelado ao número de recepção." }
+                            { name: "idCampanha", req: "Obrigatório", desc: "ID da campanha." },
+                            { name: "idServico", req: "Opcional", desc: "ID do serviço vinculado ao número receptivo." },
+                            { name: "periodoInicial", req: "Obrigatório*", desc: "Informar o período inicial das ligações." },
+                            { name: "periodoFinal", req: "Obrigatório*", desc: "Informar o período final das ligações." },
+                            { name: "ultimosMinutos", req: "Obrigatório*", desc: "Buscar pelos últimos minutos." },
+                            { name: "ultimoId", req: "Opcional", desc: "ID utilizado para realizar a paginação. Utilize o valor “idProxPagina” da consulta anterior para buscar a próxima página." }
                         ]
                     },
                     { 
-                        id: "rel-tabulacoes", title: "Relatório - Tabulações Detalhadas", method: "POST", acceptsGet: true, url: "https://argus.app.br/apiargus/report/tabulacoesdetalhadas", getUrl: "https://argus.app.br/apiargus/report/tabulacoesdetalhadas?idCampanha=&idTabulacao=&idGrupoUsuario=&idUsuario=&idLote=&periodoInicial=&periodoFinal=&ultimosMinutos=",
-                        desc: "Retorna histórico detalhado das ações do operador. Se 'exibirUltTabulacao' for true, trará unicamente a última interação histórica de cada lead.<br><br>Fim dos registros sinalizado por \"endOfTable\": True ou \"idProxPagina\": 0.", 
+                        id: "rel-tabulacoes", title: "Relatório - Tabulações Detalhadas", method: "POST", acceptsGet: true, url: "https://argus.app.br/apiargus/report/tabulacoesdetalhadas", getUrl: "https://argus.app.br/apiargus/report/tabulacoesdetalhadas?idCampanha=&idTabulacao=&idGrupoUsuario=&idUsuario=&idLote=&exibirUltTabulacao=&periodoInicial=&periodoFinal=&ultimosMinutos=&ultimoId=",
+                        desc: "Retorna em JSON o relatório de tabulações detalhadas.", 
                         hasBody: true, 
-                        rawPayload: `{\n  "idCampanha": 12,\n  "exibirUltTabulacao": true,\n  "periodoInicial": "2026-08-01T00:00:00-03:00",\n  "periodoFinal": "2026-08-01T23:59:59-03:00"\n}`,
-                        rawResponse: `{\n  "codStatus": 1,\n  "descStatus": "Sucesso",\n  "endOfTable": true,\n  "qtdeRegistros": 1,\n  "idProxPagina": 0,\n  "idCampanha": 12,\n  "tabulacoes": [{\n    "idTabulacao": 22,\n    "tabulacaoDesc": "Venda Realizada"\n  }]\n}`,
+                        notes: "• Enviar: <code>periodoInicial</code> e <code>periodoFinal</code>, ou <code>ultimosMinutos</code>;<br>• Intervalo máximo de 31 dias;<br>• Máximo de 15.000 registros por requisição;<br>• Para paginação, utilize o valor do campo <code>idProxPagina</code> da última consulta no campo <code>ultimoId</code> da nova consulta;<br>• Indicador de fim da paginação: <code>\"endOfTable\": true</code> ou <code>\"idProxPagina\": 0</code>.",
+                        rawPayload: `{\n  "idCampanha": 1,\n  "idTabulacao": 0,\n  "idGrupoUsuario": 0,\n  "idUsuario": 0,\n  "idLote": 0,\n  "exibirUltTabulacao": false,\n  "periodoInicial": "2026-06-01T00:00:00",\n  "periodoFinal": "2026-06-02T23:59:59",\n  "ultimosMinutos": 0,\n  "ultimoId": 0\n}`,
+                        rawResponse: `{\n  "codStatus": "int", // 1: Sucesso; < 1 Falha\n  "descStatus": "string", // Descrição do sucesso/falha\n  "endOfTable": "boolean", // True: listou todos os registros solicitados\n  "qtdeRegistros": "int", // Quantidade de registros retornados\n  "idProxPagina": "int", // ID para realizar a paginação na próxima consulta\n  "idCampanha": "int", // ID da campanha das ligações\n  "campanhaDesc": "string",\n  "tabulacoes": [{...}]\n}`,
                         params: [
-                            { name: "idCampanha", req: "Obrigatório", desc: "ID identificador de campanha." },
-                            { name: "exibirUltTabulacao", req: "Obrigatório*", desc: "True: Apenas o estado final. False: Histórico granular completo." }
+                            { name: "idCampanha", req: "Obrigatório", desc: "ID da campanha." },
+                            { name: "idTabulacao", req: "Opcional", desc: "ID da tabulação que foi efetuada pelo operador." },
+                            { name: "idGrupoUsuario", req: "Opcional", desc: "ID do grupo operacional que originou a tabulação." },
+                            { name: "idUsuario", req: "Opcional", desc: "ID do operador que efetuou a tabulação." },
+                            { name: "idLote", req: "Opcional", desc: "ID do lote." },
+                            { name: "exibirUltTabulacao", req: "Opcional", desc: "True: retorna somente a última tabulação do lead; False: retorna todo o histórico das tabulações." },
+                            { name: "periodoInicial", req: "Obrigatório*", desc: "Informar o período inicial das tabulações." },
+                            { name: "periodoFinal", req: "Obrigatório*", desc: "Informar o período final das tabulações." },
+                            { name: "ultimosMinutos", req: "Obrigatório*", desc: "Buscar pelos últimos minutos." },
+                            { name: "ultimoId", req: "Opcional", desc: "ID utilizado para realizar a paginação. Utilize o valor “idProxPagina” da consulta anterior para buscar a próxima página." }
                         ]
                     },
                     { 
                         id: "rel-pausas", title: "Relatório - Pausas Detalhadas dos Operadores", method: "POST", acceptsGet: true, url: "https://argus.app.br/apiargus/report/pausasdetalhadas", getUrl: "https://argus.app.br/apiargus/report/pausasdetalhadas?idCampanha=&periodoInicial=&periodoFinal=&ultimosMinutos=",
-                        desc: "Retorna o espelho de pausas aplicadas e tempos produtivos/improdutivos da equipe. Intervalo limite máximo de 90 dias.", 
+                        desc: "Retorna em JSON o relatório de pausas detalhadas dos operadores.", 
                         hasBody: true, 
-                        rawPayload: `{\n  "idCampanha": 12,\n  "periodoInicial": "2026-08-01T00:00:00-03:00",\n  "periodoFinal": "2026-08-01T23:59:59-03:00",\n  "ultimosMinutos": 0\n}`,
-                        rawResponse: `{\n  "codStatus": 1,\n  "descStatus": "Sucesso",\n  "endOfTable": true,\n  "qtdeRegistros": 1,\n  "pausasDetalhadas": [{\n    "nomeOperador": "Operador Genérico",\n    "pausaDesc": "Pausa Lanche"\n  }]\n}`,
-                        params: [{ name: "idCampanha", req: "Opcional", desc: "Se omitido, consolida auditoria de todas as campanhas." }]
+                        notes: "• Enviar: <code>periodoInicial</code> e <code>periodoFinal</code>, ou <code>ultimosMinutos</code>;<br>• Período máximo de 90 dias.",
+                        rawPayload: `{\n  "idCampanha": 1,\n  "periodoInicial": "2026-06-01T00:00:00",\n  "periodoFinal": "2026-06-02T23:59:59",\n  "ultimosMinutos": 0\n}`,
+                        rawResponse: `{\n  "codStatus": "int", // 1: Sucesso; < 1 Falha\n  "descStatus": "string", // Descrição do sucesso/falha\n  "endOfTable": "boolean", // True: listou todos os registros solicitados\n  "qtdeRegistros": "int",\n  "pausasDetalhadas": [{...}]\n}`,
+                        params: [
+                            { name: "idCampanha", req: "Opcional", desc: "ID da campanha. Caso não enviar, será retornado o login dos operadores in todas as campanhas." },
+                            { name: "periodoInicial", req: "Obrigatório*", desc: "Informar o período inicial." },
+                            { name: "periodoFinal", req: "Obrigatório*", desc: "Informar o período final." },
+                            { name: "ultimosMinutos", req: "Obrigatório*", desc: "Buscar pelos últimos minutos." }
+                        ]
                     },
                     { 
                         id: "rel-entradasaida", title: "Relatório - Entrada / Saída dos Operadores", method: "POST", acceptsGet: true, url: "https://argus.app.br/apiargus/report/entradasaida", getUrl: "https://argus.app.br/apiargus/report/entradasaida?idCampanha=&periodoInicial=&periodoFinal=&ultimosMinutos=",
-                        desc: "Retorna dados de login, logoff e controle de ponto de conexões de telefonia da operação. Máximo de 30 dias de histórico.", 
+                        desc: "Retorna em JSON o relatório de entrada e saída dos operadores.", 
                         hasBody: true, 
-                        rawPayload: `{\n  "idCampanha": 12,\n  "periodoInicial": "2026-08-01T00:00:00-03:00",\n  "periodoFinal": "2026-08-01T23:59:59-03:00"\n}`,
-                        rawResponse: `{\n  "codStatus": 1,\n  "descStatus": "Sucesso",\n  "endOfTable": true,\n  "qtdeRegistros": 1,\n  "entradasSaidas": [{\n    "nomeOperador": "Operador Genérico",\n    "evento": "LOGIN"\n  }]\n}`,
-                        params: [{ name: "idCampanha", req: "Opcional", desc: "Filtra por campanha ou traz unificado corporativo." }]
+                        notes: "• Enviar: <code>periodoInicial</code> e <code>periodoFinal</code>, ou <code>ultimosMinutos</code>;",
+                        rawPayload: `{\n  "idCampanha": 1,\n  "periodoInicial": "2026-06-01T00:00:00",\n  "periodoFinal": "2026-06-02T23:59:59",\n  "ultimosMinutos": 0\n}`,
+                        rawResponse: `{\n  "codStatus": "int", // 1: Sucesso; < 1 Falha\n  "descStatus": "string", // Descrição do sucesso/falha\n  "endOfTable": "boolean", // True: listou todos os registros solicitados\n  "qtdeRegistros": "int",\n  "entradasSaidas": [{...}]\n}`,
+                        params: [
+                            { name: "idCampanha", req: "Opcional", desc: "ID da campanha. Caso não enviar, será retornado o login dos operadores em todas as campanhas." },
+                            { name: "periodoInicial", req: "Obrigatório*", desc: "Informar o período inicial." },
+                            { name: "periodoFinal", req: "Obrigatório*", desc: "Informar o período final." },
+                            { name: "ultimosMinutos", req: "Obrigatório*", desc: "Buscar pelos últimos minutos." }
+                        ]
                     },
                     { 
-                        id: "rel-desempenho", title: "Relatório - Desempenho Resumido dos Operadores", method: "POST", acceptsGet: true, url: "https://argus.app.br/apiargus/report/desempenhoresumido", getUrl: "https://argus.app.br/apiargus/report/desempenhoresumido?idCampanha=&periodoInicial=&periodoFinal=&ultimosMinutos=",
-                        desc: "Consolidado de KPIs operacionais (Quantidade de ligações, taxas de sucesso, TMA, TME) por grupo ou operador.", 
+                        id: "rel-desempenho", title: "Relatório - Desempenho Resumido dos Operadores", method: "POST", acceptsGet: true, url: "https://argus.app.br/apiargus/report/desempenhoresumido", getUrl: "https://argus.app.br/apiargus/report/desempenhoresumido?idCampanha=&idGrupoUsuario=&periodoInicial=&periodoFinal=&ultimosMinutos=",
+                        desc: "Retorna em JSON o relatório de desempenho resumido dos operadores.", 
                         hasBody: true, 
-                        rawPayload: `{\n  "idCampanha": 12,\n  "periodoInicial": "2026-08-01T00:00:00-03:00",\n  "periodoFinal": "2026-08-01T23:59:59-03:00"\n}`,
-                        rawResponse: `{\n  "codStatus": 1,\n  "descStatus": "Sucesso",\n  "endOfTable": true,\n  "qtdeRegistros": 1,\n  "desempenhosResumidos": [{\n    "nomeOperador": "Operador Genérico",\n    "totalAtendidas": 150\n  }]\n}`,
-                        params: [{ name: "idGrupoUsuario", req: "Opcional", desc: "Filtra a volumetria performada por uma célula operacional específica." }]
+                        notes: "• Enviar: <code>periodoInicial</code> e <code>periodoFinal</code>, ou <code>ultimosMinutos</code>;<br>• Período máximo de 30 dias.",
+                        rawPayload: `{\n  "idCampanha": "1",\n  "idGrupoUsuario": "",\n  "periodoInicial": "2026-06-01T00:00:00",\n  "periodoFinal": "2026-06-02T23:59:59",\n  "ultimosMinutos": 0\n}`,
+                        rawResponse: `{\n  "codStatus": "int", // 1: Sucesso; < 1 Falha\n  "descStatus": "string", // Descrição do sucesso/falha\n  "endOfTable": "boolean",\n  "qtdeRegistros": "int",\n  "desempenhosResumidos": [{...}]\n}`,
+                        params: [
+                            { name: "idCampanha", req: "Opcional", desc: "ID da campanha. Caso não enviar, será retornado o desempenho dos operadores em todas as campanhas." },
+                            { name: "idGrupoUsuario", req: "Opcional", desc: "ID do Grupo de Usuário. Filtra o desempenho produzido pelos operadores apenas de um determinado grupo." },
+                            { name: "periodoInicial", req: "Obrigatório*", desc: "Informar o período inicial." },
+                            { name: "periodoFinal", req: "Obrigatório*", desc: "Informar o período final." },
+                            { name: "ultimosMinutos", req: "Obrigatório*", desc: "Buscar pelos últimos minutos." }
+                        ]
                     },
                     { 
-                        id: "rel-mailings", title: "Relatório - Mailings Habilitados no Discador", method: "POST", url: "https://argus.app.br/apiargus/report/mailingsdiscador", 
-                        desc: "Lista os mailings atualmente ativos e injetados na esteira do discador preditivo automatizado.", 
+                        id: "rel-mailings", title: "Relatório - Mailings Habilitados no Discador", method: "POST", acceptsGet: true, url: "https://argus.app.br/apiargus/report/mailingsdiscador", getUrl: "https://argus.app.br/apiargus/report/mailingsdiscador?idCampanha=&idGrupoUsuario=&idSkill=",
+                        desc: "Lista os mailings habilitados no discador preditivo.", 
                         hasBody: true, 
-                        rawPayload: `{\n  "idCampanha": 12\n}`,
-                        rawResponse: `{\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Sucesso" // descrição do sucesso/falha\n}`,
-                        params: [{ name: "idCampanha", req: "Obrigatório", desc: "Identificador da campanha ativa." }]
+                        notes: "",
+                        rawPayload: `{\n  "idCampanha": 1,\n  "idGrupoUsuario": 0,\n  "idSkill": 0\n}`,
+                        rawResponse: `{\n  "codStatus": "int", // 1: Sucesso; < 1 Falha\n  "descStatus": "string", // descrição do sucesso/falha\n  "endOfTable": "boolean",\n  "qtdeRegistros": "int",\n  "idProxPagina": "int",\n  "idCampanha": "int",\n  "mailings": [{...}]\n}`,
+                        params: [
+                            { name: "idCampanha", req: "Obrigatório", desc: "ID da campanha que será listado os mailings." },
+                            { name: "idGrupoUsuario", req: "Opcional", desc: "Retorna somente os mailings do grupo operacional informado." },
+                            { name: "idSkill", req: "Opcional", desc: "Retorna somente os mailings vinculados com o idSkill informado." }
+                        ]
                     }
                 ]
             },
@@ -701,8 +748,8 @@
         window.downloadPostmanCollection = function() {
             const collection = {
                 info: {
-                    name: "API Argus v3",
-                    description: "Coleção completa e atualizada automaticamente a partir da documentação de integração do sistema Argus.",
+                    name: "API Argus",
+                    description: "Documentação interativa da API Argus e Endpoints.",
                     schema: "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
                 },
                 item: []
@@ -710,47 +757,104 @@
 
             apiData.forEach(category => {
                 if (category.category === "Observações Gerais" || category.category === "Guia de Integração" || category.category === "Webhooks" || category.category === "Autenticação") return;
-                
-                const folder = { name: category.category, item: [] };
-                category.items.forEach(endpoint => {
-                    if (!endpoint.url || endpoint.url === "") return;
-                    
-                    const postmanItem = {
-                        name: endpoint.title,
-                        request: {
-                            method: endpoint.method,
-                            header: [
-                                { key: "Token-Signature", value: "{{your_token}}", type: "text" },
-                                { key: "Content-Type", value: "application/json", type: "text" }
-                            ],
-                            url: {
-                                raw: endpoint.url,
-                                host: endpoint.url.split('//')[1].split('/')[0].split('.'),
-                                path: endpoint.url.split('//')[1].split('/').slice(1)
-                            }
-                        }
-                    };
+                const catFolder = {
+                    name: category.category,
+                    item: []
+                };
 
-                    if (endpoint.hasBody && endpoint.rawPayload) {
-                        try {
-                            const cleanPayload = buildCleanJSON(endpoint.rawPayload);
-                            postmanItem.request.body = {
-                                mode: "raw",
-                                raw: cleanPayload,
-                                options: { raw: { language: "json" } }
+                category.items.forEach(endpoint => {
+                    if (endpoint.method && endpoint.method !== 'INFO' && endpoint.url) {
+                        
+                        const buildRequest = (title, reqMethod, reqUrl, reqPayload) => {
+                            let urlObj = {};
+                            try {
+                                const parsedUrl = new URL(reqUrl);
+                                urlObj = {
+                                    raw: reqUrl,
+                                    protocol: parsedUrl.protocol.replace(':', '') || "https",
+                                    host: parsedUrl.hostname.split('.'),
+                                    path: parsedUrl.pathname.substring(1).split('/').filter(Boolean),
+                                    query: []
+                                };
+                                
+                                parsedUrl.searchParams.forEach((value, key) => {
+                                    urlObj.query.push({ key: key, value: value || "" });
+                                });
+                            } catch (e) {
+                                const cleanUrl = reqUrl.replace("https://", "").replace("http://", "");
+                                const urlParts = cleanUrl.split('?');
+                                const hostPath = urlParts[0].split('/');
+                                urlObj = {
+                                    raw: reqUrl,
+                                    protocol: "https",
+                                    host: hostPath[0].split('.'),
+                                    path: hostPath.slice(1),
+                                    query: []
+                                };
+                                if (urlParts.length > 1) {
+                                    urlParts[1].split('&').forEach(q => {
+                                        const [k, v] = q.split('=');
+                                        urlObj.query.push({ key: k, value: v || "" });
+                                    });
+                                }
+                            }
+
+                            const postmanItem = {
+                                name: title,
+                                request: {
+                                    method: reqMethod,
+                                    header: [
+                                        {
+                                            key: "Token-Signature",
+                                            value: "{{your_token}}",
+                                            type: "text"
+                                        },
+                                        {
+                                            key: "Content-Type",
+                                            value: "application/json",
+                                            type: "text"
+                                        }
+                                    ],
+                                    url: urlObj
+                                },
+                                response: []
                             };
-                        } catch(e) {}
+
+                            if ((reqMethod === 'POST' || reqMethod === 'PUT' || reqMethod === 'PATCH') && reqPayload) {
+                                try {
+                                    const cleanPayload = buildCleanJSON(reqPayload);
+                                    postmanItem.request.body = {
+                                        mode: "raw",
+                                        raw: cleanPayload,
+                                        options: {
+                                            raw: {
+                                                language: "json"
+                                            }
+                                        }
+                                    };
+                                } catch(e) {}
+                            }
+                            return postmanItem;
+                        };
+
+                        if (endpoint.acceptsGet && endpoint.getUrl) {
+                            catFolder.item.push(buildRequest(endpoint.title + " (POST)", "POST", endpoint.url, endpoint.rawPayload));
+                            catFolder.item.push(buildRequest(endpoint.title + " (GET)", "GET", endpoint.getUrl, null));
+                        } else {
+                            catFolder.item.push(buildRequest(endpoint.title, endpoint.method, endpoint.url, endpoint.rawPayload));
+                        }
                     }
-                    folder.item.push(postmanItem);
                 });
-                
-                if (folder.item.length > 0) collection.item.push(folder);
+
+                if (catFolder.item.length > 0) {
+                    collection.item.push(catFolder);
+                }
             });
 
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(collection, null, 2));
             const downloadAnchorNode = document.createElement('a');
             downloadAnchorNode.setAttribute("href", dataStr);
-            downloadAnchorNode.setAttribute("download", "Argus_API_Collection.json");
+            downloadAnchorNode.setAttribute("download", "Argus_Postman_Collection.json");
             document.body.appendChild(downloadAnchorNode);
             downloadAnchorNode.click();
             downloadAnchorNode.remove();
@@ -1110,26 +1214,36 @@
                 endpointBox += `</div>`;
             }
 
-            // --- LÓGICA DE NAVEGAÇÃO MINIMALISTA ---
+            // Lógica de navegação minimalista
             const allItems = apiData.flatMap(c => c.items);
             const currentIndex = allItems.findIndex(i => i.id === item.id);
             const prevItem = currentIndex > 0 ? allItems[currentIndex - 1] : null;
             const nextItem = currentIndex < allItems.length - 1 ? allItems[currentIndex + 1] : null;
 
             let navButtons = `<div class="flex justify-between items-center gap-4 mt-12 pt-6 border-t border-[var(--border-color)] w-full text-[13px] font-medium px-1">`;
-            
             if (prevItem) {
                 navButtons += `<button onclick="goToEndpoint('${prevItem.id}')" class="text-left text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors max-w-[45%] truncate flex items-center gap-1">&larr; ${prevItem.title}</button>`;
             } else {
                 navButtons += `<div></div>`;
             }
-            
             if (nextItem) {
                 navButtons += `<button onclick="goToEndpoint('${nextItem.id}')" class="text-right text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors max-w-[45%] truncate flex items-center gap-1">${nextItem.title} &rarr;</button>`;
             } else {
                 navButtons += `<div></div>`;
             }
             navButtons += `</div>`;
+
+            // Bloco de Notas / Observações abaixo da Tabela de Parâmetros
+            let notesArea = "";
+            if (item.notes) {
+                notesArea = `
+                    <div class="mt-6 mb-6 p-4 rounded-xl bg-orange-500/10 border border-orange-500/20 text-[13px] text-[var(--text-muted)] leading-relaxed animate-fade-in">
+                        <span class="block font-bold text-orange-400 uppercase tracking-wider text-[11px] mb-1">Observações Importantes</span>
+                        ${item.notes}
+                    </div>
+                `;
+            }
+
             document.getElementById('doc-content').innerHTML = `
                 <h3 class="text-[22px] md:text-[26px] font-bold text-[var(--text-main)] mb-5 tracking-tight">${item.title}</h3>
                 ${endpointBox}
@@ -1137,10 +1251,11 @@
                     ${item.desc}
                 </div>
                 ${paramsTable}
+                ${notesArea}
                 ${responseTable}
             `;
+            
             renderSnippets(item);
-            // Injeta os botões envelopados em uma div que só aparece no mobile (lg:hidden)
             const mobileWrapper = `<div class="lg:hidden w-full mt-4">${navButtons}</div>`;
             document.getElementById('snippet-area').innerHTML += mobileWrapper;
         }
