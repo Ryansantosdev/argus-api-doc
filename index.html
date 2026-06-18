@@ -550,7 +550,7 @@
                         hasBody: true, 
                         notes: "• Enviar: <code>periodoInicial</code> e <code>periodoFinal</code>, ou <code>ultimosMinutos</code>;<br>• Intervalo máximo de 7 dias;<br>• Máximo de 15.000 registros por requisição;<br>• Para paginação, utilize o valor do campo <code>idProxPagina</code> da última consulta no campo <code>ultimoId</code> da nova consulta;<br>• Indicador de fim da paginação: <code>\"endOfTable\": true</code> ou <code>\"idProxPagina\": 0</code>.",
                         rawPayload: `{\n  "idCampanha": 1,\n  "idLigacao": 0,\n  "idGrupoUsuario": 0,\n  "idLote": 0,\n  "nrLead": 0,\n  "dddTelefone": "",\n  "idUsuario": 0,\n  "idStatusLigacao": 0,\n  "somenteInsucesso": false,\n  "idTabulacao": 0,\n  "periodoInicial": "2026-06-01T00:00:00",\n  "periodoFinal": "2026-06-07T23:59:59",\n  "ultimosMinutos": 0,\n  "ultimoId": 0\n}`, 
-                        rawResponse: `{\n  "codStatus": "int", // 1: Sucesso; < 1 Falha\n  "descStatus": "string", // Descrição do sucesso/falha\n  "endOfTable": "boolean", // True: listou todos os registros solicitados\n  "qtdeRegistros": "int", // Quantidade de registros retornados\n  "idProxPagina": "int", // ID para realizar a paginação na próxima consulta\n  "idCampanha": "int", // ID da campanha das ligações\n  "ligacoesDetalhadas": [{...}]\n}`,
+                        rawResponse: `{\n  "endOfTable": true, // True: listou todos os registros solicitados\n  "qtdeRegistros": 149, // Quantidade de registros retornados\n  "idProxPagina": 0, // ID para realizar a paginação na próxima consulta\n  "idCampanha": 1, // ID da campanha das ligações\n  "campanhaDesc": "UNIDADE TESTE - DB-01",\n  "ligacoesDetalhadas": [\n    {\n      "idLigacao": 7811,\n      "dataHoraLigacao": "2026-06-03T18:21:48.000-03:00",\n      "idTronco": 2,\n      "troncoDesc": "4NET - ARGUS",\n      "nrLead": 1637612,\n      "tipoAgendaLigacao": "NOVO",\n      "tipoLigacao": "PREDITIVO",\n      "idStatusLigacao": 2,\n      "resultadoLigacao": "OCUPADO",\n      "tempoSegundos": 23,\n      "telefone": "47988783652",\n      "idLote": 132,\n      "lote": "TESTE458",\n      "idSkill": 1,\n      "skill": "PADRÃO",\n      "nomeCliente": "EVERSON BEHLING",\n      "dataImportacao": "2026-04-06T18:21:34.000-03:00",\n      "cpfCnpj": "",\n      "codCliente": "MTgxNjUwMTI4NzI2MDMzMTEyMjU=",\n      "idGrupoUsuario": 5,\n      "grupoOrigem": "Grupo teste",\n      "idUsuario": 11,\n      "usuarioOperador": "DISCADOR",\n      "idPlanPopup": 0,\n      "statusAtendimento": "",\n      "tipoAgenda": "NOVO DISCADO",\n      "idTabulacao": 1,\n      "tabulacao": "NÃO TABULADO",\n      "categoriaTabulacao": "NÃO TABULADO",\n      "historico": ""\n    }\n  ],\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Sucesso." // Descrição do sucesso/falha\n}`,
                         params: [
                             { name: "idCampanha", req: "Obrigatório", desc: "ID da campanha." },
                             { name: "idLigacao", req: "Opcional", desc: "ID da ligação gerada pelo discador." },
@@ -574,7 +574,7 @@
                         hasBody: true, 
                         notes: "• Enviar: <code>periodoInicial</code> e <code>periodoFinal</code>, ou <code>ultimosMinutos</code>;<br>• Intervalo máximo de 31 dias;<br>• Máximo de 15.000 registros por requisição;<br>• Para paginação, utilize o valor do campo <code>idProxPagina</code> da última consulta no campo <code>ultimoId</code> da nova consulta;<br>• Indicador de fim da paginação: <code>\"endOfTable\": true</code> ou <code>\"idProxPagina\": 0</code>.",
                         rawPayload: `{\n  "idCampanha": 1,\n  "idServico": 0,\n  "periodoInicial": "2026-06-01T00:00:00",\n  "periodoFinal": "2026-06-17T23:59:59",\n  "ultimosMinutos": 0,\n  "ultimoId": 0\n}`,
-                        rawResponse: `{\n  "codStatus": "int", // 1: Sucesso; < 1 Falha\n  "descStatus": "string", // Descrição do sucesso/falha\n  "endOfTable": "boolean", // True: listou todos os registros solicitados\n  "qtdeRegistros": "int", // Quantidade de registros retornados\n  "idProxPagina": "int", // ID para realizar a paginação na próxima consulta\n  "idCampanha": "int", // ID da campanha das ligações\n  "receptivos": [{...}]\n}`,
+                        rawResponse: `{\n  "endOfTable": true, // True: listou todos os registros solicitados\n  "qtdeRegistros": 0, // Quantidade de registros retornados\n  "idProxPagina": 0, // ID para realizar a paginação na próxima consulta\n  "idCampanha": 1, // ID da campanha das ligações\n  "receptivos": [],\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Sucesso." // Descrição do sucesso/falha\n}`,
                         params: [
                             { name: "idCampanha", req: "Obrigatório", desc: "ID da campanha." },
                             { name: "idServico", req: "Opcional", desc: "ID do serviço vinculado ao número receptivo." },
@@ -590,7 +590,7 @@
                         hasBody: true, 
                         notes: "• Enviar: <code>periodoInicial</code> e <code>periodoFinal</code>, ou <code>ultimosMinutos</code>;<br>• Intervalo máximo de 31 dias;<br>• Máximo de 15.000 registros por requisição;<br>• Para paginação, utilize o valor do campo <code>idProxPagina</code> da última consulta no campo <code>ultimoId</code> da nova consulta;<br>• Indicador de fim da paginação: <code>\"endOfTable\": true</code> ou <code>\"idProxPagina\": 0</code>.",
                         rawPayload: `{\n  "idCampanha": 1,\n  "idTabulacao": 0,\n  "idGrupoUsuario": 0,\n  "idUsuario": 0,\n  "idLote": 0,\n  "exibirUltTabulacao": false,\n  "periodoInicial": "2026-06-01T00:00:00",\n  "periodoFinal": "2026-06-02T23:59:59",\n  "ultimosMinutos": 0,\n  "ultimoId": 0\n}`,
-                        rawResponse: `{\n  "codStatus": "int", // 1: Sucesso; < 1 Falha\n  "descStatus": "string", // Descrição do sucesso/falha\n  "endOfTable": "boolean", // True: listou todos os registros solicitados\n  "qtdeRegistros": "int", // Quantidade de registros retornados\n  "idProxPagina": "int", // ID para realizar a paginação na próxima consulta\n  "idCampanha": "int", // ID da campanha das ligações\n  "campanhaDesc": "string",\n  "tabulacoes": [{...}]\n}`,
+                        rawResponse: `{\n  "endOfTable": true, // True: listou todos os registros solicitados\n  "qtdeRegistros": 0, // Quantidade de registros retornados\n  "idProxPagina": 0, // ID para realizar a paginação na próxima consulta\n  "idCampanha": 1, // ID da campanha das ligações\n  "campanhaDesc": "UNIDADE TESTE - DB-01",\n  "tabulacoes": [],\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Sucesso." // Descrição do sucesso/falha\n}`,
                         params: [
                             { name: "idCampanha", req: "Obrigatório", desc: "ID da campanha." },
                             { name: "idTabulacao", req: "Opcional", desc: "ID da tabulação que foi efetuada pelo operador." },
@@ -610,9 +610,9 @@
                         hasBody: true, 
                         notes: "• Enviar: <code>periodoInicial</code> e <code>periodoFinal</code>, ou <code>ultimosMinutos</code>;<br>• Período máximo de 90 dias.",
                         rawPayload: `{\n  "idCampanha": 1,\n  "periodoInicial": "2026-06-01T00:00:00",\n  "periodoFinal": "2026-06-02T23:59:59",\n  "ultimosMinutos": 0\n}`,
-                        rawResponse: `{\n  "codStatus": "int", // 1: Sucesso; < 1 Falha\n  "descStatus": "string", // Descrição do sucesso/falha\n  "endOfTable": "boolean", // True: listou todos os registros solicitados\n  "qtdeRegistros": "int",\n  "pausasDetalhadas": [{...}]\n}`,
+                        rawResponse: `{\n  "endOfTable": true, // True: listou todos os registros solicitados\n  "qtdeRegistros": 0, // Quantidade de registros retornados\n  "idProxPagina": 0, // ID para realizar a paginação na próxima consulta\n  "pausasDetalhadas": [],\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Sucesso." // Descrição do sucesso/falha\n}`,
                         params: [
-                            { name: "idCampanha", req: "Opcional", desc: "ID da campanha. Caso não enviar, será retornado o login dos operadores in todas as campanhas." },
+                            { name: "idCampanha", req: "Opcional", desc: "ID da campanha. Caso não enviar, será retornado o login dos operadores em todas as campanhas." },
                             { name: "periodoInicial", req: "Obrigatório*", desc: "Informar o período inicial." },
                             { name: "periodoFinal", req: "Obrigatório*", desc: "Informar o período final." },
                             { name: "ultimosMinutos", req: "Obrigatório*", desc: "Buscar pelos últimos minutos." }
@@ -622,9 +622,9 @@
                         id: "rel-entradasaida", title: "Relatório - Entrada / Saída dos Operadores", method: "POST", acceptsGet: true, url: "https://argus.app.br/apiargus/report/entradasaida", getUrl: "https://argus.app.br/apiargus/report/entradasaida?idCampanha=&periodoInicial=&periodoFinal=&ultimosMinutos=",
                         desc: "Retorna em JSON o relatório de entrada e saída dos operadores.", 
                         hasBody: true, 
-                        notes: "• Enviar: <code>periodoInicial</code> e <code>periodoFinal</code>, ou <code>ultimosMinutos</code>;",
+                        notes: "• Enviar: <code>periodoInicial</code> e <code>periodoFinal</code>, ou <code>ultimosMinutos</code>;<br>• Período máximo de 30 dias.",
                         rawPayload: `{\n  "idCampanha": 1,\n  "periodoInicial": "2026-06-01T00:00:00",\n  "periodoFinal": "2026-06-02T23:59:59",\n  "ultimosMinutos": 0\n}`,
-                        rawResponse: `{\n  "codStatus": "int", // 1: Sucesso; < 1 Falha\n  "descStatus": "string", // Descrição do sucesso/falha\n  "endOfTable": "boolean", // True: listou todos os registros solicitados\n  "qtdeRegistros": "int",\n  "entradasSaidas": [{...}]\n}`,
+                        rawResponse: `{\n  "endOfTable": true, // True: listou todos os registros solicitados\n  "qtdeRegistros": 0, // Quantidade de registros retornados\n  "entradasSaidas": [],\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Sucesso." // Descrição do sucesso/falha\n}`,
                         params: [
                             { name: "idCampanha", req: "Opcional", desc: "ID da campanha. Caso não enviar, será retornado o login dos operadores em todas as campanhas." },
                             { name: "periodoInicial", req: "Obrigatório*", desc: "Informar o período inicial." },
@@ -638,7 +638,7 @@
                         hasBody: true, 
                         notes: "• Enviar: <code>periodoInicial</code> e <code>periodoFinal</code>, ou <code>ultimosMinutos</code>;<br>• Período máximo de 30 dias.",
                         rawPayload: `{\n  "idCampanha": "1",\n  "idGrupoUsuario": "",\n  "periodoInicial": "2026-06-01T00:00:00",\n  "periodoFinal": "2026-06-02T23:59:59",\n  "ultimosMinutos": 0\n}`,
-                        rawResponse: `{\n  "codStatus": "int", // 1: Sucesso; < 1 Falha\n  "descStatus": "string", // Descrição do sucesso/falha\n  "endOfTable": "boolean",\n  "qtdeRegistros": "int",\n  "desempenhosResumidos": [{...}]\n}`,
+                        rawResponse: `{\n  "endOfTable": true, // True: listou todos os registros solicitados\n  "qtdeRegistros": 0, // Quantidade de registros retornados\n  "desempenhosResumidos": [],\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Sucesso." // Descrição do sucesso/falha\n}`,
                         params: [
                             { name: "idCampanha", req: "Opcional", desc: "ID da campanha. Caso não enviar, será retornado o desempenho dos operadores em todas as campanhas." },
                             { name: "idGrupoUsuario", req: "Opcional", desc: "ID do Grupo de Usuário. Filtra o desempenho produzido pelos operadores apenas de um determinado grupo." },
@@ -653,7 +653,7 @@
                         hasBody: true, 
                         notes: "",
                         rawPayload: `{\n  "idCampanha": 1,\n  "idGrupoUsuario": 0,\n  "idSkill": 0\n}`,
-                        rawResponse: `{\n  "codStatus": "int", // 1: Sucesso; < 1 Falha\n  "descStatus": "string", // descrição do sucesso/falha\n  "endOfTable": "boolean",\n  "qtdeRegistros": "int",\n  "idProxPagina": "int",\n  "idCampanha": "int",\n  "mailings": [{...}]\n}`,
+                        rawResponse: `{\n  "endOfTable": true, // True: listou todos os registros solicitados\n  "qtdeRegistros": 35, // Quantidade de registros retornados\n  "idProxPagina": 0, // ID para realizar a paginação na próxima consulta\n  "idCampanha": 0, // ID da campanha\n  "mailings": [\n    {\n      "idLote": 157,\n      "loteDesc": "TESTE11111111111",\n      "loteInicio": "2026-06-01T00:00:00.000-03:00",\n      "loteFim": "2026-07-30T23:59:59.000-03:00"\n    },\n    {\n      "idLote": 155,\n      "loteDesc": "TESTE50000",\n      "loteInicio": "2026-06-01T00:00:00.000-03:00",\n      "loteFim": "2026-07-30T23:59:59.000-03:00"\n    }\n  ],\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Sucesso." // Descrição do sucesso/falha\n}`,
                         params: [
                             { name: "idCampanha", req: "Obrigatório", desc: "ID da campanha que será listado os mailings." },
                             { name: "idGrupoUsuario", req: "Opcional", desc: "Retorna somente os mailings do grupo operacional informado." },
