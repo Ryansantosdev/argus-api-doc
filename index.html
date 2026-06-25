@@ -220,6 +220,10 @@
             }
         };
 
+        const JSON_COMMENT_NOTE = `<p class="text-[11px] text-amber-400/90 italic mb-3 leading-relaxed border border-amber-500/20 bg-amber-500/5 rounded-lg px-3 py-2">Comentários <code class="text-[10px] font-mono">//</code> são apenas ilustrativos e não fazem parte de JSON válido — não copie para produção.</p>`;
+
+        const WH_CALLBACK_NOTE = `<strong>URL de call-back:</strong> Deverá ser informada a URL que o Argus enviará os eventos para o seu sistema legado (cadastro no painel Argus).<br><br>`;
+
         const apiData = [
             {
                 category: "Guia de Integração",
@@ -310,7 +314,7 @@
                             </table>
                         </div>
                         2. Upload no body: "binary": o arquivo é enviado diretamente no corpo da requisição em formato binário bruto.`, 
-                        hasBody: false,
+                        hasBody: false, isUpload: true,
                         rawResponse: `{\n  "idArquivo": 9999, // código do arquivo importado.\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Importação iniciada com sucesso" // descrição do sucesso/falha\n}`
                     },
                     { 
@@ -328,7 +332,7 @@
                         id: "novo-lead", title: "Incluir Novo Lead - Unitário", method: "POST", url: "https://argus.app.br/apiargus/{hashSkill}/novo", 
                         desc: "Inclui novos leads dentro do Argus. Neste endpoint é possível incluir um lead dentro de um determinado Lote/Skill, ou deixar o sistema gerenciar automaticamente conforme os parâmetros no cadastro do endpoint.<br>Este recurso é utilizado para incluir leads de forma unitária em Landing Pages por exemplo.<br>Para incluir novos mailings, utilize o endpoint <a onclick=\"goToEndpoint('upload-mailing')\" class=\"doc-link\">\"Upload de Mailing por Arquivo CSV\"</a>.<br><br>*obs: todos os campos são opcionais e poderão ser enviados conforme a necessidade. O único campo obrigatório é o \"telefone1\".", 
                         hasBody: true, 
-                        rawPayload: `{\n  "idLote": 10, // Não enviar para gerenciamento automático do lote.\n  "idSkill": 105, // Não enviar para gerenciamento automático do skill.\n  "codCliente": "C-9999",\n  "nome": "João da Silva",\n  "telefone1": "11999999999", // Obrigatório\n  "telefone2": "",\n  "email": "cliente.generico@email.com",\n  "cpfCnpj": "00000000000",\n  "dataNascimento": "1990-01-01",\n  "detalhes": "Lead capturado via Landing Page",\n  "url": "https://site.com.br",\n  "utm_source": "google",\n  "utm_medium": "cpc",\n  "utm_campaign": "black_friday",\n  "origem": "Site",\n  "valor0": 150.00,\n  "cep": "00000-000",\n  "logradouro": "Rua Exemplo",\n  "numero": "123",\n  "bairro": "Centro",\n  "cidade": "São Paulo",\n  "uf": "SP",\n  "minRegraDescanso": 30\n}`, 
+                        rawPayload: `{\n  "idLote": 10, // Não enviar para gerenciamento automático do lote.\n  "idSkill": 105, // Não enviar para gerenciamento automático do skill.\n  "codCliente": "C-9999",\n  "nome": "João da Silva",\n  "telefone1": "11999999999", // Obrigatório\n  "telefone2": "",\n  "telefone3": "",\n  "telefone4": "",\n  "telefone5": "",\n  "email": "cliente.generico@email.com",\n  "cpfCnpj": "00000000000",\n  "dataNascimento": "1990-01-01",\n  "detalhes": "Lead capturado via Landing Page",\n  "url": "https://site.com.br",\n  "utm_source": "google",\n  "utm_medium": "cpc",\n  "utm_campaign": "black_friday",\n  "codLeadOrigem": "",\n  "origem": "Site",\n  "codLeadFornecedor": "",\n  "fornecedor": "",\n  "info0": "",\n  "info1": "",\n  "info2": "",\n  "info3": "",\n  "info4": "",\n  "info5": "",\n  "valor0": 150.00,\n  "valor1": 0,\n  "valor2": 0,\n  "valor3": 0,\n  "valor4": 0,\n  "data0": "",\n  "data1": "",\n  "data2": "",\n  "data3": "",\n  "data4": "",\n  "cep": "00000-000",\n  "logradouro": "Rua Exemplo",\n  "numero": "123",\n  "complemento": "",\n  "bairro": "Centro",\n  "cidade": "São Paulo",\n  "uf": "SP",\n  "minRegraDescanso": 30\n}`, 
                         rawResponse: `{\n  "nrLead": 1234567, // número do lead gerado.\n  "idLote": 10, // idLote de inclusão do lead.\n  "codStatus": 1, // 1: Sucesso < 1 Falha\n  "descStatus": "Lead incluído com sucesso" // descrição do sucesso/falha\n}`,
                         params: [
                             { name: "idLote", req: "Opcional", desc: "idLote para alocar o lead. Caso não envie o idLote o sistema irá alocar os leads automaticamente dentro do Lote padrão criado automaticamente todo mês." },
@@ -362,7 +366,7 @@
                     },
                     { 
                         id: "listar-tabs", title: "Listar Tabulações do Lead", method: "GET", url: "https://argus.app.br/apiargus/{hashSkill}/listartabulacoes", 
-                        desc: "Retorna a lista de tabulações existentes para o Lead. Este recurso pode ser usado para listar as tabulações existentes para o operador antes de executar o comando \"/tabular\".<br><br>Ao enviar o comando /tabular, estes valores poderão ser alterados caso você queira.", 
+                        desc: "Retorna a lista de tabulações existentes para o Lead. Este recurso pode ser usado para listar as tabulações existentes para o operador antes de executar o comando \"/tabular\".<br><br>Quando os valores \"fixo\" de Agenda estão preenchidos, o operador não consegue alterar o Tipo de Agenda e/ou o Agendamento no cadastro — porém, ao enviar o comando <code>/tabular</code>, estes valores poderão ser alterados caso você queira.", 
                         hasBody: false,
                         rawResponse: `{\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Sucesso", // descrição do sucesso/falha\n  "retornoTabulacoesItens": [\n    {\n      "codIntegTabulacao": 505, // Código da integração da tabulação\n      "idTabulacao": 22, // Código da tabulação\n      "tabulacaoDesc": "Venda Realizada", // Descrição da tabulação\n      "categoriaDesc": "Sucesso", // Descrição da categoria da tabulação\n      "idTipoCategoria": 11, // Código do tipo da categoria (vide tabela abaixo)\n      "tipoCategoriaDesc": "FINALIZADO SUCESSO", // Descrição do tipo da categoria\n      "finalizador": true, // True: Finalizado, False: Agendamento\n      "agendamento": false, // True: Agendamento, False: Finalizado\n      "idTipoAgendaFixo": 0, // Código do tipo de agenda fixo\n      "idTipoAgendaFixoDesc": "", // Descrição do tipo de agenda fixo*\n      "agendamentoFixo": "0001-01-01T00:00:00" // Data e hora do agendamento fixo*\n    }\n  ]\n}`,
                         responseParams: [
@@ -376,36 +380,45 @@
                         agendaParams: [
                             { name: "idTipoAgendaFixo = 3", desc: "AGENDA GRUPO" },
                             { name: "idTipoAgendaFixo = 4", desc: "AGENDA INDIVIDUAL" },
-                            { name: "Nota*", desc: "Quando estes valores \"fixo\" de Agenda estão preenchidos, é porque foi travado no cadastro para que o operador não altere o Tipo de Agenda/Agendamento." }
+                            { name: "Nota*", desc: "Quando estes valores \"fixo\" de Agenda estão preenchidos, é porque foi travado no cadastro para que o operador não consiga alterar o Tipo de Agenda e/ou o Agendamento. Ao enviar o comando \"/tabular\", estes valores poderão ser alterados caso você queira." }
                         ]
                     },
                     { 
                         id: "tabular-lead", title: "Tabular Lead", method: "POST", url: "https://argus.app.br/apiargus/{hashSkill}/tabular", 
                         desc: "Efetua a tabulação de um determinado lead já importado dentro do Argus. Caso o lead tabulado esteja aberto na tela do operador, ela será travada com a tabulação enviada via API para que o operador não consiga alterar.<br><br>* Enviar: nrLead, codCliente ou listaCodCliente;<br>* idTipoAgenda ou dataAgendamento: pode ser enviado em agendamentos. Caso seja agendamento e não for enviado, o sistema irá acatar os parâmetros previamente cadastrados na tabulação.", 
                         hasBody: true, 
-                        rawPayload: `{\n  "nrLead": 1234567,\n  "codCliente": "C-9999",\n  "listaCodCliente": ["C-9999", "C-8888"],\n  "ramal": "1001",\n  "codIntegTabulacao": "505",\n  "idTipoAgenda": 4,\n  "dataAgendamento": "2026-08-01T14:30:00-03:00"\n}`, 
+                        rawPayload: `{\n  // Campos para buscar o lead:\n  "nrLead": 1234567,\n  "codCliente": "C-9999",\n  "listaCodCliente": ["C-9999", "C-8888"],\n  // Campos da tabulação:\n  "ramal": "1001",\n  "codIntegTabulacao": "505",\n  "idTipoAgenda": 4,\n  "dataAgendamento": "2026-08-01T14:30:00-03:00"\n}`, 
                         rawResponse: `{\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Tabulação efetuada com sucesso", // descrição do sucesso/falha\n  "qtdeLeads": 1 // qtde de leads tabulados\n}`,
                         params: [
                             { name: "nrLead", req: "Opcional*", desc: "Tabular pelo número do lead. (Não enviar caso opte por tabular através do Código do Cliente)." },
-                            { name: "codCliente", req: "Opcional*", desc: "Tabular pelo código do cliente informado na importação do lead." },
-                            { name: "listaCodCliente", req: "Opcional*", desc: "Tabular vários Leads informando uma lista de códigos do cliente." },
-                            { name: "ramal", req: "Opcional\nPadrão: \"WS\"", desc: "Código de integração do operador (ramal). Obrigatório caso não seja enviado o \"idCampanha\"." },
+                            { name: "codCliente", req: "Opcional*", desc: "Tabular pelo código do cliente informado na importação do lead. (Não enviar caso opte por tabular através do nrLead)." },
+                            { name: "listaCodCliente", req: "Opcional*", desc: "Tabular vários Leads informando uma lista de códigos do cliente. (Não enviar caso opte por tabular através do nrLead)." },
+                            { name: "ramal", req: "Opcional\nPadrão: \"WS\"", desc: "Código de integração do operador (ramal) que tabulou o lead. Obrigatório caso não seja enviado o \"idCampanha\"." },
                             { name: "codIntegTabulacao", req: "Obrigatório", desc: "Código de integração da tabulação." },
-                            { name: "idTipoAgenda", req: "Opcional*", desc: "Em caso de agendamento: 3: AGENDA GRUPO, 4: AGENDA INDIVIDUAL" },
-                            { name: "dataAgendamento", req: "Opcional*", desc: "Data/Hora obrigatória somente em caso de agendamentos." }
+                            { name: "idTipoAgenda", req: "Opcional*", desc: "Deverá ser enviado somente em caso de agendamento: 3: AGENDA GRUPO, 4: AGENDA INDIVIDUAL" },
+                            { name: "dataAgendamento", req: "Opcional*", desc: "Data/Hora deverá ser enviada somente em caso de agendamento." }
                         ]
                     },
                     { 
                         id: "listar-gravacoes", title: "Listar Gravações", method: "GET", url: "https://argus.app.br/apiargus/{hashSkill}/listargravacoes?nrLead=&idSkill=&codCliente=&cpfCnpj=&telefone=", 
-                        desc: "Lista as gravações utilizando o filtro de parâmetros (Query Strings) de acordo com as especificações abaixo. Será retornado um array de ligações contendo o campo \"idLigacao\" que poderá ser utilizado para realizar o download da gravação posteriormente.", 
+                        desc: "Lista as gravações utilizando o filtro de parâmetros de acordo com as especificações abaixo. Será retornado um array de ligações contendo o campo \"idLigacao\" que poderá ser utilizado para realizar o download da gravação posteriormente.<br><br>* Enviar filtros conforme necessidade: nrLead, codCliente, cpfCnpj ou telefone.", 
                         hasBody: false, 
-                        rawResponse: `{\n  "nrLead": 1234567,\n  "codStatus": 1,\n  "descStatus": "Sucesso",\n  "retornoLigacoesItens": [\n    {\n      "idCampanha": 12,\n      "idSkill": 105,\n      "skillDesc": "Skill de Vendas",\n      "idLote": 10,\n      "loteDesc": "Lote Agosto",\n      "idLigacao": 8888,\n      "dataHoraLigacao": "2026-08-01T14:30:00-03:00",\n      "nrLead": 1234567,\n      "nomeCliente": "Cliente Genérico",\n      "tipoLigacao": "Ativo",\n      "resultadoLigacao": "Atendido",\n      "tempoSegundos": 120,\n      "telefone": "11999999999",\n      "tipoAgenda": "N/A",\n      "tabulado": "Sim",\n      "usuarioOperador": "Operador Genérico",\n      "grupoOrigem": "Grupo A"\n    }\n  ]\n}`,
+                        rawResponse: `{\n  "nrLead": 1234567, // número do lead\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Sucesso", // descrição do sucesso/falha\n  "retornoLigacoesItens": [\n    {\n      "idCampanha": 12, // código da campanha da ligação\n      "idSkill": 105, // código do skill da ligação\n      "skillDesc": "Skill de Vendas", // descrição do skill\n      "idLote": 10, // código do lote da ligação\n      "loteDesc": "Lote Agosto", // descrição do lote\n      "idLigacao": 8888, // código da ligação usado para o download da grav.\n      "dataHoraLigacao": "2026-08-01T14:30:00-03:00", // data/hora da ligação\n      "nrLead": 1234567, // código único do lead dentro da campanha\n      "nomeCliente": "Cliente Genérico", // nome do cliente\n      "tipoLigacao": "Preditivo", // "Manual", "Preditivo" ou "Receptivo"\n      "resultadoLigacao": "Atendido", // descrição do resultado da ligação\n      "tempoSegundos": 120, // tempo em segundos da ligação\n      "telefone": "11999999999", // telefone no formato ddd + telefone\n      "tipoAgenda": "Finalizado", // "Agenda Grupo", "Agenda Individual", "Finalizado"\n      "tabulado": "Sim", // tabulação efetuada pelo operador\n      "usuarioOperador": "Operador Genérico", // nome do operador que atendeu\n      "grupoOrigem": "Grupo A" // grupo de origem da ligação\n    }\n  ]\n}`,
                         params: [
-                            { name: "nrLead", req: "Opcional*", desc: "Buscar pelo número do lead." },
+                            { name: "nrLead", req: "Opcional*", desc: "Buscar pelo número do lead. (Não enviar caso opte por buscar através do codCliente, cpfCnpj ou telefone)." },
                             { name: "idSkill", req: "Opcional", desc: "Buscar o lead somente do skill informado." },
-                            { name: "codCliente", req: "Opcional*", desc: "Buscar pelo código do cliente informado na importação." },
+                            { name: "codCliente", req: "Opcional*", desc: "Buscar pelo código do cliente informado na importação. (Não enviar caso opte por buscar através do nrLead)." },
                             { name: "cpfCnpj", req: "Opcional*", desc: "Buscar todos os leads de um CPF ou CNPJ." },
-                            { name: "telefone", req: "Opcional*", desc: "Buscar todos os leads de um determinado telefone." }
+                            { name: "telefone", req: "Opcional*", desc: "Buscar todos os leads de um determinado telefone (DDD + telefone)." }
+                        ],
+                        responseFields: [
+                            { name: "idCampanha", desc: "Código da campanha da ligação." },
+                            { name: "idSkill / skillDesc", desc: "Código e descrição do skill da ligação." },
+                            { name: "idLote / loteDesc", desc: "Código e descrição do lote da ligação." },
+                            { name: "idLigacao", desc: "Código da ligação usado para download da gravação." },
+                            { name: "tipoLigacao", desc: "\"Manual\", \"Preditivo\" ou \"Receptivo\"." },
+                            { name: "tipoAgenda", desc: "\"Agenda Grupo\", \"Agenda Individual\" ou \"Finalizado\"." },
+                            { name: "telefone", desc: "Formato DDD + telefone." }
                         ]
                     }
                 ]
@@ -442,7 +455,7 @@
                         params: [
                             { name: "idCampanha", req: "Obrigatório", desc: "ID da Campanha que contém a gravação." },
                             { name: "idLigacao", req: "Obrigatório", desc: "ID da ligação gerada pelo discador (este ID pode ser obtido no Webhook de ligações do discador ou através do endpoint '/listargravacoes')." },
-                            { name: "preAtendimento", req: "Opcional\nPadrão: \"N\"", desc: "\"S\": Retorna áudio antes do atendimento (RINGBACK, etc). \"N\": Retorna o áudio do ATENDIMENTO." },
+                            { name: "preAtendimento", req: "Opcional\nPadrão: \"N\"", desc: "\"S\": Retorna áudio da gravação antes do atendimento (RINGBACK, CAIXA POSTAL, etc). \"N\": Retorna o áudio do ATENDIMENTO." },
                             { name: "formato", req: "Opcional\nPadrão: \"WAV\"", desc: "\"WAV\" ou \"MP3\"" },
                             { name: "opcaoCanais", req: "Opcional\nPadrão: 1", desc: "\"1\": Áudio mono. \"2\": Áudio estéreo. \"3\": Áudio estéreo separando canais A e B." },
                             { name: "base64", req: "Opcional\nPadrão: \"N\"", desc: "\"N\": Arquivo físico direto via download binário. \"S\": Arquivo codificado dentro do JSON." }
@@ -503,10 +516,10 @@
                         rawPayload: `{\n  "ramal": "1001",\n  "codCliente": "C-9999",\n  "nome": "Cliente Genérico",\n  "telefone": "11999999999"\n}`, 
                         rawResponse: `{\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Discagem iniciada com sucesso", // descrição do sucesso/falha\n  "idLigacao": "8888" // Código da ligação\n}`,
                         params: [
-                            { name: "ramal", req: "Obrigatório", desc: "Ramal do operador que receberá a rediscagem." }, 
-                            { name: "codCliente", req: "Opcional", desc: "Código do cliente para vínculo de histórico." },
-                            { name: "nome", req: "Opcional", desc: "Nome do cliente para criação dinâmica em banco." },
-                            { name: "telefone", req: "Obrigatório", desc: "DDD + Número de destino da chamada." }
+                            { name: "ramal", req: "Obrigatório", desc: "Código de integração do operador (Ramal) para entregar a ligação." }, 
+                            { name: "codCliente", req: "Opcional", desc: "Buscar o lead pelo código do cliente informado na inclusão do lead." },
+                            { name: "nome", req: "Opcional", desc: "Nome do cliente a ser criado no sistema caso não encontre o cliente através do codCliente." },
+                            { name: "telefone", req: "Obrigatório", desc: "DDD + Telefone que deseja fazer a ligação." }
                         ]
                     },
                     { 
@@ -527,10 +540,20 @@
                     },
                     { 
                         id: "status-op", title: "Status do Operador", method: "GET", url: "https://argus.app.br/apiargus/cmd/statusoperador?ramal=", 
-                        desc: "Retorna o status detalhado em tempo real de um determinado operador e as especificações do seu último Lead aberto.", 
+                        desc: "Retorna o status de um determinado operador e seu último Lead aberto.", 
                         hasBody: false, 
-                        rawResponse: `{\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Sucesso",\n  "statusOperador": {\n    "idCampanha": 12,\n    "campanha": "Campanha Principal",\n    "idGrupo": 5,\n    "grupo": "Vendas A",\n    "nome": "Operador Genérico",\n    "ramal": "1001",\n    "descricaoStatus": "Em Atendimento",\n    "descricaoPausa": "",\n    "tempoStatus": 45,\n    "origemDerivacao": "Preditivo",\n    "versaoClient": "3.0.1"\n  },\n  "ultimoLead": {\n    "dataHoraAberturaLead": "2026-08-01T14:30:00-03:00",\n    "idCampanha": 12,\n    "idSkill": 105,\n    "idLote": 10,\n    "nrLead": 1234567,\n    "nomeCliente": "Cliente Genérico",\n    "cpfCnpj": "00000000000",\n    "codCliente": "C-9999",\n    "telefone": "11999999999",\n    "idLigacao": 8888\n  }\n}`,
-                        params: [{ name: "ramal", req: "Obrigatório", desc: "Código do Ramal do operador analítico passado na Query String." }] 
+                        rawResponse: `{\n  "codStatus": 1, // 1: Sucesso; < 1 Falha\n  "descStatus": "Sucesso",\n  "statusOperador": {\n    "idCampanha": 12, // Código da campanha logada\n    "campanha": "Campanha Principal", // Descrição da campanha logada\n    "idGrupo": 5, // Código do grupo logado\n    "grupo": "Vendas A", // Descrição do grupo logado\n    "nome": "Operador Genérico", // Nome do operador\n    "ramal": "1001", // Ramal do operador logado\n    "descricaoStatus": "Em Atendimento", // Descrição do status do operador\n    "descricaoPausa": "", // Descrição da pausa (se estiver pausado)\n    "tempoStatus": 45000, // Tempo do status em milissegundos\n    "origemDerivacao": "Preditivo", // Origem: Preditivo, Receptivo ou Manual\n    "versaoClient": "3.0.1" // Versão do Argus cliente do operador\n  },\n  "ultimoLead": {\n    "dataHoraAberturaLead": "2026-08-01T14:30:00-03:00", // Data/Hora da abertura do lead\n    "idCampanha": 12,\n    "idSkill": 105,\n    "idLote": 10,\n    "nrLead": 1234567, // Número do Lead\n    "nomeCliente": "Cliente Genérico",\n    "cpfCnpj": "00000000000",\n    "codCliente": "C-9999", // Código informado na importação\n    "telefone": "11999999999", // DDD + Telefone\n    "idLigacao": 8888 // Código da ligação (se houver)\n  }\n}`,
+                        params: [{ name: "ramal", req: "Obrigatório", desc: "Código de integração do operador (Ramal)." }],
+                        responseFields: [
+                            { name: "statusOperador.idCampanha / campanha", desc: "Código e descrição da campanha logada." },
+                            { name: "statusOperador.idGrupo / grupo", desc: "Código e descrição do grupo logado." },
+                            { name: "statusOperador.descricaoStatus", desc: "Descrição do status atual do operador." },
+                            { name: "statusOperador.descricaoPausa", desc: "Descrição da pausa (se estiver pausado)." },
+                            { name: "statusOperador.tempoStatus", desc: "Tempo do status em <strong>milissegundos</strong>." },
+                            { name: "statusOperador.origemDerivacao", desc: "Origem da derivação: Preditivo, Receptivo ou Manual." },
+                            { name: "statusOperador.versaoClient", desc: "Versão do Argus cliente do operador." },
+                            { name: "ultimoLead.*", desc: "Dados do último lead aberto: nrLead, telefone (DDD+telefone), idLigacao (se houver), etc." }
+                        ]
                     },
                     { 
                         id: "popup-transf", title: "Pop-up Transferência", method: "POST", url: "https://argus.app.br/apiargus/cmd/popuptransferencia", 
@@ -566,6 +589,15 @@
                             { name: "periodoFinal", req: "Obrigatório*", desc: "Informar o período final das ligações." },
                             { name: "ultimosMinutos", req: "Obrigatório*", desc: "Buscar pelos últimos minutos." },
                             { name: "ultimoId", req: "Opcional", desc: "ID utilizado para realizar a paginação. Utilize o valor “idProxPagina” da última consulta para buscar a próxima página." }
+                        ],
+                        responseFields: [
+                            { name: "codStatus", desc: "1: Sucesso; < 1 Falha." },
+                            { name: "descStatus", desc: "Descrição do sucesso/falha." },
+                            { name: "endOfTable", desc: "True: listou todos os registros solicitados." },
+                            { name: "qtdeRegistros", desc: "Quantidade de registros retornados." },
+                            { name: "idProxPagina", desc: "ID para paginação na próxima consulta (informe em ultimoId)." },
+                            { name: "idCampanha", desc: "ID da campanha das ligações." },
+                            { name: "ligacoesDetalhadas", desc: "Array com os registros detalhados." }
                         ]
                     },
                     { 
@@ -582,6 +614,15 @@
                             { name: "periodoFinal", req: "Obrigatório*", desc: "Informar o período final das ligações." },
                             { name: "ultimosMinutos", req: "Obrigatório*", desc: "Buscar pelos últimos minutos." },
                             { name: "ultimoId", req: "Opcional", desc: "ID utilizado para realizar a paginação. Utilize o valor “idProxPagina” da consulta anterior para buscar a próxima página." }
+                        ],
+                        responseFields: [
+                            { name: "codStatus", desc: "1: Sucesso; < 1 Falha." },
+                            { name: "descStatus", desc: "Descrição do sucesso/falha." },
+                            { name: "endOfTable", desc: "True: listou todos os registros solicitados." },
+                            { name: "qtdeRegistros", desc: "Quantidade de registros retornados." },
+                            { name: "idProxPagina", desc: "ID para paginação na próxima consulta." },
+                            { name: "idCampanha", desc: "ID da campanha das ligações." },
+                            { name: "receptivos", desc: "Array com os registros de ligações receptivas." }
                         ]
                     },
                     { 
@@ -602,6 +643,15 @@
                             { name: "periodoFinal", req: "Obrigatório*", desc: "Informar o período final das tabulações." },
                             { name: "ultimosMinutos", req: "Obrigatório*", desc: "Buscar pelos últimos minutos." },
                             { name: "ultimoId", req: "Opcional", desc: "ID utilizado para realizar a paginação. Utilize o valor “idProxPagina” da consulta anterior para buscar a próxima página." }
+                        ],
+                        responseFields: [
+                            { name: "codStatus", desc: "1: Sucesso; < 1 Falha." },
+                            { name: "descStatus", desc: "Descrição do sucesso/falha." },
+                            { name: "endOfTable", desc: "True: listou todos os registros solicitados." },
+                            { name: "qtdeRegistros", desc: "Quantidade de registros retornados." },
+                            { name: "idProxPagina", desc: "ID para paginação na próxima consulta." },
+                            { name: "idCampanha", desc: "ID da campanha das tabulações." },
+                            { name: "tabulacoes", desc: "Array com os registros detalhados." }
                         ]
                     },
                     { 
@@ -616,6 +666,13 @@
                             { name: "periodoInicial", req: "Obrigatório*", desc: "Informar o período inicial." },
                             { name: "periodoFinal", req: "Obrigatório*", desc: "Informar o período final." },
                             { name: "ultimosMinutos", req: "Obrigatório*", desc: "Buscar pelos últimos minutos." }
+                        ],
+                        responseFields: [
+                            { name: "codStatus", desc: "1: Sucesso; < 1 Falha." },
+                            { name: "descStatus", desc: "Descrição do sucesso/falha." },
+                            { name: "endOfTable", desc: "True: listou todos os registros solicitados." },
+                            { name: "qtdeRegistros", desc: "Quantidade de registros retornados." },
+                            { name: "pausasDetalhadas", desc: "Array com os registros de pausas." }
                         ]
                     },
                     { 
@@ -630,6 +687,13 @@
                             { name: "periodoInicial", req: "Obrigatório*", desc: "Informar o período inicial." },
                             { name: "periodoFinal", req: "Obrigatório*", desc: "Informar o período final." },
                             { name: "ultimosMinutos", req: "Obrigatório*", desc: "Buscar pelos últimos minutos." }
+                        ],
+                        responseFields: [
+                            { name: "codStatus", desc: "1: Sucesso; < 1 Falha." },
+                            { name: "descStatus", desc: "Descrição do sucesso/falha." },
+                            { name: "endOfTable", desc: "True: listou todos os registros solicitados." },
+                            { name: "qtdeRegistros", desc: "Quantidade de registros retornados." },
+                            { name: "entradasSaidas", desc: "Array com os registros de entrada/saída." }
                         ]
                     },
                     { 
@@ -645,6 +709,13 @@
                             { name: "periodoInicial", req: "Obrigatório*", desc: "Informar o período inicial." },
                             { name: "periodoFinal", req: "Obrigatório*", desc: "Informar o período final." },
                             { name: "ultimosMinutos", req: "Obrigatório*", desc: "Buscar pelos últimos minutos." }
+                        ],
+                        responseFields: [
+                            { name: "codStatus", desc: "1: Sucesso; < 1 Falha." },
+                            { name: "descStatus", desc: "Descrição do sucesso/falha." },
+                            { name: "endOfTable", desc: "True: listou todos os registros solicitados." },
+                            { name: "qtdeRegistros", desc: "Quantidade de registros retornados." },
+                            { name: "desempenhosResumidos", desc: "Array com o desempenho resumido dos operadores." }
                         ]
                     },
                     { 
@@ -658,6 +729,10 @@
                             { name: "idCampanha", req: "Obrigatório", desc: "ID da campanha que será listado os mailings." },
                             { name: "idGrupoUsuario", req: "Opcional", desc: "Retorna somente os mailings do grupo operacional informado." },
                             { name: "idSkill", req: "Opcional", desc: "Retorna somente os mailings vinculados com o idSkill informado." }
+                        ],
+                        responseFields: [
+                            { name: "codStatus", desc: "1: Sucesso; < 1 Falha." },
+                            { name: "descStatus", desc: "Descrição do sucesso/falha." }
                         ]
                     }
                 ]
@@ -667,21 +742,73 @@
                 items: [
                     { 
                         id: "wh-inicio", title: "Webhook - Início do Atendimento", method: "POST", url: "https://sua-url-de-callback.com.br", 
-                        desc: "Disparado instantaneamente para seu sistema legado configurado no momento em que um operador humano aceita ou conecta-se a uma chamada válida.", 
-                        hasBody: true, isWebhook: true, 
-                        rawPayload: `{\n  "idDominio": 999, // Código do domínio\n  "idCampanha": 1, // ID da Campanha\n  "idSkill": 1, // ID do Skill\n  "idLote": 1, // ID do Lote\n  "nrPlan": 123456, // Número do plano/lead\n  "codCliente": "",\n  "nomeCliente": "",\n  "cpfCnpj": "",\n  "codUsuarioIntegracao": "000000",\n  "nomeUsuario": "OPERADOR GENERICO",\n  "idLigacao": 8888,\n  "dataInicioLigacao": "2026-08-01T14:30:00.000Z",\n  "telefone": "11999999999",\n  "telefoneE164": "5511999999999",\n  "idTipoWebhook": 1\n}`
+                        desc: WH_CALLBACK_NOTE + "Dispara um evento para a API do sistema legado toda vez que algum operador iniciar o atendimento.", 
+                        hasBody: true, isWebhook: true, paramsTitle: "Campos do Body JSON",
+                        rawPayload: `{\n  "idTipoWebhook": 1,\n  "idDominio": 999,\n  "idCampanha": 1,\n  "idSkill": 1,\n  "idLote": 1,\n  "nrLead": 123456,\n  "codCliente": "",\n  "nomeCliente": "",\n  "cpfCnpj": "",\n  "codUsuarioIntegracao": "000000",\n  "nomeUsuario": "OPERADOR GENERICO",\n  "idLigacao": 8888,\n  "dataInicioLigacao": "2026-08-01T14:30:00-03:00",\n  "telefone": "11999999999"\n}`,
+                        params: [
+                            { name: "idTipoWebhook", req: "Fixo: 1", desc: "Identificador do tipo de webhook disparado." },
+                            { name: "idDominio", req: "—", desc: "ID do domínio do cliente." },
+                            { name: "idCampanha", req: "—", desc: "ID da campanha cadastrada no Argus." },
+                            { name: "idSkill", req: "—", desc: "ID do Skill vinculado ao Lote." },
+                            { name: "idLote", req: "—", desc: "ID do Lote." },
+                            { name: "nrLead", req: "—", desc: "Número do lead." },
+                            { name: "codCliente", req: "—", desc: "Código do cliente informado na inclusão do lead." },
+                            { name: "nomeCliente", req: "—", desc: "Nome do cliente." },
+                            { name: "cpfCnpj", req: "—", desc: "CPF ou CNPJ do cliente." },
+                            { name: "codUsuarioIntegracao", req: "—", desc: "Código de integração do operador (ramal) que atendeu a ligação." },
+                            { name: "nomeUsuario", req: "—", desc: "Nome do operador que atendeu a ligação." },
+                            { name: "idLigacao", req: "—", desc: "ID da ligação gerada pelo discador. Caso tabule sem ligação, será \"0\"." },
+                            { name: "dataInicioLigacao", req: "—", desc: "Data/Hora do início da ligação quando houver ATENDIMENTO. Vazio se tabulação sem atendimento." },
+                            { name: "telefone", req: "—", desc: "DDD+Telefone da ligação. Vazio \"\" se tabulação sem ligação." }
+                        ]
                     },
                     { 
                         id: "wh-tabulacao", title: "Webhook - Tabulação do Operador", method: "POST", url: "https://sua-url-de-callback.com.br", 
-                        desc: "Dispara as tabulações e históricos digitados ou gerados em tela em tempo real para controle de encerramento do CRM proprietário.", 
-                        hasBody: true, isWebhook: true, 
-                        rawPayload: `{\n  "idDominio": 999,\n  "idCampanha": 1,\n  "idSkill": 1,\n  "idLote": 1,\n  "nrPlan": 123456,\n  "codCliente": "",\n  "nomeCliente": "",\n  "cpfCnpj": "",\n  "codUsuarioIntegracao": "000000",\n  "nomeUsuario": "OPERADOR GENERICO",\n  "idLigacao": 8888,\n  "dataInicioLigacao": "2026-08-01T14:30:00.000Z",\n  "dataFimLigacao": "2026-08-01T14:35:00.000Z",\n  "tempoLigacao": 300,\n  "telefone": "11999999999",\n  "telefoneE164": "5511999999999",\n  "dataTabulacao": "2026-08-01T14:35:10.000Z",\n  "idTabulacao": 55,\n  "codIntegTabulacao": "",\n  "tabulacaoDesc": "VENDA REALIZADA COM SUCESSO",\n  "idTipoAgenda": 5,\n  "tipoAgendaDesc": "FINALIZADO",\n  "dataAgendamento": "",\n  "historico": "",\n  "idTipoWebhook": 2\n}`
+                        desc: WH_CALLBACK_NOTE + "Dispara um evento para a API do sistema legado com as tabulações que o operador efetuar em tela em tempo real.", 
+                        hasBody: true, isWebhook: true, paramsTitle: "Campos do Body JSON",
+                        rawPayload: `{\n  "idTipoWebhook": 2,\n  "idDominio": 999,\n  "idCampanha": 1,\n  "idSkill": 1,\n  "idLote": 1,\n  "nrLead": 123456,\n  "codCliente": "",\n  "nomeCliente": "",\n  "cpfCnpj": "",\n  "codUsuarioIntegracao": "000000",\n  "nomeUsuario": "OPERADOR GENERICO",\n  "idLigacao": 8888,\n  "dataInicioLigacao": "2026-08-01T14:30:00-03:00",\n  "dataFimLigacao": "2026-08-01T14:35:00-03:00",\n  "tempoLigacao": 300,\n  "telefone": "11999999999",\n  "dataTabulacao": "2026-08-01T14:35:10-03:00",\n  "idTabulacao": "55",\n  "codIntegTabulacao": "505",\n  "tabulacaoDesc": "VENDA REALIZADA",\n  "idTipoAgenda": 5,\n  "tipoAgendaDesc": "FINALIZADO",\n  "dataAgendamento": "",\n  "historico": ""\n}`,
+                        params: [
+                            { name: "idTipoWebhook", req: "Fixo: 2", desc: "Identificador do tipo de webhook disparado." },
+                            { name: "idDominio", req: "—", desc: "ID do domínio do cliente." },
+                            { name: "idCampanha / idSkill / idLote", req: "—", desc: "Identificadores da campanha, skill e lote." },
+                            { name: "nrLead", req: "—", desc: "Número do lead que foi tabulado." },
+                            { name: "codCliente / nomeCliente / cpfCnpj", req: "—", desc: "Dados do cliente tabulado." },
+                            { name: "codUsuarioIntegracao / nomeUsuario", req: "—", desc: "Operador que atendeu a ligação." },
+                            { name: "idLigacao", req: "—", desc: "ID da ligação. \"0\" se tabulação sem ligação." },
+                            { name: "dataInicioLigacao / dataFimLigacao", req: "—", desc: "Início e fim da ligação quando houver atendimento. Vazios se sem atendimento." },
+                            { name: "tempoLigacao", req: "—", desc: "Tempo em segundos da duração do atendimento." },
+                            { name: "telefone", req: "—", desc: "DDD+Telefone. Vazio \"\" se tabulação sem ligação." },
+                            { name: "dataTabulacao", req: "—", desc: "Data/Hora que o operador tabulou o lead." },
+                            { name: "idTabulacao / codIntegTabulacao / tabulacaoDesc", req: "—", desc: "Identificadores e descrição da tabulação." },
+                            { name: "idTipoAgenda", req: "—", desc: "3: AGENDA GRUPO, 4: AGENDA INDIVIDUAL, 5: FINALIZADO." },
+                            { name: "tipoAgendaDesc", req: "—", desc: "Descrição do tipo de agendamento conforme tabela acima." },
+                            { name: "dataAgendamento", req: "—", desc: "Data/Hora do agendamento. Nula se lead FINALIZADO." },
+                            { name: "historico", req: "—", desc: "Texto com as informações do atendimento inserido pelo operador." }
+                        ],
+                        responseParamsTitle: "Referência idTipoAgenda",
+                        responseParams: [
+                            { name: "idTipoAgenda = 3", desc: "AGENDA GRUPO" },
+                            { name: "idTipoAgenda = 4", desc: "AGENDA INDIVIDUAL" },
+                            { name: "idTipoAgenda = 5", desc: "FINALIZADO" }
+                        ]
                     },
                     { 
                         id: "wh-virtual-atend", title: "Webhook - Oper. Virtual: Solicitação de atendimento", method: "POST", url: "https://sua-url-de-callback.com.br", 
-                        desc: "Gatilho acionado quando a interação do bot evolui para uma solicitação genérica de Derivação Humana/Atendimento, aguardando status de fila.", 
-                        hasBody: true, isWebhook: true, 
-                        rawPayload: `{\n  "idDominio": 999,\n  "idCampanha": 1,\n  "idGrupoUsuario": 10,\n  "idSkill": 1,\n  "idLote": 1,\n  "nrPlan": 123456,\n  "codCliente": "",\n  "nomeCliente": "",\n  "cpfCnpj": "",\n  "idLigacao": 8888,\n  "telefone": "11999999999",\n  "telefoneE164": "5511999999999",\n  "dataInicioOperVirtual": "2026-08-01T14:30:00.000-03:00",\n  "acionouRecusa": false,\n  "acionouDerivacao": true,\n  "dataInicioFila": "2026-08-01T14:30:15.000-03:00",\n  "posicaoFila": 1,\n  "tempoSegundosFila": 10,\n  "idConclusaoDerivacao": 0,\n  "conclusaoDerivacaoDesc": "",\n  "codUsuarioIntegracao": "",\n  "nomeUsuario": "",\n  "idTipoWebhook": 4\n}`,
+                        desc: WH_CALLBACK_NOTE + "Disparado quando o cliente interage com o operador virtual na solicitação de Derivação (atendimento). <code>acionouRecusa</code> fixo False; <code>acionouDerivacao</code> fixo True.", 
+                        hasBody: true, isWebhook: true, paramsTitle: "Campos do Body JSON",
+                        rawPayload: `{\n  "idTipoWebhook": 4,\n  "idDominio": 999,\n  "idCampanha": 1,\n  "idGrupoUsuario": 10,\n  "idSkill": 1,\n  "idLote": 1,\n  "nrLead": 123456,\n  "codCliente": "",\n  "nomeCliente": "",\n  "cpfCnpj": "",\n  "idLigacao": 8888,\n  "telefone": "11999999999",\n  "dataInicioOperVirtual": "2026-08-01T14:30:00-03:00",\n  "acionouRecusa": false,\n  "acionouDerivacao": true,\n  "dataInicioFila": "2026-08-01T14:30:15-03:00",\n  "posicaoFila": 1,\n  "tempoSegundosFila": 10,\n  "idConclusaoDerivacao": 0,\n  "conclusaoDerivacaoDesc": "",\n  "codUsuarioIntegracao": "",\n  "nomeUsuario": ""\n}`,
+                        params: [
+                            { name: "idTipoWebhook", req: "Fixo: 4", desc: "Identificador do tipo de webhook disparado." },
+                            { name: "idGrupoUsuario", req: "—", desc: "ID do grupo do usuário em que o operador virtual está logado." },
+                            { name: "acionouRecusa", req: "Fixo: False", desc: "O cliente não acionou recusa." },
+                            { name: "acionouDerivacao", req: "Fixo: True", desc: "O cliente acionou a opção de falar com um operador." },
+                            { name: "dataInicioFila", req: "—", desc: "Data/hora do início da fila para atendimento humano." },
+                            { name: "posicaoFila", req: "—", desc: "Posição na fila de espera." },
+                            { name: "tempoSegundosFila", req: "—", desc: "Tempo aguardando na fila até ser atendido." },
+                            { name: "idConclusaoDerivacao", req: "—", desc: "ID da conclusão da derivação (vide tabela)." },
+                            { name: "conclusaoDerivacaoDesc", req: "—", desc: "Descrição do ID da conclusão da derivação." }
+                        ],
+                        responseParamsTitle: "Referência idConclusaoDerivacao (tipo 4)",
                         responseParams: [
                             { name: "idConclusaoDerivacao = 1", desc: "DERIVOU" },
                             { name: "idConclusaoDerivacao = 2", desc: "ABANDONOU FILA" },
@@ -691,27 +818,59 @@
                     },
                     { 
                         id: "wh-virtual-abandono", title: "Webhook - Oper. virtual: Solicitou atendimento (abandono)", method: "POST", url: "https://sua-url-de-callback.com.br", 
-                        desc: "Acionado quando o lead interage e solicita atendimento humano, porém abandona ou o sistema não encontra agentes (Sem Agente/Time-Out).", 
-                        hasBody: true, isWebhook: true, 
-                        rawPayload: `{\n  "idDominio": 999,\n  "idCampanha": 1,\n  "idGrupoUsuario": 10,\n  "idSkill": 1,\n  "idLote": 1,\n  "nrPlan": 123456,\n  "codCliente": "",\n  "nomeCliente": "",\n  "cpfCnpj": "",\n  "idLigacao": 8888,\n  "telefone": "11999999999",\n  "telefoneE164": "5511999999999",\n  "dataInicioOperVirtual": "2026-08-01T14:30:00.000-03:00",\n  "acionouRecusa": false,\n  "acionouDerivacao": true,\n  "dataInicioFila": "2026-08-01T14:30:15.000-03:00",\n  "posicaoFila": 0,\n  "tempoSegundosFila": 0,\n  "idConclusaoDerivacao": 4,\n  "conclusaoDerivacaoDesc": "SEM AGENTE",\n  "codUsuarioIntegracao": "",\n  "nomeUsuario": "",\n  "idTipoWebhook": 4\n}`
+                        desc: WH_CALLBACK_NOTE + "Exemplo de webhook tipo 4 com conclusão SEM AGENTE ou TIME-OUT FILA (cliente solicitou atendimento mas abandonou ou não havia agentes).", 
+                        hasBody: true, isWebhook: true, paramsTitle: "Campos do Body JSON",
+                        rawPayload: `{\n  "idTipoWebhook": 4,\n  "idDominio": 999,\n  "idCampanha": 1,\n  "idGrupoUsuario": 10,\n  "idSkill": 1,\n  "idLote": 1,\n  "nrLead": 123456,\n  "codCliente": "",\n  "nomeCliente": "",\n  "cpfCnpj": "",\n  "idLigacao": 8888,\n  "telefone": "11999999999",\n  "dataInicioOperVirtual": "2026-08-01T14:30:00-03:00",\n  "acionouRecusa": false,\n  "acionouDerivacao": true,\n  "dataInicioFila": "2026-08-01T14:30:15-03:00",\n  "posicaoFila": 0,\n  "tempoSegundosFila": 0,\n  "idConclusaoDerivacao": 4,\n  "conclusaoDerivacaoDesc": "SEM AGENTE",\n  "codUsuarioIntegracao": "",\n  "nomeUsuario": ""\n}`,
+                        responseParamsTitle: "Referência idConclusaoDerivacao (tipo 4)",
+                        responseParams: [
+                            { name: "idConclusaoDerivacao = 1", desc: "DERIVOU" },
+                            { name: "idConclusaoDerivacao = 2", desc: "ABANDONOU FILA" },
+                            { name: "idConclusaoDerivacao = 4", desc: "SEM AGENTE" },
+                            { name: "idConclusaoDerivacao = 5", desc: "TIME-OUT FILA" }
+                        ]
                     },
                     { 
                         id: "wh-virtual-derivou", title: "Webhook - Oper. Virtual solicitou atendimento (Derivou)", method: "POST", url: "https://sua-url-de-callback.com.br", 
-                        desc: "Acionado quando o lead solicita ser atendido e é efetivamente derivado/conectado a um atendente humano.", 
-                        hasBody: true, isWebhook: true, 
-                        rawPayload: `{\n  "idDominio": 999,\n  "idCampanha": 1,\n  "idGrupoUsuario": 10,\n  "idSkill": 1,\n  "idLote": 1,\n  "nrPlan": 123456,\n  "codCliente": "",\n  "nomeCliente": "",\n  "cpfCnpj": "",\n  "idLigacao": 8888,\n  "telefone": "11999999999",\n  "telefoneE164": "5511999999999",\n  "dataInicioOperVirtual": "2026-08-01T14:30:00.000-03:00",\n  "acionouRecusa": false,\n  "acionouDerivacao": true,\n  "dataInicioFila": "2026-08-01T14:30:15.000-03:00",\n  "posicaoFila": 1,\n  "tempoSegundosFila": 5,\n  "idConclusaoDerivacao": 1,\n  "conclusaoDerivacaoDesc": "DERIVOU",\n  "codUsuarioIntegracao": "000000",\n  "nomeUsuario": "OPERADOR GENERICO",\n  "idTipoWebhook": 4\n}`
+                        desc: WH_CALLBACK_NOTE + "Exemplo de webhook tipo 4 com conclusão DERIVOU — cliente foi conectado a um atendente humano.", 
+                        hasBody: true, isWebhook: true, paramsTitle: "Campos do Body JSON",
+                        rawPayload: `{\n  "idTipoWebhook": 4,\n  "idDominio": 999,\n  "idCampanha": 1,\n  "idGrupoUsuario": 10,\n  "idSkill": 1,\n  "idLote": 1,\n  "nrLead": 123456,\n  "codCliente": "",\n  "nomeCliente": "",\n  "cpfCnpj": "",\n  "idLigacao": 8888,\n  "telefone": "11999999999",\n  "dataInicioOperVirtual": "2026-08-01T14:30:00-03:00",\n  "acionouRecusa": false,\n  "acionouDerivacao": true,\n  "dataInicioFila": "2026-08-01T14:30:15-03:00",\n  "posicaoFila": 1,\n  "tempoSegundosFila": 5,\n  "idConclusaoDerivacao": 1,\n  "conclusaoDerivacaoDesc": "DERIVOU",\n  "codUsuarioIntegracao": "000000",\n  "nomeUsuario": "OPERADOR GENERICO"\n}`,
+                        responseParamsTitle: "Referência idConclusaoDerivacao (tipo 4)",
+                        responseParams: [
+                            { name: "idConclusaoDerivacao = 1", desc: "DERIVOU" },
+                            { name: "idConclusaoDerivacao = 2", desc: "ABANDONOU FILA" },
+                            { name: "idConclusaoDerivacao = 4", desc: "SEM AGENTE" },
+                            { name: "idConclusaoDerivacao = 5", desc: "TIME-OUT FILA" }
+                        ]
                     },
                     { 
                         id: "wh-virtual-recusa", title: "Webhook - Oper. Virtual Solicitou Recusa", method: "POST", url: "https://sua-url-de-callback.com.br", 
-                        desc: "Dispara dados quando o lead desliga ou aciona a opção lógica de recusa direta dentro da árvore conversacional do agente inteligente.", 
-                        hasBody: true, isWebhook: true, 
-                        rawPayload: `{\n  "idDominio": 999,\n  "idCampanha": 1,\n  "idGrupoUsuario": 10,\n  "idSkill": 1,\n  "idLote": 1,\n  "nrPlan": 123456,\n  "codCliente": "",\n  "nomeCliente": "",\n  "cpfCnpj": "",\n  "idLigacao": 8888,\n  "telefone": "11999999999",\n  "telefoneE164": "5511999999999",\n  "dataInicioOperVirtual": "2026-08-01T14:30:00.000-03:00",\n  "acionouRecusa": true,\n  "acionouDerivacao": false,\n  "idTipoWebhook": 6\n}`
+                        desc: WH_CALLBACK_NOTE + "Disparado quando o cliente interage com o operador virtual na solicitação de Recusa. <code>acionouRecusa</code> fixo True; <code>acionouDerivacao</code> fixo False.", 
+                        hasBody: true, isWebhook: true, paramsTitle: "Campos do Body JSON",
+                        rawPayload: `{\n  "idTipoWebhook": 6,\n  "idDominio": 999,\n  "idCampanha": 1,\n  "idGrupoUsuario": 10,\n  "idSkill": 1,\n  "idLote": 1,\n  "nrLead": 123456,\n  "codCliente": "",\n  "nomeCliente": "",\n  "cpfCnpj": "",\n  "idLigacao": 8888,\n  "telefone": "11999999999",\n  "dataInicioOperVirtual": "2026-08-01T14:30:00-03:00",\n  "acionouRecusa": true,\n  "acionouDerivacao": false\n}`,
+                        params: [
+                            { name: "idTipoWebhook", req: "Fixo: 6", desc: "Identificador do tipo de webhook disparado." },
+                            { name: "acionouRecusa", req: "Fixo: True", desc: "O cliente acionou a opção de recusa." },
+                            { name: "acionouDerivacao", req: "Fixo: False", desc: "O cliente não solicitou derivação para operador." },
+                            { name: "dataInicioOperVirtual", req: "—", desc: "Data/Hora de atendimento do operador virtual." },
+                            { name: "telefone", req: "—", desc: "DDD+Telefone da ligação." }
+                        ]
                     },
                     { 
-                        id: "wh-ura", title: "Webhook - Encerramento URA", method: "POST", url: "https://sua-url-de-callback.com.br", 
-                        desc: "Disparado no desligamento ou transbordo da URA receptiva estruturada. Registro fundamental para monitorar taxas de abandono pré-atendimento.", 
-                        hasBody: true, isWebhook: true, 
-                        rawPayload: `{\n  "idTipoWebhook": 5,\n  "idDominio": 999,\n  "idCampanha": 1,\n  "dataInicioUra": "2026-08-01T14:30:00.000Z",\n  "idServico": 10,\n  "servicoDesc": "Atendimento Receptivo",\n  "servicoNumero": "08000000000",\n  "tempoUraSegundos": 45,\n  "telefone": "11999999999",\n  "foraHorario": false,\n  "idConclusaoDerivacao": 1,\n  "conclusaoDerivacaoDesc": "DERIVOU",\n  "posicaoFila": 1,\n  "tempoFilaSegundos": 5,\n  "codUsuarioIntegracao": "000000",\n  "nomeUsuario": "OPERADOR GENERICO"\n}`,
+                        id: "wh-ura", title: "Webhook - Receptivo: Encerramento de URA", method: "POST", url: "https://sua-url-de-callback.com.br", 
+                        desc: WH_CALLBACK_NOTE + "Disparado sempre que encerrar a URA de uma ligação RECEPTIVO.", 
+                        hasBody: true, isWebhook: true, paramsTitle: "Campos do Body JSON",
+                        rawPayload: `{\n  "idTipoWebhook": 5,\n  "idDominio": 999,\n  "idCampanha": 1,\n  "dataInicioUra": "2026-08-01T14:30:00-03:00",\n  "idServico": 10,\n  "servicoDesc": "Atendimento Receptivo",\n  "servicoNumero": "08000000000",\n  "tempoUraSegundos": 45,\n  "telefone": "11999999999",\n  "foraHorario": false,\n  "idConclusaoDerivacao": 1,\n  "conclusaoDerivacaoDesc": "DERIVOU",\n  "posicaoFila": 1,\n  "tempoFilaSegundos": 5,\n  "codUsuarioIntegracao": "000000",\n  "nomeUsuario": "OPERADOR GENERICO"\n}`,
+                        params: [
+                            { name: "idTipoWebhook", req: "Fixo: 5", desc: "Identificador do tipo de webhook disparado." },
+                            { name: "dataInicioUra", req: "—", desc: "Data/Hora do início da URA." },
+                            { name: "idServico / servicoDesc / servicoNumero", req: "—", desc: "Identificação do serviço receptivo vinculado à URA." },
+                            { name: "tempoUraSegundos", req: "—", desc: "Tempo que o cliente permaneceu dentro da URA." },
+                            { name: "telefone", req: "—", desc: "DDD+Telefone que originou a ligação." },
+                            { name: "foraHorario", req: "—", desc: "True/False: indica se estava dentro do horário de atendimento no momento da ligação." },
+                            { name: "posicaoFila / tempoFilaSegundos", req: "—", desc: "Posição e tempo de espera na fila até atendimento do operador." },
+                            { name: "codUsuarioIntegracao / nomeUsuario", req: "—", desc: "Operador que atendeu (se houver derivação)." }
+                        ],
+                        responseParamsTitle: "Referência idConclusaoDerivacao (tipo 5 — URA)",
                         responseParams: [
                             { name: "idConclusaoDerivacao = 1", desc: "DERIVOU" },
                             { name: "idConclusaoDerivacao = 2", desc: "ABANDONOU FILA" },
@@ -721,15 +880,28 @@
                     },
                     { 
                         id: "wh-lead", title: "Webhook - Recebimento de Lead (Landing Page)", method: "POST", url: "https://sua-url-de-callback.com.br", 
-                        desc: "Auditoria disparada de volta sempre que a API recebe um lead unitário externo via injeção da rota '/novo'.", 
-                        hasBody: true, isWebhook: true, 
-                        rawPayload: `{\n  "idTipoWebhook": 7,\n  "idDominio": 999,\n  "idCampanha": 1,\n  "idSkill": 1,\n  "idLote": 1,\n  "nrLead": 1234567,\n  "codCliente": "C-9999",\n  "nome": "Cliente Genérico",\n  "telefone1": "11999999999",\n  "telefone2": "",\n  "email": "cliente@email.com",\n  "cpfCnpj": "00000000000",\n  "cep": "00000-000",\n  "logradouro": "Rua Exemplo"\n}`
+                        desc: WH_CALLBACK_NOTE + "Disparado toda vez que a API recebe um novo Lead através do endpoint <code>/novo</code>. Os demais campos seguem o mesmo Body JSON enviado na inclusão.", 
+                        hasBody: true, isWebhook: true, paramsTitle: "Campos do Body JSON",
+                        rawPayload: `{\n  "idTipoWebhook": 7,\n  "idDominio": 999,\n  "idCampanha": 1,\n  "idSkill": 1,\n  "idLote": 1,\n  "nrLead": 1234567,\n  "codCliente": "C-9999",\n  "nome": "Cliente Genérico",\n  "telefone1": "11999999999",\n  "telefone2": "",\n  "telefone3": "",\n  "telefone4": "",\n  "telefone5": "",\n  "email": "cliente@email.com",\n  "cpfCnpj": "00000000000",\n  "dataNascimento": "1990-01-01",\n  "detalhes": "",\n  "url": "",\n  "utm_source": "",\n  "utm_medium": "",\n  "utm_campaign": "",\n  "codLeadOrigem": "",\n  "origem": "",\n  "codLeadFornecedor": "",\n  "fornecedor": "",\n  "info0": "",\n  "info1": "",\n  "info2": "",\n  "info3": "",\n  "info4": "",\n  "info5": "",\n  "valor0": 0,\n  "valor1": 0,\n  "valor2": 0,\n  "valor3": 0,\n  "valor4": 0,\n  "data0": "",\n  "data1": "",\n  "data2": "",\n  "data3": "",\n  "data4": "",\n  "cep": "",\n  "logradouro": "",\n  "numero": "",\n  "complemento": "",\n  "uf": "",\n  "cidade": "",\n  "bairro": ""\n}`,
+                        params: [
+                            { name: "idTipoWebhook", req: "Fixo: 7", desc: "Identificador do tipo de webhook disparado." },
+                            { name: "idDominio", req: "—", desc: "ID do domínio do cliente." },
+                            { name: "idCampanha / idSkill / idLote", req: "—", desc: "Identificadores da campanha, skill e lote." },
+                            { name: "nrLead", req: "—", desc: "Número do lead que foi inserido." },
+                            { name: "Demais campos", req: "—", desc: "Restante dos campos inseridos conforme o Body JSON do endpoint /novo." }
+                        ]
                     },
                     { 
                         id: "wh-disparo-manual", title: "Webhook - Disparo manual via Operador", method: "POST", url: "https://sua-url-de-callback.com.br", 
-                        desc: "Disparado quando a ligação é iniciada manualmente pelo Operador através da interface do sistema.", 
-                        hasBody: true, isWebhook: true, 
-                        rawPayload: `{\n  "idDominio": 999,\n  "idCampanha": 1,\n  "idSkill": 1,\n  "idLote": 1,\n  "nrPlan": 123456,\n  "codCliente": "",\n  "nomeCliente": "",\n  "cpfCnpj": "",\n  "codUsuarioIntegracao": "000000",\n  "nomeUsuario": "OPERADOR GENERICO",\n  "idLigacao": 0,\n  "dataInicioLigacao": "",\n  "telefone": "11999999999",\n  "telefoneE164": "5511999999999",\n  "idTipoWebhook": 11\n}`
+                        desc: WH_CALLBACK_NOTE + "Disparado quando a ligação é iniciada manualmente pelo Operador através da interface do sistema.", 
+                        hasBody: true, isWebhook: true, paramsTitle: "Campos do Body JSON",
+                        rawPayload: `{\n  "idTipoWebhook": 11,\n  "idDominio": 999,\n  "idCampanha": 1,\n  "idSkill": 1,\n  "idLote": 1,\n  "nrLead": 123456,\n  "codCliente": "",\n  "nomeCliente": "",\n  "cpfCnpj": "",\n  "codUsuarioIntegracao": "000000",\n  "nomeUsuario": "OPERADOR GENERICO",\n  "idLigacao": 0,\n  "dataInicioLigacao": "",\n  "telefone": "11999999999"\n}`,
+                        params: [
+                            { name: "idTipoWebhook", req: "Fixo: 11", desc: "Identificador do tipo de webhook — disparo manual via operador." },
+                            { name: "idLigacao", req: "—", desc: "ID da ligação. Pode ser 0 no disparo manual." },
+                            { name: "dataInicioLigacao", req: "—", desc: "Pode ser vazio no momento do disparo." },
+                            { name: "telefone", req: "—", desc: "DDD+Telefone da ligação disparada." }
+                        ]
                     }
                 ]
             },
@@ -737,9 +909,48 @@
                 category: "Observações Gerais",
                 items: [
                     { 
-                        id: "obs-gerais", title: "Formatos Globais", method: "", url: "", 
-                        desc: "<span class='font-semibold text-[15px] text-[var(--text-main)] mb-3 block'>Formato Data Padrão: ISO 8601</span>O sistema processa entradas e respostas obrigatoriamente sob regras cronológicas ISO:<br><br><span class='text-[var(--text-main)] font-medium text-[13px]'>1. Data Simples:</span><br><code class='font-mono text-[12px] bg-[var(--code-bg)] border border-[var(--code-border)] px-1.5 py-0.5 rounded'>YYYY-MM-DD</code> (ex: 2026-07-16)<br><br><span class='text-[var(--text-main)] font-medium text-[13px] mt-3 block'>2. Data Completa com Horas e Minutos:</span><code class='font-mono text-[12px] bg-[var(--code-bg)] border border-[var(--code-border)] px-1.5 py-0.5 rounded'>YYYY-MM-DDThh:mmTZD</code> (ex: 2026-07-16T19:20-03:00)<br><br><span class='text-[var(--text-main)] font-medium text-[13px] mt-3 block'>3. Data Granular com Segundos:</span><code class='font-mono text-[12px] bg-[var(--code-bg)] border border-[var(--code-border)] px-1.5 py-0.5 rounded'>YYYY-MM-DDThh:mm:ssTZD</code> (ex: 2026-07-16T19:20:30-03:00)", 
-                        hasBody: false 
+                        id: "obs-gerais", title: "Padrões da API", method: "", url: "", 
+                        desc: `<span class='font-semibold text-[15px] text-[var(--text-main)] mb-4 block'>Padrões Globais da API Argus</span>
+                        <p class='mb-6'>O sistema irá receber e enviar dados conforme as regras abaixo. Válido para todos os endpoints documentados.</p>
+
+                        <span class='font-semibold text-[14px] text-[var(--text-main)] block mb-2'>Códigos HTTP de resposta</span>
+                        <p class='mb-4'>Todos os endpoints podem retornar: <strong>200 Ok</strong>, <strong>400 Bad Request</strong>, <strong>403 Forbidden</strong> ou <strong>500 Server Internal Error</strong>.</p>
+
+                        <span class='font-semibold text-[14px] text-[var(--text-main)] block mb-2'>codStatus — Erro de negócio vs HTTP</span>
+                        <p class='mb-4'>Quando a requisição é processada com sucesso técnico (HTTP 200), o campo <code class='font-mono text-[12px] bg-black/30 px-1 rounded'>codStatus</code> indica o resultado da operação:<br>
+                        • <strong>1</strong> = Sucesso<br>
+                        • <strong>&lt; 1</strong> = Falha de negócio (consulte <code class='font-mono text-[12px]'>descStatus</code> para detalhes)<br><br>
+                        HTTP <strong>403</strong> geralmente indica token inválido ou sem permissão. HTTP <strong>400</strong> indica parâmetros malformados.</p>
+
+                        <span class='font-semibold text-[14px] text-[var(--text-main)] block mb-2'>Formato de Telefone</span>
+                        <p class='mb-6'>Utilize <strong>DDD + número</strong>, sem formatação especial. Exemplo: <code class='font-mono text-[12px] bg-[var(--code-bg)] border border-[var(--code-border)] px-1.5 py-0.5 rounded'>11999999999</code></p>
+
+                        <span class='font-semibold text-[14px] text-[var(--text-main)] block mb-2'>Formato de Data — ISO 8601</span>
+                        <p class='mb-4'>O sistema processa entradas e respostas sob regras cronológicas ISO:</p>
+                        <span class='text-[var(--text-main)] font-medium text-[13px]'>1. Data Simples:</span><br><code class='font-mono text-[12px] bg-[var(--code-bg)] border border-[var(--code-border)] px-1.5 py-0.5 rounded'>YYYY-MM-DD</code> (ex: 2026-07-16)<br><br>
+                        <span class='text-[var(--text-main)] font-medium text-[13px] mt-3 block'>2. Data Completa com Horas e Minutos:</span><code class='font-mono text-[12px] bg-[var(--code-bg)] border border-[var(--code-border)] px-1.5 py-0.5 rounded'>YYYY-MM-DDThh:mmTZD</code> (ex: 2026-07-16T19:20-03:00)<br><br>
+                        <span class='text-[var(--text-main)] font-medium text-[13px] mt-3 block'>3. Data Granular com Segundos:</span><code class='font-mono text-[12px] bg-[var(--code-bg)] border border-[var(--code-border)] px-1.5 py-0.5 rounded'>YYYY-MM-DDThh:mm:ssTZD</code> (ex: 2026-07-16T19:20:30-03:00)
+
+                        <div class='mt-10 pt-6 border-t border-[var(--border-color)]'>
+                        <span class='font-semibold text-[14px] text-[var(--text-main)] block mb-3'>Tabela idTipoWebhook</span>
+                        <div class='border border-[var(--border-color)] rounded-xl overflow-hidden bg-[var(--bg-card)]'>
+                        <table class='w-full text-left text-[13px]'>
+                        <thead class='bg-[var(--table-header)] border-b border-[var(--border-color)]'><tr class='text-[10px] uppercase tracking-widest text-[var(--text-muted)]'><th class='py-3 px-5'>ID</th><th class='py-3 px-5'>Evento</th></tr></thead>
+                        <tbody class='text-[var(--text-muted)]'>
+                        <tr class='border-b border-[var(--border-color)]'><td class='py-3 px-5 font-mono text-[var(--text-main)]'>1</td><td class='py-3 px-5'>Início do atendimento do operador</td></tr>
+                        <tr class='border-b border-[var(--border-color)]'><td class='py-3 px-5 font-mono text-[var(--text-main)]'>2</td><td class='py-3 px-5'>Tabulação efetuada pelo operador</td></tr>
+                        <tr class='border-b border-[var(--border-color)]'><td class='py-3 px-5 font-mono text-[var(--text-main)]'>4</td><td class='py-3 px-5'>Operador virtual — solicitação de atendimento (derivação)</td></tr>
+                        <tr class='border-b border-[var(--border-color)]'><td class='py-3 px-5 font-mono text-[var(--text-main)]'>5</td><td class='py-3 px-5'>Receptivo — encerramento de URA</td></tr>
+                        <tr class='border-b border-[var(--border-color)]'><td class='py-3 px-5 font-mono text-[var(--text-main)]'>6</td><td class='py-3 px-5'>Operador virtual — solicitação de recusa</td></tr>
+                        <tr class='border-b border-[var(--border-color)]'><td class='py-3 px-5 font-mono text-[var(--text-main)]'>7</td><td class='py-3 px-5'>Recebimento de novo lead unitário (/novo)</td></tr>
+                        <tr><td class='py-3 px-5 font-mono text-[var(--text-main)]'>11</td><td class='py-3 px-5'>Disparo manual via operador <span class='text-[11px] opacity-70'>(extensão documentada no HTML)</span></td></tr>
+                        </tbody></table></div></div>`,
+                        hasBody: false,
+                        responseParamsTitle: "Referência codStatus",
+                        responseParams: [
+                            { name: "codStatus = 1", desc: "Operação concluída com sucesso." },
+                            { name: "codStatus < 1", desc: "Falha de negócio — leia descStatus para detalhes (ex.: -3 autenticação inválida, -7 parâmetros inválidos)." }
+                        ]
                     }
                 ]
             }
@@ -1010,13 +1221,69 @@
 
         function renderSnippets(item) {
             const rightSidebar = document.getElementById('right-sidebar');
-    if (!item.rawResponse && !item.rawPayload && (!item.url || item.method === 'INFO')) {
+    if (!item.rawResponse && !item.rawPayload && !item.isUpload && (!item.url || item.method === 'INFO')) {
         rightSidebar.style.display = 'none';
     } else {
         rightSidebar.style.display = 'flex';
     }
             let snippetHTML = "";
             window.currentRawSnippetText = "";
+
+            if (item.id === 'upload-mailing') {
+                const uploadUrl = item.url.replace('{hashSkill}', 'SEU_HASH_SKILL');
+                const fileName = 'Exportacao_conteudo_mailing_generico.csv';
+                const curlForm = `curl --request POST \\\n  --url '${uploadUrl}' \\\n  --header 'Token-Signature: SEU_TOKEN_AQUI' \\\n  --form '@${fileName}'`;
+                const curlBinary = `curl --request POST \\\n  --url '${uploadUrl}' \\\n  --header 'Token-Signature: SEU_TOKEN_AQUI' \\\n  --header 'Content-Type: text/csv' \\\n  --data-binary '@${fileName}'`;
+                const nodeForm = `const FormData = require('form-data');\nconst fs = require('fs');\nconst form = new FormData();\nform.append('', fs.createReadStream('${fileName}'));\n\nfetch('${uploadUrl}', {\n  method: 'POST',\n  headers: {\n    'Token-Signature': 'SEU_TOKEN_AQUI',\n    ...form.getHeaders()\n  },\n  body: form\n})\n  .then(res => res.json())\n  .then(json => console.log(json));`;
+                const pythonForm = `import requests\n\nurl = "${uploadUrl}"\nheaders = {"Token-Signature": "SEU_TOKEN_AQUI"}\nfiles = {"": open("${fileName}", "rb")}\n\nresponse = requests.post(url, headers=headers, files=files)\nprint(response.json())`;
+                const snippets = { curl: curlForm, nodejs: nodeForm, python: pythonForm, php: `<?php\n$curl = curl_init();\n$file = new CURLFile('${fileName}', 'text/csv', '${fileName}');\ncurl_setopt_array($curl, [\n  CURLOPT_URL => "${uploadUrl}",\n  CURLOPT_RETURNTRANSFER => true,\n  CURLOPT_POST => true,\n  CURLOPT_POSTFIELDS => ['' => $file],\n  CURLOPT_HTTPHEADER => ["Token-Signature: SEU_TOKEN_AQUI"],\n]);\necho curl_exec($curl);` };
+                const langs = [
+                    { id: 'curl', name: 'cURL (form-data)' },
+                    { id: 'nodejs', name: 'Node.js' },
+                    { id: 'python', name: 'Python' },
+                    { id: 'php', name: 'PHP' }
+                ];
+                let tabsHTML = `<div class="flex gap-1 bg-black/40 p-2 rounded-t-xl border-b border-[var(--border-color)] overflow-x-auto">`;
+                langs.forEach(l => {
+                    const active = window.currentLang === l.id ? "bg-[var(--hover-bg)] text-white shadow-sm border border-white/5" : "text-[var(--text-muted)] hover:text-white hover:bg-[var(--hover-bg)] border border-transparent";
+                    tabsHTML += `<button onclick="changeLang('${l.id}')" class="px-3 py-1.5 text-[11px] font-semibold rounded-lg transition-colors shrink-0 ${active}">${l.name}</button>`;
+                });
+                tabsHTML += `</div>`;
+                const code = snippets[window.currentLang] || snippets.curl;
+                window.currentRawSnippetText = code;
+                const cIdCode = 'snip_upload_' + item.id;
+                window.snippetCache[cIdCode] = code;
+                snippetHTML = `
+                    ${JSON_COMMENT_NOTE}
+                    <div class="space-y-2.5 animate-fade-in mb-4">
+                        <div class="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-[0.1em]">UPLOAD FORM-DATA (FORMATO PREFERENCIAL)</div>
+                        <div class="relative group code-block rounded-xl text-[12px] font-mono shadow-lg flex flex-col border border-[var(--border-color)]">
+                            ${tabsHTML}
+                            <div class="p-5 overflow-x-auto relative">
+                                <button class="absolute top-3 right-3 p-2 code-icon rounded opacity-0 group-hover:opacity-100" onclick="copyFromCache('${cIdCode}', this)" title="Copiar"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg></button>
+                                <pre class="m-0 leading-loose text-[var(--code-text)]">${escapeHTML(code)}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-2.5 animate-fade-in">
+                        <div class="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-[0.1em]">UPLOAD BINARY (ALTERNATIVA)</div>
+                        <div class="code-block p-4 rounded-xl text-[11px] font-mono border border-[var(--border-color)] text-[var(--text-muted)] leading-relaxed">${escapeHTML(curlBinary)}</div>
+                    </div>`;
+                if (item.rawResponse) {
+                    const cIdResp = 'snip_resp_' + item.id;
+                    window.snippetCache[cIdResp] = item.rawResponse;
+                    snippetHTML += `
+                        <div class="space-y-2.5 animate-fade-in mt-6 flex flex-col">
+                            ${JSON_COMMENT_NOTE}
+                            <div class="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-[0.1em]">RESPOSTA ESPERADA</div>
+                            <div class="relative group code-block p-5 rounded-xl text-[12px] font-mono overflow-x-auto shadow-lg border border-[var(--border-color)]">
+                                <pre class="m-0 leading-loose">${highlightCustomJSON(item.rawResponse)}</pre>
+                            </div>
+                        </div>`;
+                }
+                document.getElementById('snippet-area').innerHTML = snippetHTML;
+                return;
+            }
             
             // Área de Response (sempre visível)
             let responseHTML = "";
@@ -1032,6 +1299,7 @@
                             <span class="bg-amber-500/20 text-amber-500 px-1.5 py-0.5 rounded text-[9px] font-bold tracking-normal">403 Forbidden</span>
                             <span class="bg-red-600/20 text-red-500 px-1.5 py-0.5 rounded text-[9px] font-bold tracking-normal">500 Server Error</span>
                         </div>
+                        ${JSON_COMMENT_NOTE}
                         <div class="relative group code-block p-5 rounded-xl text-[12px] font-mono overflow-x-auto shadow-lg border border-[var(--border-color)]">
                             <button class="absolute top-3 right-3 p-2 code-icon rounded opacity-0 group-hover:opacity-100" onclick="copyFromCache('${cIdResp}', this)" title="Copiar">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
@@ -1049,6 +1317,7 @@
                     snippetHTML += `
                         <div class="space-y-2.5 animate-fade-in flex flex-col" style="animation-delay: 0.1s;">
                             <div class="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-[0.1em]">BODY JSON (RECEBIDO NO SEU SERVIDOR)</div>
+                            ${JSON_COMMENT_NOTE}
                             <div class="relative group code-block p-5 rounded-xl text-[12px] font-mono overflow-x-auto shadow-lg border border-[var(--border-color)]">
                                 <button class="absolute top-3 right-3 p-2 code-icon rounded opacity-0 group-hover:opacity-100" onclick="copyFromCache('${cIdBody}', this)" title="Copiar">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
@@ -1106,6 +1375,7 @@
 
             let codeAreaHTML = `
                 <div class="space-y-2.5 animate-fade-in" style="animation-delay: 0.05s;">
+                    ${JSON_COMMENT_NOTE}
                     <div class="relative group code-block rounded-xl text-[12px] font-mono shadow-lg flex flex-col border border-[var(--border-color)]">
                         ${tabsHTML}
                         <div class="p-5 overflow-x-auto relative min-h-[150px]">
@@ -1132,7 +1402,7 @@
                     </tr>`).join("");
                 paramsTable = `
                     <div class="mt-10 animate-fade-in overflow-x-auto" style="animation-delay: 0.1s;">
-                        <h4 class="text-[11px] font-bold text-[var(--text-main)] mb-3 uppercase tracking-[0.15em]">Parâmetros de Entrada</h4>
+                        <h4 class="text-[11px] font-bold text-[var(--text-main)] mb-3 uppercase tracking-[0.15em]">${item.paramsTitle || 'Parâmetros de Entrada'}</h4>
                         <div class="border border-[var(--border-color)] rounded-xl overflow-hidden bg-[var(--bg-card)] shadow-md min-w-[300px]">
                             <table class="w-full text-left border-collapse">
                                 <thead class="bg-[var(--table-header)] border-b border-[var(--border-color)] hidden md:table-header-group">
@@ -1157,7 +1427,7 @@
                     </tr>`).join("");
                 responseTable += `
                     <div class="mt-8 animate-fade-in overflow-x-auto" style="animation-delay: 0.15s;">
-                        <h4 class="text-[11px] font-bold text-[var(--text-main)] mb-3 uppercase tracking-[0.15em]">Dicionário de Status da Categoria</h4>
+                        <h4 class="text-[11px] font-bold text-[var(--text-main)] mb-3 uppercase tracking-[0.15em]">${item.responseParamsTitle || 'Dicionário de Status da Categoria'}</h4>
                         <div class="border border-[var(--border-color)] rounded-xl overflow-hidden bg-[var(--bg-card)] shadow-md min-w-[300px]">
                             <table class="w-full text-left border-collapse">
                                 <thead class="bg-[var(--table-header)] border-b border-[var(--border-color)] hidden md:table-header-group">
@@ -1190,6 +1460,30 @@
                                     </tr>
                                 </thead>
                                 <tbody>${aRows}</tbody>
+                            </table>
+                        </div>
+                    </div>`;
+            }
+
+            if (item.responseFields && item.responseFields.length > 0) {
+                let fRows = item.responseFields.map(f => `
+                    <tr class="border-b border-[var(--border-color)] hover:bg-[var(--hover-bg)] transition-colors flex flex-col md:table-row">
+                        <td class="py-2 md:py-4 px-5 font-mono text-[var(--text-main)] text-[12px] font-semibold align-top md:w-1/3">${f.name}</td>
+                        <td class="py-2 md:py-4 px-5 text-[13px] text-[var(--text-muted)] align-top leading-relaxed md:w-2/3">${f.desc}</td>
+                    </tr>`).join("");
+                const rfTitle = item.responseFieldsTitle || "Campos da Resposta";
+                responseTable += `
+                    <div class="mt-8 animate-fade-in overflow-x-auto" style="animation-delay: 0.25s;">
+                        <h4 class="text-[11px] font-bold text-[var(--text-main)] mb-3 uppercase tracking-[0.15em]">${rfTitle}</h4>
+                        <div class="border border-[var(--border-color)] rounded-xl overflow-hidden bg-[var(--bg-card)] shadow-md min-w-[300px]">
+                            <table class="w-full text-left border-collapse">
+                                <thead class="bg-[var(--table-header)] border-b border-[var(--border-color)] hidden md:table-header-group">
+                                    <tr class="text-[10px] text-[var(--text-muted)] uppercase tracking-widest">
+                                        <th class="py-3 px-5 font-bold">Campo</th>
+                                        <th class="py-3 px-5 font-bold">Descrição</th>
+                                    </tr>
+                                </thead>
+                                <tbody>${fRows}</tbody>
                             </table>
                         </div>
                     </div>`;
